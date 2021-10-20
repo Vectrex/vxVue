@@ -15,11 +15,11 @@
 
 <template>
   <div class="p-4">
-    <label for="form-input" class="inline-block w-40">form-input</label>
+    <label for="form-input" class="inline-block w-36">form-input</label>
     <form-input placeholder="enter something..." class="w-60" id="form-input" v-model="formData.formInput" />
   </div>
   <div class="p-4">
-    <label for="password-input" class="inline-block w-40">password-input</label>
+    <label for="password-input" class="inline-block w-36">password-input</label>
     <password-input class="w-60" id="password-input" v-model="formData.pwdInput" />
   </div>
 </template>

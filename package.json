@@ -14,6 +14,7 @@
     "autoprefixer": "^10.3.7",
     "postcss": "^8.3.9",
     "tailwindcss": "^2.2.17",
-    "vite": "^2.6.4"
+    "vite": "^2.6.4",
+    "@tailwindcss/forms": "^0.3.4"
   }
 }
