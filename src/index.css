@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    input[type='text'], input[type='password'] {
+        @apply px-4 py-2 border-2;
+    }
+}
