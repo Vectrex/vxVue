@@ -7,7 +7,7 @@
           :multiple="multiple"
           :accept="accept"
           @change="fileChanged"
-          class="d-none"
+          class="hidden"
       />
     </label>
 </template>
@@ -20,7 +20,7 @@ export default {
     accept: { type: String, default: "*" },
     multiple: { type: Boolean, default: false },
     name: { type: String, default: "file" },
-    id: { type: String, default: 'file_upload' }
+    id: { type: String, default: 'form-file-button-' + Math.ceil(Math.random() * 1000) }
   },
 
   emits: ['update:modelValue', 'form-data'],
