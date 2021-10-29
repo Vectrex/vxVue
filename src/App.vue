@@ -5,6 +5,7 @@
   import FormSwitch from './components/vx-vue/formelements/form-switch.vue';
   import FormFileButton from './components/vx-vue/formelements/form-file-button.vue';
   import FormRadioGroup from './components/vx-vue/formelements/form-radio-group.vue';
+  import FormCheckboxGroup from './components/vx-vue/formelements/form-checkbox-group.vue';
 </script>
 
 <script>
@@ -18,32 +19,60 @@
 </script>
 
 <template>
-  <div class="p-4 items-center">
-    <label for="form-input" class="inline-block w-40">form-input</label>
-    <form-input placeholder="enter something..." class="w-72" id="form-input" v-model="formData.formInput" />
-  </div>
-  <div class="p-4 items-center">
-    <label for="password-input" class="inline-block w-40">password-input</label>
-    <password-input placeholder="6 characters or more" class="w-72" id="password-input" v-model="formData.passwordInput" />
-  </div>
-  <div class="p-4 items-center">
-    <label for="form-select" class="inline-block w-40">form-select</label>
-    <form-select class="w-72" id="form-select" v-model="formData.formSelect" :options="['Please', 'Select', 'Me']" />
-  </div>
-  <div class="p-4 flex items-center">
-    <label for="form-file-button" class="inline-block w-40">form-file-button</label>
-    <form-file-button id="form-file-button" v-model="formData.formFileButton" multiple="multiple" role="button" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">Upload</form-file-button>
-  </div>
-  <div class="p-4 flex items-center">
-    <label for="form-switch" class="inline-block w-40">form-switch</label>
-    <form-switch id="form-switch" v-model="formData.formSwitch"><span class="pl-2">A simple toggle</span></form-switch>
-  </div>
-  <div class="p-4 flex items-center">
-    <span class="inline-block w-40">form-radio-group</span>
-    <form-radio-group v-model="formData.formRadioGroup" :options="['foo', 'bar', 'baz']" class="inline-block mr-4" name="radios">
-      <template v-slot="slotData">
-        <p class="pl-1 text-sm">{{ slotData.option.label || slotData.option }}</p>
-      </template>
-    </form-radio-group>
+
+  <div class="p-4">
+    <h1 class="text-4xl font-bold mb-4">VxVue Components</h1>
+
+    <div class="my-4 items-center">
+      <label for="form-input" class="inline-block w-40">form-input</label>
+      <form-input placeholder="enter something..." class="w-72" id="form-input" v-model="formData.formInput" />
+      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formInput">{{ formData.formInput }}</span>
+    </div>
+
+    <div class="my-4 items-center">
+      <label for="password-input" class="inline-block w-40">password-input</label>
+      <password-input placeholder="6 characters or more" class="w-72" id="password-input" v-model="formData.passwordInput" />
+      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.passwordInput">{{ formData.passwordInput }}</span>
+    </div>
+
+    <div class="my-4 items-center">
+      <label for="form-select" class="inline-block w-40">form-select</label>
+      <form-select class="w-72" id="form-select" v-model="formData.formSelect" :options="['Please', 'Select', 'Me']" />
+      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formSelect">{{ formData.formSelect }}</span>
+    </div>
+
+    <div class="my-4 flex items-center">
+      <label for="form-file-button" class="inline-block w-40">form-file-button</label>
+      <form-file-button id="form-file-button" v-model="formData.formFileButton" multiple="multiple" role="button" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">Upload</form-file-button>
+      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formFileButton" v-for="file in formData.formFileButton">{{ file.name }}</span>
+    </div>
+
+    <div class="my-4 flex items-center">
+      <label for="form-switch" class="inline-block w-40">form-switch</label>
+      <form-switch id="form-switch" v-model="formData.formSwitch"><span class="pl-2">A simple toggle</span></form-switch>
+      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formSwitch"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+  </svg></span>
+    </div>
+
+    <div class="my-4 flex items-center">
+      <span class="inline-block w-40">form-radio-group</span>
+      <form-radio-group v-model="formData.formRadioGroup" :options="['foo', 'bar', 'baz']" class="inline-block mr-4" name="radios">
+        <template v-slot="slotData">
+          <p class="pl-1 text-sm">{{ slotData.option.label || slotData.option }}</p>
+        </template>
+      </form-radio-group>
+      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formRadioGroup">{{ formData.formRadioGroup }}</span>
+    </div>
+
+    <div class="my-4 flex items-center">
+      <span class="inline-block w-40">form-checkbox-group</span>
+      <form-checkbox-group v-model="formData.formCheckboxGroup" :options="['foo', 'bar', 'baz']" class="inline-block mr-4" name="checkboxes">
+        <template v-slot="slotData">
+          <p class="pl-1 text-sm">{{ slotData.option.label || slotData.option }}</p>
+        </template>
+      </form-checkbox-group>
+      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formCheckboxGroup" v-for="item in formData.formCheckboxGroup">{{ item }}</span>
+    </div>
   </div>
 </template>
