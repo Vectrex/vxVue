@@ -8,7 +8,9 @@
         type="radio"
         class="h-4 w-4"
     >
-    <span class="ml-2">{{ option.label || option }}</span>
+    <span class="ml-2">
+      <slot :option="option">{{ option.label || option }}</slot>
+    </span>
   </label>
 </template>
 

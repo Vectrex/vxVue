@@ -40,6 +40,10 @@
   </div>
   <div class="p-4 flex items-center">
     <span class="inline-block w-40">form-radio-group</span>
-    <form-radio-group v-model="formData.formRadioGroup" :options="['foo', 'bar', 'baz']" class="inline-block mr-4" name="radios"></form-radio-group>
+    <form-radio-group v-model="formData.formRadioGroup" :options="['foo', 'bar', 'baz']" class="inline-block mr-4" name="radios">
+      <template v-slot="slotData">
+        <p class="pl-1 text-sm">{{ slotData.option.label || slotData.option }}</p>
+      </template>
+    </form-radio-group>
   </div>
 </template>
