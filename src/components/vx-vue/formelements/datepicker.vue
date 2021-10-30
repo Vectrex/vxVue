@@ -11,7 +11,7 @@
         class="w-full"
     ></date-input>
 
-    <div class="bg-white z-10 shadow-md" v-bind="calendarProps" ref="calendar" :class="[alignHoriz, alignVert]">
+    <div class="bg-white z-50 shadow-md" v-bind="calendarProps" ref="calendar" :class="[alignHoriz, alignVert]">
 
       <div class="flex flex-row items-center bg-vxvue-700 text-white py-2 px-3">
         <button type="button" @click.stop="previousMonth" class="flex-shrink-0 hover:text-vxvue-50 text-vxvue-100">
@@ -113,15 +113,6 @@ export default {
               'absolute',
               this.expanded ? 'block' : 'hidden'
           ]
-          /*
-            display: this.expanded ? 'block' : 'none',
-            position: 'absolute',
-            top: '100%',
-            transform: 'translateY(.2rem)',
-            'z-index': 300
-          } : {}
-
-           */
         }
       }
     },

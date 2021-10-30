@@ -51,7 +51,16 @@
 
     <div class="my-4 items-center">
       <label for="date-picker" class="inline-block w-40">date-picker</label>
-      <date-picker placeholder="yyyy-mm-dd" class="w-72 inline-block" id="date-picker" v-model="formData.datePicker" />
+      <date-picker
+          placeholder="dd.mm.yyyy"
+          class="w-72 inline-block"
+          id="date-picker"
+          v-model="formData.datePicker"
+          :weekdays="'Mo Di Mi Do Fr Sa So'.split(' ')"
+          :month-names="'Jänner,Februar,März,April,Mai,Juni,Juli,August,September,Oktober,November,Dezember'.split(',')"
+          input-format="d.m.y"
+          output-format="d mmm y"
+      />
       <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.datePicker">{{ formData.datePicker }}</span>
     </div>
 

@@ -2,7 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
+@layer base {
+    button:focus-visible {
+        @apply outline-black;
+    }
 }
 
 /* define the default vx-vue color set */
