@@ -38,7 +38,7 @@ export default {
   name: 'date-input',
   data() {
     return {
-      inputString: null
+      inputString: ''
     }
   },
   inheritAttrs: false,

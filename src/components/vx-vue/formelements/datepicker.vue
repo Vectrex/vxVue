@@ -11,31 +11,34 @@
         class="w-full"
     ></date-input>
 
-    <div class="w-full bg-white z-10" v-bind="calendarProps" ref="calendar"
-         :class="align === 'left' ? 'left-0' : 'right-0'">
-      <div class="w-full flex flex-row items-center">
-        <button type="button" @click.stop="previousMonth" class="flex-shrink-0">
+    <div class="bg-white z-10 shadow-md" v-bind="calendarProps" ref="calendar" :class="[alignHoriz, alignVert]">
+
+      <div class="flex flex-row items-center bg-vxvue-700 text-white py-2 px-3">
+        <button type="button" @click.stop="previousMonth" class="flex-shrink-0 hover:text-vxvue-50 text-vxvue-100">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
         <div class="flex-grow text-center">{{ monthLabel }} {{ sheetDate.getFullYear() }}</div>
-        <button type="button" @click.stop="nextMonth" class="flex-shrink-0">
+        <button type="button" @click.stop="nextMonth" class="flex-shrink-0 hover:text-vxvue-50 text-vxvue-100">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
-      <div class="grid grid-cols-7">
-        <div v-for="weekday in weekdays" class="text-center">{{ weekday }}</div>
+
+      <div class="grid grid-cols-7 gap-0.5 p-0.5">
+
+        <div v-for="weekday in weekdays" class="text-center bg-gray-200 py-2">{{ weekday }}</div>
+
         <div v-for="day in days" class="text-center"
-             :class="['text-gray-600', '', 'text-gray-600'][day.getMonth() - sheetDate.getMonth() + 1]">
+             :class="['text-gray-400', 'text-vxvue-700', 'text-gray-400'][day.getMonth() - sheetDate.getMonth() + 1]">
           <button
               type="button"
-              class="date-item"
+              class="py-2 px-3 rounded-sm"
               :class="{
-                'bg-vxvue-50': selectedDate && day.getTime() === selectedDate.getTime(),
-                'bg-red-400': day.getTime() === today.getTime()
+                'bg-vxvue-700 text-white': selectedDate && day.getTime() === selectedDate.getTime(),
+                'bg-gray-200': day.getTime() === today.getTime()
               }"
               :disabled="(validFrom && validFrom) > day || (validUntil && validUntil < day)"
               @click.stop="(validFrom && validFrom) > day || (validUntil && validUntil < day) ? null : selectDate(day)"
@@ -63,7 +66,8 @@ export default {
       sheetDate: null,
       selectedDate: null,
       expanded: !this.hasInput,
-      align: 'left'
+      alignHoriz: 'left-0',
+      alignVert: 'top-0'
     };
   },
 
@@ -81,9 +85,12 @@ export default {
     },
     expanded(newValue) {
       if (newValue && this.hasInput) {
-        this.$nextTick(() =>
-            this.align = this.$refs.input.$el.getBoundingClientRect().left + this.$refs.calendar.getBoundingClientRect().width > window.innerWidth ? 'right' : 'left'
-        );
+        this.$nextTick(() => {
+          const inputDim = this.$refs.input.$el.getBoundingClientRect();
+          const calDim = this.$refs.calendar.getBoundingClientRect();
+          this.alignHoriz = inputDim.left + calDim.width > window.innerWidth ? 'right-0' : 'left-0';
+          this.alignVert = inputDim.bottom + calDim.height > window.innerHeight ? 'bottom-0 -translate-y-12' : 'top-0 translate-y-12';
+        });
       }
     }
   },
@@ -95,13 +102,9 @@ export default {
       }
     },
     inputProps() {
-      return {
-        inputFormat: this.$attrs['input-format'],
-        outputFormat: this.$attrs['output-format'],
-        dayNames: this.$attrs['day-names'],
-        monthNames: this.$attrs['month-names'],
-        showButton: this.$attrs['show-button']
-      }
+      let attrs = Object.assign({}, this.$attrs);
+      delete attrs['class'];
+      return attrs;
     },
     calendarProps() {
       if (this.hasInput) {
