@@ -7,6 +7,7 @@
   import FormRadioGroup from './components/vx-vue/formelements/form-radio-group.vue';
   import FormCheckboxGroup from './components/vx-vue/formelements/form-checkbox-group.vue';
   import DateInput from './components/vx-vue/formelements/date-input.vue';
+  import DatePicker from './components/vx-vue/formelements/datepicker.vue';
 </script>
 
 <script>
@@ -44,8 +45,14 @@
 
     <div class="my-4 items-center">
       <label for="date-input" class="inline-block w-40">date-input</label>
-      <date-input placeholder="yyyy-mm-dd" class="w-72" id="date-input" v-model="formData.dateInput" />
+      <date-input placeholder="yyyy-mm-dd" class="w-72" id="date-input" v-model="formData.dateInput" :show-button="false"/>
       <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.dateInput">{{ formData.dateInput }}</span>
+    </div>
+
+    <div class="my-4 items-center">
+      <label for="date-picker" class="inline-block w-40">date-picker</label>
+      <date-picker placeholder="yyyy-mm-dd" class="w-72 inline-block" id="date-picker" v-model="formData.datePicker" />
+      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.datePicker">{{ formData.datePicker }}</span>
     </div>
 
     <div class="my-4 flex items-center">

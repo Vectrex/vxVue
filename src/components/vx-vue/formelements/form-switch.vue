@@ -30,13 +30,10 @@
         return this.modelValue ? "translate-x-5" : "translate-x-0";
       },
       inputAttrs() {
-        return Object.keys(this.$attrs)
-          .filter(key => key !== 'class')
-          .reduce((obj, key) => {
-            obj[key] = this.$attrs[key]
-            return obj
-          }, {});
-        }
+        let attrs = Object.assign({}, this.$attrs);
+        delete attrs['class'];
+        return attrs;
+      }
     }
   }
 </script>

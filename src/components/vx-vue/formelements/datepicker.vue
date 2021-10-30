@@ -3,38 +3,44 @@
 
     <date-input
         v-if="hasInput"
-        v-model="selectedDate"
+        :modelValue="selectedDate"
         @toggle-datepicker="toggleDatepicker"
+        @update:modelValue="handleInput"
         v-bind="inputProps"
         ref="input"
+        class="w-full"
     ></date-input>
 
-    <div class="calendar" v-bind="calendarProps" ref="calendar"
-         :class="align === 'left' ? 'align-left' : 'align-right'">
-      <div class="calendar-nav navbar">
-        <button class="btn btn-action btn-link btn-large prvMon" @click.stop="previousMonth"></button>
-        <div class="month navbar-primary">{{ monthLabel }} {{ sheetDate.getFullYear() }}</div>
-        <button class="btn btn-action btn-link btn-large nxtMon" @click.stop="nextMonth"></button>
+    <div class="w-full bg-white z-10" v-bind="calendarProps" ref="calendar"
+         :class="align === 'left' ? 'left-0' : 'right-0'">
+      <div class="w-full flex flex-row items-center">
+        <button type="button" @click.stop="previousMonth" class="flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <div class="flex-grow text-center">{{ monthLabel }} {{ sheetDate.getFullYear() }}</div>
+        <button type="button" @click.stop="nextMonth" class="flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
-      <div class="calendar-container">
-        <div class="calendar-header">
-          <div v-for="weekday in weekdays" class="calendar-date">{{ weekday }}</div>
-        </div>
-        <div class="calendar-body">
-          <div v-for="day in days" class="calendar-date text-center"
-               :class="['prev-month', '', 'next-month'][day.getMonth() - sheetDate.getMonth() + 1]">
-            <button
-                type="button"
-                class="date-item"
-                :class="{
-                  'active': selectedDate && day.getTime() === selectedDate.getTime(),
-                  'date-today': day.getTime() === today.getTime()
-                }"
-                :disabled="(validFrom && validFrom) > day || (validUntil && validUntil < day)"
-                @click.stop="(validFrom && validFrom) > day || (validUntil && validUntil < day) ? null : selectDate(day)"
-            >{{ day.getDate() }}
-            </button>
-          </div>
+      <div class="grid grid-cols-7">
+        <div v-for="weekday in weekdays" class="text-center">{{ weekday }}</div>
+        <div v-for="day in days" class="text-center"
+             :class="['text-gray-600', '', 'text-gray-600'][day.getMonth() - sheetDate.getMonth() + 1]">
+          <button
+              type="button"
+              class="date-item"
+              :class="{
+                'bg-vxvue-50': selectedDate && day.getTime() === selectedDate.getTime(),
+                'bg-red-400': day.getTime() === today.getTime()
+              }"
+              :disabled="(validFrom && validFrom) > day || (validUntil && validUntil < day)"
+              @click.stop="(validFrom && validFrom) > day || (validUntil && validUntil < day) ? null : selectDate(day)"
+          >{{ day.getDate() }}
+          </button>
         </div>
       </div>
     </div>
@@ -42,7 +48,7 @@
 </template>
 
 <script>
-import DateInput from './date-input';
+import DateInput from './date-input.vue';
 
 export default {
   name: 'date-picker',
@@ -50,6 +56,7 @@ export default {
     DateInput
   },
   emits: ['update:modelValue', 'month-change'],
+  inheritAttrs: false,
 
   data() {
     return {
@@ -84,13 +91,11 @@ export default {
   computed: {
     rootProps() {
       return {
-        class: ['datepicker', this.$attrs['class']],
-        style: {position: 'relative'}
+        class: ['relative', this.$attrs['class']]
       }
     },
     inputProps() {
       return {
-        style: {position: 'relative'},
         inputFormat: this.$attrs['input-format'],
         outputFormat: this.$attrs['output-format'],
         dayNames: this.$attrs['day-names'],
@@ -99,14 +104,22 @@ export default {
       }
     },
     calendarProps() {
-      return {
-        style: this.hasInput ? {
-          display: this.expanded ? 'block' : 'none',
-          position: 'absolute',
-          top: '100%',
-          transform: 'translateY(.2rem)',
-          'z-index': 300
-        } : {}
+      if (this.hasInput) {
+        return {
+          'class': [
+              'absolute',
+              this.expanded ? 'block' : 'hidden'
+          ]
+          /*
+            display: this.expanded ? 'block' : 'none',
+            position: 'absolute',
+            top: '100%',
+            transform: 'translateY(.2rem)',
+            'z-index': 300
+          } : {}
+
+           */
+        }
       }
     },
     days() {
