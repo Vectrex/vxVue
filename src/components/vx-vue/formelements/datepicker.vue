@@ -32,7 +32,7 @@
         <div v-for="weekday in weekdays" class="text-center bg-gray-200 py-2">{{ weekday }}</div>
 
         <div v-for="day in days" class="text-center"
-             :class="['text-gray-400', 'text-vxvue-700', 'text-gray-400'][day.getMonth() - sheetDate.getMonth() + 1]">
+             :class="day.getMonth() - sheetDate.getMonth() === 0 ? 'text-vxvue-700' : 'text-gray-400'">
           <button
               type="button"
               class="py-2 px-3 rounded-sm"
@@ -67,7 +67,8 @@ export default {
       selectedDate: null,
       expanded: !this.hasInput,
       alignHoriz: 'left-0',
-      alignVert: 'top-0'
+      alignVert: 'top-0',
+      today: (() => { let d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate())})()
     };
   },
 
@@ -79,7 +80,7 @@ export default {
       }
       else {
         this.selectedDate = null;
-        this.sheetDate = this.today;
+        this.sheetDate = new Date(this.today.getTime());
       }
       this.sheetDate.setDate(1);
     },
@@ -120,20 +121,16 @@ export default {
       const dates = [], yr = this.sheetDate.getFullYear(), mon = this.sheetDate.getMonth();
       const nextMonth = new Date(yr, mon + 1, 0);
       const preceedingDays = (new Date(yr, mon, 0)).getDay() + 1 - this.startOfWeekIndex;
-      const trailingDays = (7 - nextMonth.getDay()) % 7 - 1 + this.startOfWeekIndex;
+      const trailingDays = (6 + this.startOfWeekIndex - nextMonth.getDay()) % 7;
 
       for (let i = -preceedingDays, j = nextMonth.getDate() + trailingDays; i < j; ++i) {
         dates.push(new Date(yr, mon, i + 1));
       }
 
-      return (dates);
+      return dates;
     },
     monthLabel() {
       return this.monthNames[this.sheetDate.getMonth()];
-    },
-    today() {
-      const now = new Date();
-      return new Date(now.getFullYear(), now.getMonth(), now.getDate());
     }
   },
 
@@ -143,7 +140,7 @@ export default {
     validUntil: Date,
     weekdays: {
       type: Array,
-      default: (() => "M T W T F S S".split(" "))
+      default: (() => "S M T W T F S".split(" "))
     },
     monthNames: {
       type: Array,
@@ -151,8 +148,8 @@ export default {
     },
     startOfWeekIndex: {
       type: Number,
-      default: 1,
-      validator: value => !value || value === 1
+      default: 0,
+      validator: value => value === 0 || value === 1
     },
     hasInput: {
       type: Boolean,
