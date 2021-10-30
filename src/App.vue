@@ -6,6 +6,7 @@
   import FormFileButton from './components/vx-vue/formelements/form-file-button.vue';
   import FormRadioGroup from './components/vx-vue/formelements/form-radio-group.vue';
   import FormCheckboxGroup from './components/vx-vue/formelements/form-checkbox-group.vue';
+  import DateInput from './components/vx-vue/formelements/date-input.vue';
 </script>
 
 <script>
@@ -41,9 +42,15 @@
       <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formSelect">{{ formData.formSelect }}</span>
     </div>
 
+    <div class="my-4 items-center">
+      <label for="date-input" class="inline-block w-40">date-input</label>
+      <date-input placeholder="yyyy-mm-dd" class="w-72" id="date-input" v-model="formData.dateInput" />
+      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.dateInput">{{ formData.dateInput }}</span>
+    </div>
+
     <div class="my-4 flex items-center">
       <label for="form-file-button" class="inline-block w-40">form-file-button</label>
-      <form-file-button id="form-file-button" v-model="formData.formFileButton" multiple="multiple" role="button" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">Upload</form-file-button>
+      <form-file-button id="form-file-button" v-model="formData.formFileButton" multiple="multiple" role="button" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600">Upload</form-file-button>
       <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formFileButton" v-for="file in formData.formFileButton">{{ file.name }}</span>
     </div>
 

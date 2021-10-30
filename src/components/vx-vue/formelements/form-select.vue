@@ -2,7 +2,7 @@
     <select
         v-bind="$attrs"
         :value="modelValue"
-        class="form-select"
+        class="form-select focus:border-vxvue"
         @change="$emit('update:modelValue', $event.target.value)"
     >
       <option

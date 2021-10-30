@@ -4,3 +4,19 @@
 
 @layer components {
 }
+
+/* define the default vx-vue color set */
+
+:root {
+    --vxvue-color: #0089CC;
+    --vxvue-color-50: #B3E6FF;
+    --vxvue-color-100: #70D0FF;
+    --vxvue-color-200: #47C3FF;
+    --vxvue-color-300: #1FB5FF;
+    --vxvue-color-400: #00A4F5;
+    --vxvue-color-500: #0089CC;
+    --vxvue-color-600: #006394;
+    --vxvue-color-700: #003E5C;
+    --vxvue-color-800: #001824;
+    --vxvue-color-900: #000000;
+}

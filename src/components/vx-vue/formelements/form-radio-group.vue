@@ -6,7 +6,7 @@
         :value="option.key || option.label || option"
         :name="$attrs['name']"
         type="radio"
-        class="h-4 w-4"
+        class="h-4 w-4 form-radio text-vxvue focus:ring-vxvue"
     >
     <span class="ml-2">
       <slot :option="option">{{ option.label || option }}</slot>
