@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn" :class="options.buttonClass" @click.prevent="ok" ref="button">{{ options.label }}</button>
+                <button type="button" :class="options.buttonClass" @click.prevent="ok" ref="button">{{ options.label }}</button>
             </div>
         </div>
     </div>

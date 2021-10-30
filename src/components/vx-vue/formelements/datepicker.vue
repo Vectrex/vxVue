@@ -29,7 +29,7 @@
 
       <div class="grid grid-cols-7 gap-0.5 p-0.5">
 
-        <div v-for="weekday in weekdays" class="text-center bg-gray-200 py-2">{{ weekday }}</div>
+        <div v-for="weekday in dayNames" class="text-center bg-gray-200 py-2">{{ weekday }}</div>
 
         <div v-for="day in days" class="text-center"
              :class="day.getMonth() - sheetDate.getMonth() === 0 ? 'text-vxvue-700' : 'text-gray-400'">
@@ -105,6 +105,9 @@ export default {
     inputProps() {
       let attrs = Object.assign({}, this.$attrs);
       delete attrs['class'];
+      attrs.dayNames = this.dayNames;
+      attrs.monthNames = this.monthNames;
+      attrs.startOfWeekIndex = this.startOfWeekIndex;
       return attrs;
     },
     calendarProps() {
@@ -138,7 +141,7 @@ export default {
     modelValue: Date,
     validFrom: Date,
     validUntil: Date,
-    weekdays: {
+    dayNames: {
       type: Array,
       default: (() => "S M T W T F S".split(" "))
     },

@@ -49,7 +49,7 @@ export default {
     },
     dayNames: {
       type: Array,
-      default: () => "Mon Tue Wed Thu Fri Sat Sun".split(" ")
+      default: () => "Sun Mon Tue Wed Thu Fri Sat".split(" ")
     },
     outputFormat: {
       type: String,
@@ -68,13 +68,13 @@ export default {
 
   watch: {
     modelValue(value) {
-      this.inputString = value ? DateFunctions.formatDate(value, this.outputFormat) : '';
+      this.inputString = value ? DateFunctions.formatDate(value, this.outputFormat, { dayNames: this.dayNames, monthNames: this.monthNames }) : '';
     }
   },
 
   computed: {
     dateString() {
-      return this.modelValue ? DateFunctions.formatDate(this.modelValue, this.outputFormat) : '';
+      return this.modelValue ? DateFunctions.formatDate(this.modelValue, this.outputFormat, { dayNames: this.dayNames, monthNames: this.monthNames }) : '';
     },
     inputAttrs() {
       let attrs = Object.assign({}, this.$attrs);

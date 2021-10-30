@@ -69,7 +69,7 @@
           class="w-72 inline-block"
           id="date-picker-2"
           v-model="formData.datePicker2"
-          :weekdays="'Mo Di Mi Do Fr Sa So'.split(' ')"
+          :day-names="'Mo Di Mi Do Fr Sa So'.split(' ')"
           :start-of-week-index="1"
           :month-names="'Jänner,Februar,März,April,Mai,Juni,Juli,August,September,Oktober,November,Dezember'.split(',')"
           input-format="d.m.y"
