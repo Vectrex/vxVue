@@ -9,6 +9,8 @@
         v-bind="inputProps"
         ref="input"
         class="w-full"
+        :day-names="dayNames"
+        :month-names="monthNames"
     ></date-input>
 
     <div class="bg-white z-50 shadow-md" v-bind="calendarProps" ref="calendar" :class="[alignHoriz, alignVert]">
@@ -29,7 +31,7 @@
 
       <div class="grid grid-cols-7 gap-0.5 p-0.5">
 
-        <div v-for="weekday in dayNames" class="text-center bg-gray-200 py-2">{{ weekday }}</div>
+        <div v-for="weekday in localizedDayNames" class="text-center bg-gray-200 py-2">{{ weekday }}</div>
 
         <div v-for="day in days" class="text-center"
              :class="day.getMonth() - sheetDate.getMonth() === 0 ? 'text-vxvue-700' : 'text-gray-400'">
@@ -72,6 +74,29 @@ export default {
     };
   },
 
+  props: {
+    modelValue: Date,
+    validFrom: Date,
+    validUntil: Date,
+    dayNames: {
+      type: Array,
+      default: (() => "S M T W T F S".split(" "))
+    },
+    monthNames: {
+      type: Array,
+      default: (() => "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" "))
+    },
+    startOfWeekIndex: {
+      type: Number,
+      default: 0,
+      validator: value => value === 0 || value === 1
+    },
+    hasInput: {
+      type: Boolean,
+      default: true
+    }
+  },
+
   watch: {
     modelValue(newValue) {
       if (newValue) {
@@ -105,9 +130,6 @@ export default {
     inputProps() {
       let attrs = Object.assign({}, this.$attrs);
       delete attrs['class'];
-      attrs.dayNames = this.dayNames;
-      attrs.monthNames = this.monthNames;
-      attrs.startOfWeekIndex = this.startOfWeekIndex;
       return attrs;
     },
     calendarProps() {
@@ -134,31 +156,15 @@ export default {
     },
     monthLabel() {
       return this.monthNames[this.sheetDate.getMonth()];
+    },
+    localizedDayNames() {
+      if (!this.startOfWeekIndex) {
+        return this.dayNames.slice();
+      }
+      return this.dayNames.slice(1).concat(this.dayNames[0]);
     }
   },
 
-  props: {
-    modelValue: Date,
-    validFrom: Date,
-    validUntil: Date,
-    dayNames: {
-      type: Array,
-      default: (() => "S M T W T F S".split(" "))
-    },
-    monthNames: {
-      type: Array,
-      default: (() => "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" "))
-    },
-    startOfWeekIndex: {
-      type: Number,
-      default: 0,
-      validator: value => value === 0 || value === 1
-    },
-    hasInput: {
-      type: Boolean,
-      default: true
-    }
-  },
   created () {
     this.sheetDate = new Date(this.today.getTime());
     this.sheetDate.setDate(1);
