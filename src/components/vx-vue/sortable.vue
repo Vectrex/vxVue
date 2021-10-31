@@ -1,26 +1,33 @@
 <template>
-    <table class="table table-striped">
-        <thead>
+    <table class="min-w-full divide-y divide-gray-200 sortable">
+        <thead class="bg-gray-100">
         <tr>
             <th
+                scope="col"
+                class="px-6 py-3 text-left"
                 v-for="column in columns"
                 :class="[
-                    { 'sortable-header': column.sortable },
+                    { 'cursor-pointer' : column.sortable },
                     column.cssClass,
-                    sortColumn === column ? sortDir : null,
-                    column.width
+                    column.width,
                 ]"
                 @click="column.sortable ? clickSort(column) : null"
             >
                 <slot :name="column.prop + '-header'" :column="column">
-                    {{ column.label }}
+                  <div class="flex items-center"><span>{{ column.label }}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-if="column.sortable && sortColumn === column">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="sortDir === 'asc' ? 'M19 9l-7 7-7-7' : 'M5 15l7-7 7 7'" />
+                    </svg>
+                  </div>
                 </slot>
             </th>
         </tr>
         </thead>
         <tbody>
             <tr v-for="row in sortedRows" :key="row[keyProperty]" :class="row.cssClass">
-                <td v-for="column in columns" :class="{ 'active': sortColumn === column }"><slot :name="column.prop" :row="row">{{ row[column.prop] }}</slot></td>
+                <td v-for="column in columns" class="px-6 py-3 whitespace-nowrap" :class="{ 'active': sortColumn === column }">
+                  <slot :name="column.prop" :row="row">{{ row[column.prop] }}</slot>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -125,19 +132,8 @@
     }
 </script>
 
-<style scoped lang="scss">
-  .sortable-header {
-    &:after {
-      font-family: icomoon;
-      font-weight: normal;
-      vertical-align: middle;
-      display: inline-block;
-    }
-    &.asc:after {
-      content: "\e031";
-    }
-    &.desc:after {
-      content: "\e033";
-    }
+<style scoped>
+  tbody tr:nth-of-type(2n + 1) {
+    @apply bg-gray-50
   }
 </style>
