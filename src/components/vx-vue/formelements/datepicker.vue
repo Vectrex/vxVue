@@ -1,3 +1,7 @@
+<script setup>
+  import DateInput from './date-input.vue';
+</script>
+
 <template>
   <div v-bind="rootProps">
 
@@ -53,13 +57,8 @@
 </template>
 
 <script>
-import DateInput from './date-input.vue';
-
 export default {
   name: 'date-picker',
-  components: {
-    DateInput
-  },
   emits: ['update:modelValue', 'month-change'],
   inheritAttrs: false,
 

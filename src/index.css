@@ -6,6 +6,10 @@
     button:focus-visible {
         @apply outline-black;
     }
+
+    [v-cloak] {
+        @apply hidden;
+    }
 }
 
 /* define the default vx-vue color set */
@@ -17,9 +21,14 @@
     --vxvue-color-200: #47C3FF;
     --vxvue-color-300: #1FB5FF;
     --vxvue-color-400: #00A4F5;
-    --vxvue-color-500: #0089CC;
+    --vxvue-color-500: var(--vxvue-color);
     --vxvue-color-600: #006394;
     --vxvue-color-700: #003E5C;
     --vxvue-color-800: #001824;
     --vxvue-color-900: #000000;
+
+    --vxvue-highlight: #ff9400;
+    --vxvue-highlight-200: #ffe4bf;
+    --vxvue-highlight-500: var(--vxvue-highlight);
+    --vxvue-highlight-800: #995900;
 }

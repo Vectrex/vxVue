@@ -1,6 +1,10 @@
+<script setup>
+  import FormInput from './formelements/form-input';
+</script>
+
 <template>
       <div v-bind="containerProps" ref="container">
-        <autocomplete-input
+        <form-input
           ref="input"
           :value="modelValue"
           v-bind="inputProps"
@@ -32,22 +36,15 @@
 </template>
 
 <script>
-  import FormInput from './formelements/form-input';
-
-  let uniqueId = function() {
+  let uniqueId = (() => {
     let counter = 0;
-    return function(prefix) {
-      return (prefix || "") + ++counter;
-    }
-  }();
+    return (prefix)  => (prefix || "") + ++counter;
+  })();
 
   export default {
-    name: 'Autocomplete',
+    name: 'autocomplete',
     inheritAttrs: false,
 
-    components: {
-      'autocomplete-input': FormInput,
-    },
     emits: ['update:modelValue', 'blur', 'submit'],
     props: {
       modelValue: {
