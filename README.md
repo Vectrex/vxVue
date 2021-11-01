@@ -15,3 +15,4 @@ and navigate to the reported URL by Vite.
 ```
 http://localhost:3000
 ```
+The sample page gives simple examples of all currently available components.
