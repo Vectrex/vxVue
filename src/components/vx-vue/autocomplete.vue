@@ -1,38 +1,41 @@
-<script setup>
-  import FormInput from './formelements/form-input';
-</script>
-
 <template>
-      <div v-bind="containerProps" ref="container">
-        <form-input
-          ref="input"
-          :value="modelValue"
-          v-bind="inputProps"
-          @input="handleInput($event.target.value)"
-          @keydown.enter="handleEnter"
-          @keydown.esc="handleEsc"
-          @keydown.tab="handleTab"
-          @keydown.up.prevent="handleUp"
-          @keydown.down.prevent="handleDown"
-          @focus="handleFocus"
-          @blur="handleBlur"
-        />
-        <ul
-          v-if="results.length"
-          ref="resultList"
-          v-bind="resultListProps"
-          @click="handleResultClick"
-          @mousedown.prevent
-        >
-          <template v-for="(result, index) in results">
-            <slot name="result" :result="result" :props="resultProps[index]">
-              <li :key="resultProps[index].id" v-bind="resultProps[index]">
-                {{ getResultValue(result) }}
-              </li>
-            </slot>
-          </template>
-        </ul>
-      </div>
+  <div class="relative inline-block" :class="$attrs['class']" ref="container">
+    <input
+      ref="input"
+      class="form-input w-full block focus:border-vxvue pr-10"
+      :value="modelValue"
+      v-bind="inputProps"
+      @input="handleInput($event.target.value)"
+      @keydown.enter="handleEnter"
+      @keydown.esc="handleEsc"
+      @keydown.tab="handleTab"
+      @keydown.up.prevent="handleUp"
+      @keydown.down.prevent="handleDown"
+      @focus="handleFocus"
+      @blur="handleBlur"
+    />
+    <span class="absolute right-0 pr-3 flex items-center inset-y-0 text-vxvue-700">
+      <svg class="animate-spin w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" v-if="loading">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </span>
+    <ul
+      v-if="results.length"
+      ref="resultList"
+      v-bind="resultListProps"
+      @click="handleResultClick"
+      @mousedown.prevent
+    >
+      <template v-for="(result, index) in results">
+        <slot name="result" :result="result" :props="resultProps[index]">
+          <li :key="resultProps[index].id" v-bind="resultProps[index]">
+            {{ getResultValue(result) }}
+          </li>
+        </slot>
+      </template>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -95,15 +98,6 @@
     },
 
     computed: {
-      containerProps() {
-        return {
-          class: this.baseClass,
-          style: { position: 'relative' },
-          'data-expanded': this.expanded,
-          'data-loading': this.loading,
-          'data-position': this.position
-        }
-      },
       inputProps() {
         return {
           class: this.inputClass,
@@ -151,7 +145,7 @@
         return;
       }
 
-      let inputPos = this.$refs.input.$el.getBoundingClientRect();
+      let inputPos = this.$refs.input.getBoundingClientRect();
       let listPos = this.$refs.resultList.getBoundingClientRect();
 
       if (this.resetPosition && this.results.length) {
