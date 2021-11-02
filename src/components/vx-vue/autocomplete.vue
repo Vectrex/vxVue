@@ -23,13 +23,13 @@
     <ul
       v-if="results.length"
       ref="resultList"
-      v-bind="resultListProps"
+      v-bind="listProps"
       @click="handleResultClick"
       @mousedown.prevent
     >
       <template v-for="(result, index) in results">
-        <slot name="result" :result="result" :props="resultProps[index]">
-          <li :key="resultProps[index].id" v-bind="resultProps[index]">
+        <slot name="result" :result="result" :props="itemProps[index]">
+          <li :key="itemProps[index].id" v-bind="itemProps[index]">
             {{ getResultValue(result) }}
           </li>
         </slot>
@@ -109,20 +109,21 @@
           'aria-haspopup': 'listbox',
           'aria-owns': this.resultListId,
           'aria-expanded': this.expanded ? 'true' : 'false',
-          'aria-activedescendant': this.selectedIndex > -1 ? this.resultProps[this.selectedIndex].id : '',
+          'aria-activedescendant': this.selectedIndex > -1 ? this.itemProps[this.selectedIndex].id : '',
           ...this.$attrs
         }
       },
-      resultListProps() {
+      listProps() {
         return {
           id: this.resultListId,
-          class: this.resultListClass,
+          class: ['autocomplete-list', this.resultListClass],
           role: 'listbox'
         }
       },
-      resultProps() {
+      itemProps() {
         return this.results.map((result, index) => ({
-          class: this.resultItemClass,
+          id: this.$attrs.id || 'item-' + index,
+          class: ['autocomplete-item', this.resultItemClass],
           'data-result-index': index,
           role: 'option',
           ...(this.selectedIndex === index ? { 'aria-selected': 'true' } : {})
@@ -153,26 +154,22 @@
         // show list above or below
 
         this.position = (inputPos.bottom + listPos.height > window.innerHeight) && (window.innerHeight - inputPos.bottom < inputPos.top) && (window.pageYOffset + inputPos.top - listPos.height > 0) ? "above" : "below";
-
       }
 
       // Make sure selected result isn't scrolled out of view
 
       let selectedElem = this.$refs.resultList.querySelector('[data-result-index="' + this.selectedIndex + '"]');
 
-      if (!selectedElem) {
-        return;
-      }
+      if (selectedElem) {
+        let selectedPos = selectedElem.getBoundingClientRect();
 
-      let selectedPos = selectedElem.getBoundingClientRect();
-
-      if (selectedPos.top < listPos.top) {
-        // Element is above viewable area
-        this.$refs.resultList.scrollTop -= listPos.top - selectedPos.top;
-      }
-      else if (selectedPos.bottom > listPos.bottom) {
-        // Element is below viewable area
-        this.$refs.resultList.scrollTop += selectedPos.bottom - listPos.bottom;
+        if (selectedPos.top < listPos.top) {
+          // Element is above viewable area
+          this.$refs.resultList.scrollTop -= listPos.top - selectedPos.top;
+        } else if (selectedPos.bottom > listPos.bottom) {
+          // Element is below viewable area
+          this.$refs.resultList.scrollTop += selectedPos.bottom - listPos.bottom;
+        }
       }
     },
 

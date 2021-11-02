@@ -12,6 +12,12 @@
     }
 }
 
+@layer components {
+    .autocomplete-item[aria-selected="true"] {
+        @apply bg-vxvue-700 text-white;
+    }
+}
+
 /* define the default vx-vue color set */
 
 :root {
