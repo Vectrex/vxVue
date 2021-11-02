@@ -60,15 +60,15 @@
       },
       baseClass: {
         type: String,
-        default: 'form-autocomplete'
+        default: 'vxvue-autocomplete'
       },
       resultListClass: {
         type: String,
-        default: 'menu'
+        default: 'result-list'
       },
-      resultClass: {
+      resultItemClass: {
         type: String,
-        default: 'menu-item'
+        default: 'result-list-item'
       },
       inputClass: {
         type: String,
@@ -100,7 +100,6 @@
     computed: {
       inputProps() {
         return {
-          class: this.inputClass,
           role: 'combobox',
           autocomplete: 'off',
           autocapitalize: 'off',
@@ -123,8 +122,7 @@
       },
       resultProps() {
         return this.results.map((result, index) => ({
-          id: this.resultClass + "-" + index,
-          class: this.resultClass,
+          class: this.resultItemClass,
           'data-result-index': index,
           role: 'option',
           ...(this.selectedIndex === index ? { 'aria-selected': 'true' } : {})
