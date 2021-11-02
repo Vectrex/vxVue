@@ -1,5 +1,5 @@
 <template>
-    <table class="min-w-full divide-y divide-gray-200 sortable">
+    <table class="min-w-full divide-y divide-gray-200 sortable table-fixed">
         <thead class="bg-gray-100">
         <tr>
             <th

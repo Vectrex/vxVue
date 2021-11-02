@@ -86,13 +86,13 @@
 
     data() {
       return {
-        resultListId: uniqueId(this.resultListClass + "-"),
+        resultListId: uniqueId((this.$attrs.id || 'autocomplete') + "-"),
         results: [],
         selectedIndex: -1,
         searchCounter: 0,
         expanded: false,
         loading: false,
-        position: 'top-0',
+        position: 'top-0 translate-y-12',
         resetPosition: true
       }
     },
@@ -116,13 +116,13 @@
       listProps() {
         return {
           id: this.resultListId,
-          class: ['autocomplete-list', this.resultListClass, this.position],
+          class: ['autocomplete-list absolute min-w-full transform', this.resultListClass, this.position],
           role: 'listbox'
         }
       },
       itemProps() {
         return this.results.map((result, index) => ({
-          id: this.$attrs.id || 'item-' + index,
+          id: (this.$attrs.id || 'autocomplete') + '-item-' + index,
           class: ['autocomplete-item', this.resultItemClass],
           'data-result-index': index,
           role: 'option',
@@ -153,7 +153,7 @@
 
         // show list above or below
 
-        this.position = (inputPos.bottom + listPos.height > window.innerHeight) && (window.innerHeight - inputPos.bottom < inputPos.top) && (window.pageYOffset + inputPos.top - listPos.height > 0) ? "bottom-0" : "top-0";
+        this.position = (inputPos.bottom + listPos.height > window.innerHeight) && (window.innerHeight - inputPos.bottom < inputPos.top) && (window.pageYOffset + inputPos.top - listPos.height > 0) ? "bottom-0  -translate-y-12" : "top-0 translate-y-12";
       }
 
       // Make sure selected result isn't scrolled out of view
@@ -246,7 +246,6 @@
       },
 
       updateResults (value) {
-
         const search = this.search(value);
 
         if (search instanceof Promise) {
