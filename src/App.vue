@@ -45,7 +45,7 @@
 </script>
 
 <template>
-  <div class="grid grid-cols-3 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     <div class="p-4 shadow-md">
 
       <h2 class="text-xl font-bold mb-4">Form Elements</h2>
@@ -155,7 +155,7 @@
             placeholder="pick a country"
             @submit=""
             class="w-full"
-            result-item-class="py-2 px-4 cursor-pointer hover:bg-vxvue-700 hover:text-white"
+            result-item-class="py-2 px-4 cursor-pointer hover:bg-gray-200"
             result-list-class="shadow-md bg-white max-h-96 overflow-auto"
         >
         </autocomplete>

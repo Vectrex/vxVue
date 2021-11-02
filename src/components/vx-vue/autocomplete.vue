@@ -92,7 +92,7 @@
         searchCounter: 0,
         expanded: false,
         loading: false,
-        position: 'below',
+        position: 'top-0',
         resetPosition: true
       }
     },
@@ -116,7 +116,7 @@
       listProps() {
         return {
           id: this.resultListId,
-          class: ['autocomplete-list', this.resultListClass],
+          class: ['autocomplete-list', this.resultListClass, this.position],
           role: 'listbox'
         }
       },
@@ -153,7 +153,7 @@
 
         // show list above or below
 
-        this.position = (inputPos.bottom + listPos.height > window.innerHeight) && (window.innerHeight - inputPos.bottom < inputPos.top) && (window.pageYOffset + inputPos.top - listPos.height > 0) ? "above" : "below";
+        this.position = (inputPos.bottom + listPos.height > window.innerHeight) && (window.innerHeight - inputPos.bottom < inputPos.top) && (window.pageYOffset + inputPos.top - listPos.height > 0) ? "bottom-0" : "top-0";
       }
 
       // Make sure selected result isn't scrolled out of view
