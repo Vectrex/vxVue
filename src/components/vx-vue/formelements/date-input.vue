@@ -20,7 +20,7 @@
     <button
       v-if="showButton"
       type="button"
-      class="absolute right-0 pr-3 flex items-center inset-y-0 text-vxvue-700"
+      class="absolute right-0 pr-3 flex items-center inset-y-0 text-vxvue-700 hover:text-vxvue"
       @click.stop="$emit('toggle-datepicker')"
     >
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
