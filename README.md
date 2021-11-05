@@ -19,8 +19,9 @@ The sample page gives simple examples of all currently available components.
 
 So far the following components have been implemented:
 
-| `formelements/password-input` | a simple input with toggle button which toggles between `type='button'` and `type='text'` |
+| element | description |
 | --- | --- |
+| `formelements/password-input` | a simple input with toggle button which toggles between `type='button'` and `type='text'` |
 | `formelements/form-select` | a select element adapted for Vue.js integration
 | `formelements/date-input` and `formelements/datepicker` | the input element can be used for guided date inputs and is (optionally) part of the datepicker
 | `formelements/form-switch` | a fancy checkbox
