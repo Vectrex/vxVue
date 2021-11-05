@@ -1,20 +1,35 @@
 <template>
-    <div ref="container" class="modal modal-sm" :class="{ active: show }">
-        <div class="modal-overlay"></div>
-        <div class="modal-container">
-            <div class="modal-header bg-error text-light" v-if="title">
-                <div class="modal-title h5">{{ title }}</div>
-            </div>
-            <div class="modal-body">
-                <div class="content">
-                    {{ message }}
+  <transition name="overlay-fade">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75" aria-hidden="true" v-if="show"></div>
+  </transition>
+  <transition name="modal-appear">
+    <div class="fixed z-10 inset-0 overflow-y-auto" v-if="show">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <div v-if="show">
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div class="inline-block align-bottom bg-white rounded text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full">
+              <h3 :class="headerClass" v-if="title">
+                <slot name="title" :title="title">{{ title }}</slot>
+              </h3>
+              <div class="mt-4 sm:mt-5 px-4 sm:px-6 pb-4 sm:pb-6">
+                <div class="flex flex-row items-center">
+                  <div class="flex-shrink-0">
+                    <slot name="icon"></slot>
+                  </div>
+                  <p class="text-center flex-grow">
+                    <slot :message="message">{{ message }}</slot>
+                  </p>
                 </div>
+                <div class="mt-5 sm:mt-6">
+                  <button ref="button" type="button" :class="buttonClass" @click.prevent="ok" >{{ options.label }}</button>
+                </div>
+              </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" :class="options.buttonClass" @click.prevent="ok" ref="button">{{ options.label }}</button>
-            </div>
+          </div>
         </div>
-    </div>
+      </div>
+  </transition>
 </template>
 
 <script>
@@ -24,6 +39,14 @@
         props: {
             config: {
                 type: Object
+            },
+            headerClass: {
+              type: String,
+              default: "text-lg text-center font-medium text-white pt-4 sm:py-6 py-4 bg-vxvue-700"
+            },
+            buttonClass: {
+              type: String,
+              default: "inline-flex justify-center w-full rounded border border-transparent shadow-sm px-4 py-2 bg-vxvue-700 text-base font-medium text-white hover:bg-vxvue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vxvue-500 sm:text-sm"
             }
         },
 
@@ -34,8 +57,7 @@
             resolve: null,
             reject: null,
             options: {
-                label: "Ok",
-                buttonClass: "btn-success"
+                label: "Ok"
             }
         }},
 
@@ -68,3 +90,38 @@
         }
     }
 </script>
+
+<style>
+.overlay-fade-enter-to,
+.overlay-fade-leave-from
+{
+  @apply opacity-100;
+}
+.overlay-fade-enter-from,
+.overlay-fade-leave-to {
+  @apply opacity-0;
+}
+.overlay-fade-enter-active,
+.overlay-fade-leave-active {
+  @apply transition-opacity;
+}
+
+.modal-appear-enter-from {
+  @apply opacity-0 transform-gpu -translate-y-8;
+}
+.modal-appear-enter-to,
+.modal-appear-leave-from
+{
+  transform: translateY(0);
+  opacity: 1;
+}
+.modal-appear-leave-to {
+  transform: translateY(40px);
+  opacity: 0
+}
+.modal-appear-enter-active,
+.modal-appear-leave-active
+{
+  transition: all 0.3s;
+}
+</style>

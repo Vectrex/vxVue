@@ -1,5 +1,4 @@
 <script setup>
-  import FormInput from './components/vx-vue/formelements/form-input.vue';
   import PasswordInput from './components/vx-vue/formelements/password-input.vue';
   import FormSelect from './components/vx-vue/formelements/form-select.vue';
   import FormSwitch from './components/vx-vue/formelements/form-switch.vue';
@@ -10,6 +9,7 @@
   import DatePicker from './components/vx-vue/formelements/datepicker.vue';
   import Sortable from './components/vx-vue/sortable.vue';
   import Autocomplete from './components/vx-vue/autocomplete.vue';
+  import Alert from './components/vx-vue/alert.vue';
 </script>
 
 <script>
@@ -33,12 +33,22 @@
         autocomplete: {
           items: ["Afghanistan", "Åland Islands", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia, Plurinational State of", "Bonaire, Sint Eustatius and Saba", "Bosnia and Herzegovina", "Botswana", "Bouvet Island", "Brazil", "British Indian Ocean Territory", "Brunei Darussalam", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central African Republic", "Chad", "Chile", "China", "Christmas Island", "Cocos (Keeling) Islands", "Colombia", "Comoros", "Congo", "Congo, the Democratic Republic of the", "Cook Islands", "Costa Rica", "Côte d'Ivoire", "Croatia", "Cuba", "Curaçao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands (Malvinas)", "Faroe Islands", "Fiji", "Finland", "France", "French Guiana", "French Polynesia", "French Southern Territories", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Heard Island and McDonald Islands", "Holy See (Vatican City State)", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran, Islamic Republic of", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea, Democratic People's Republic of", "Korea, Republic of", "Kuwait", "Kyrgyzstan", "Lao People's Democratic Republic", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao", "Macedonia, the Former Yugoslav Republic of", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Micronesia, Federated States of", "Moldova, Republic of", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue", "Norfolk Island", "Northern Mariana Islands", "Norway", "Oman", "Pakistan", "Palau", "Palestine, State of", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Pitcairn", "Poland", "Portugal", "Puerto Rico", "Qatar", "Réunion", "Romania", "Russian Federation", "Rwanda", "Saint Barthélemy", "Saint Helena, Ascension and Tristan da Cunha", "Saint Kitts and Nevis", "Saint Lucia", "Saint Martin (French part)", "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Sint Maarten (Dutch part)", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Georgia and the South Sandwich Islands", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Svalbard and Jan Mayen", "Swaziland", "Sweden", "Switzerland", "Syrian Arab Republic", "Taiwan, Province of China", "Tajikistan", "Tanzania, United Republic of", "Thailand", "Timor-Leste", "Togo", "Tokelau", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos Islands", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "United States Minor Outlying Islands", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela, Bolivarian Republic of", "Viet Nam", "Virgin Islands, British", "Virgin Islands, U.S.", "Wallis and Futuna", "Western Sahara", "Yemen", "Zambia", "Zimbabwe"],
           selected: null
+        },
+        autocomplete2: {
+          selected: null
         }
       }
     },
     methods: {
       findItem (query) {
         return this.autocomplete.items.filter (item => item.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+      },
+      async findItemDelayed (query) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return this.autocomplete.items.filter (item => item.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+      },
+      async alertMe () {
+        await this.$refs.alert.open('Skynet...', "...begins to learn at a geometric rate.");
       }
     }
   }
@@ -147,20 +157,47 @@
     <div class="p-4 shadow-md">
 
       <h2 class="text-xl font-bold mb-4">Autocomplete</h2>
+      <p class="my-2">This autocomplete searches a readily available list of items.</p>
+      <autocomplete
+          :search="findItem"
+          v-model="autocomplete.selected"
+          placeholder="pick a country"
+          @submit=""
+          class="w-full"
+          result-item-class="py-2 px-4 cursor-pointer hover:bg-gray-200"
+          result-list-class="shadow-md bg-white max-h-96 overflow-auto"
+      >
+      </autocomplete>
+      <p class="my-2">This autocomplete searches a promised list of items and will display a spinner.</p>
+      <autocomplete
+          :search="findItemDelayed"
+          v-model="autocomplete2.selected"
+          placeholder="pick a country"
+          @submit=""
+          class="w-full"
+          result-item-class="py-2 px-4 cursor-pointer hover:bg-gray-200"
+          result-list-class="shadow-md bg-white max-h-96 overflow-auto"
+      >
+      </autocomplete>
+    </div>
+    <div class="p-4 shadow-md">
 
-      <div>
-        <autocomplete
-            :search="findItem"
-            v-model="autocomplete.selected"
-            placeholder="pick a country"
-            @submit=""
-            class="w-full"
-            result-item-class="py-2 px-4 cursor-pointer hover:bg-gray-200"
-            result-list-class="shadow-md bg-white max-h-96 overflow-auto"
-        >
-        </autocomplete>
-      </div>
+      <h2 class="text-xl font-bold mb-4">Alerts &amp; Confirms</h2>
+      <div><button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="alertMe">Alert me!</button></div>
     </div>
 
   </div>
+
+  <alert ref="alert" :config="{ label: 'Call John!' }">
+    <template v-slot:icon>
+        <div class="text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+          </svg>
+        </div>
+    </template>
+    <template v-slot:default="slotProps">
+      <strong class="text-gray-700">{{ slotProps.message }}</strong>
+    </template>
+  </alert>
 </template>
