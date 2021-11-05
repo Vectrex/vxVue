@@ -112,16 +112,14 @@
 .modal-appear-enter-to,
 .modal-appear-leave-from
 {
-  transform: translateY(0);
-  opacity: 1;
+  @apply translate-y-0 opacity-100;
 }
 .modal-appear-leave-to {
-  transform: translateY(40px);
-  opacity: 0
+  @apply translate-y-8 opacity-0;
 }
 .modal-appear-enter-active,
 .modal-appear-leave-active
 {
-  transition: all 0.3s;
+  @apply transition-all;
 }
 </style>

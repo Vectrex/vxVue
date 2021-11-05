@@ -10,6 +10,7 @@
   import Sortable from './components/vx-vue/sortable.vue';
   import Autocomplete from './components/vx-vue/autocomplete.vue';
   import Alert from './components/vx-vue/alert.vue';
+  import MessageToast from './components/vx-vue/message-toast.vue';
 </script>
 
 <script>
@@ -26,8 +27,8 @@
           ],
           cols: [
             { label: 'Name', prop: 'name', sortable: true },
-            { label: 'Role', prop: 'role', sortable: true  },
-            { label: 'Born in', prop: 'yob', sortable: true  }
+            { label: 'Role', prop: 'role', sortable: true },
+            { label: 'Born in', prop: 'yob', sortable: true }
           ]
         },
         autocomplete: {
@@ -36,6 +37,11 @@
         },
         autocomplete2: {
           selected: null
+        },
+        toast: {
+          message: ["There might be a meaningful message.", "Someday. Who knows?"],
+          active: false,
+          title: 'You got toasted!'
         }
       }
     },
@@ -103,7 +109,6 @@
             :month-names="'Jänner,Februar,März,April,Mai,Juni,Juli,August,September,Oktober,November,Dezember'.split(',')"
             input-format="d.m.y"
             output-format="d mmm y"
-
         />
         <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.datePicker2">{{ formData.datePicker2 }}</span>
       </div>
@@ -182,8 +187,11 @@
     </div>
     <div class="p-4 shadow-md">
 
-      <h2 class="text-xl font-bold mb-4">Alerts &amp; Confirms</h2>
-      <div><button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="alertMe">Alert me!</button></div>
+      <h2 class="text-xl font-bold mb-4">Toasts, Alerts &amp; Confirms</h2>
+      <div class="flex space-x-1">
+        <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="toast.active = true">Toast me!</button>
+        <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="alertMe">Alert me!</button>
+      </div>
     </div>
 
   </div>
@@ -200,4 +208,15 @@
       <strong class="text-gray-700">{{ slotProps.message }}</strong>
     </template>
   </alert>
+
+  <message-toast v-bind="toast" @timeout="toast.active = false" @close="toast.active = false" class="bg-green-700 text-white">
+    <template v-slot:title><span class="text-green-200">{{ toast.title }}</span></template>
+    <template v-slot:icon>
+      <span class="text-green-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+      </span>
+    </template>
+  </message-toast>
 </template>
