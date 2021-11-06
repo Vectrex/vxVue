@@ -47,7 +47,8 @@
           message: ["There might be a meaningful message.", "Someday. Who knows?"],
           active: false,
           title: 'You got toasted!'
-        }
+        },
+        alert: {}
       }
     },
     computed: {
@@ -64,7 +65,12 @@
         return this.items.filter (item => item.toLowerCase().indexOf(query.toLowerCase()) !== -1);
       },
       async alertMe () {
+        this.alert.buttons = { label: 'Call John!', value: 'ok' };
         await this.$refs.alert.open('Skynet...', "...begins to learn at a geometric rate.");
+      },
+      async letsConfirm () {
+        this.alert.buttons = [{ label: 'Go for it!', value: 'ok', 'class': 'bg-green-600 hover:bg-green-500 focus:ring-green-500' }, { label: 'Shut it down! Now!', value: 'cancel' }];
+        console.log(await this.$refs.alert.open('General Brewster', "Shall we turn on Skynet now?"));
       }
     }
   }
@@ -201,6 +207,7 @@
       <div class="flex space-x-1">
         <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="toast.active = true">Toast me!</button>
         <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="alertMe">Alert me!</button>
+        <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="letsConfirm">Let me decide!</button>
       </div>
     </div>
 
@@ -225,7 +232,7 @@
     </div>
   </div>
 
-  <alert ref="alert" :config="{ label: 'Call John!' }">
+  <alert ref="alert" :buttons="alert.buttons">
     <template v-slot:icon>
         <div class="text-gray-500">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">

@@ -21,8 +21,8 @@
                     <slot :message="message">{{ message }}</slot>
                   </p>
                 </div>
-                <div class="mt-5 sm:mt-6">
-                  <button ref="button" type="button" :class="buttonClass" @click.prevent="ok" >{{ options.label }}</button>
+                <div class="mt-5 sm:mt-6 flex space-x-2" ref="buttons">
+                  <button type="button" :class="[buttonClass, button['class']]" @click.prevent="handleClick(button.value)" v-for="button in buttonArray">{{ button.label }}</button>
                 </div>
               </div>
             </div>
@@ -35,10 +35,11 @@
 <script>
     export default {
         name: 'alert',
-
         props: {
-            config: {
-                type: Object
+            buttons: {
+                type: [Object, Array],
+                default: { label: 'Ok', value: 'ok'},
+                validator: p => (Array.isArray(p) && p.filter(v => v['label'] !== 'undefined' && v['value'] !== 'undefined').length === p.length) || (p.label !== undefined && p.value !== undefined)
             },
             headerClass: {
               type: String,
@@ -55,37 +56,29 @@
             message: "",
             show: false,
             resolve: null,
-            reject: null,
-            options: {
-                label: "Ok"
-            }
+            reject: null
         }},
 
-        watch: {
-            config() {
-                this.options = Object.assign({}, this.options, this.config);
-            }
-        },
-
-        created() {
-            this.options = Object.assign({}, this.options, this.config);
+        computed: {
+          buttonArray () {
+            return Array.isArray(this.buttons) ? this.buttons : [this.buttons];
+          }
         },
 
         methods: {
-            open (title, message, options) {
+            open (title, message) {
                 this.title = title;
                 this.message = message;
                 this.show = true;
-                this.$nextTick(() => this.$refs.button.focus());
-                this.options = Object.assign(this.options, options || {});
+                this.$nextTick(() => this.$refs.buttons.firstElementChild.focus());
                 return new Promise((resolve, reject) => {
                     this.resolve = resolve;
                     this.reject = reject;
                 });
             },
-            ok () {
+            handleClick (value) {
                 this.show = false;
-                this.resolve(true);
+                this.resolve(value);
             }
         }
     }
