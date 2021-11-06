@@ -1,0 +1,88 @@
+<template>
+  <div class="sm:hidden">
+    <form-select :options="selectOptions" :model-value="activeIndex" @update:model-value="$emit('update:activeIndex', $event)" class="w-full" />
+  </div>
+  <div class="hidden sm:block">
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+        <a v-for="item in items"
+           :key="item.name"
+           href="#"
+           @click.prevent="itemOnClick(item)"
+           :class="[
+              activeTab === item ? 'border-vxvue-500 text-vxvue-600' : 'border-transparent text-gray-900 hover:text-gray-700 hover:border-gray-300',
+              item.disabled ? 'cursor-not-allowed text-gray-400 hover:border-transparent' : '',
+              'group inline-flex items-center py-4 px-1 border-b-4 font-medium text-sm',
+           ]"
+           :aria-current="activeTab === item ? 'page' : undefined"
+        >
+          <!-- icon  -->
+
+          <span v-if="item.icon" v-html="item.icon" class="-ml-0.5 mr-2 h-5 w-5"/>
+
+          <span>{{ item.name }}</span>
+
+          <!-- badge -->
+          <span v-if="item.badge"
+            :class="[
+              activeTab === item ? 'bg-vxvue-50 text-vxvue-700' : 'bg-gray-200 text-gray-900',
+              item.disabled ? 'bg-gray-100 text-gray-400' : '',
+              'hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block'
+            ]"
+          >{{ item.badge }}</span>
+        </a>
+      </nav>
+    </div>
+  </div>
+</template>
+
+<script>
+import FormSelect from "./formelements/form-select.vue";
+
+export default {
+  name: 'tabs',
+  components: {FormSelect},
+  emits: ['update:active-index'],
+  props: {
+    items: {
+      type: Array,
+      default: () => ([])
+    },
+    activeIndex: {
+      type: Number,
+      default: 0
+    }
+  },
+
+  data() {
+    return {
+      activeTab: {}
+    };
+  },
+
+  computed: {
+    selectOptions () {
+      let options = [];
+      this.items.forEach((item, ndx) => { if(!item.disabled) {options.push( { label: item.name, key: ndx })}});
+      return options;
+    }
+  },
+
+  created() {
+    this.activeTab = this.items[this.activeIndex] || {};
+  },
+  watch: {
+    activeIndex(newVal) {
+      this.activeTab = this.items[newVal] || {};
+    },
+  },
+  methods: {
+    itemOnClick(item) {
+      if (!item.disabled) {
+        this.activeTab = item;
+        this.$emit('update:active-index', this.items.indexOf(item));
+      }
+    }
+  }
+}
+</script>

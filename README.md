@@ -40,4 +40,5 @@ So far the following components have been implemented:
 | `autocomplete` | a simple autocomplete component
 | `message-toast` | displays a notification which dismisses itself after a configurable timeout
 | `alert` | promise-based alert component which must be manually dismissed; button labelling, and their returned values can be configured
-| `pagination` | A pagination component for arbitrary items; opinionated in its layout 
+| `pagination` | A pagination component for arbitrary items; opinionated in its layout
+| `tabs` | A tabs component which allows both badges and icons

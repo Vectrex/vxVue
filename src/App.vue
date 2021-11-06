@@ -12,6 +12,7 @@
   import Alert from './components/alert.vue';
   import MessageToast from './components/message-toast.vue';
   import Pagination from './components/pagination.vue';
+  import Tabs from './components/tabs.vue';
 </script>
 
 <script>
@@ -48,7 +49,17 @@
           active: false,
           title: 'You got toasted!'
         },
-        alert: {}
+        alert: {},
+        tabs: {
+          items: [
+            { name: 'Profile', badge: '!', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>' },
+            { name: 'Tech' },
+            { name: 'Intelligence', disabled: true },
+            { name: 'Strategy' },
+            { name: 'Confidential', disabled: true, badge: '10' }
+          ],
+          activeIndex: 0
+        }
       }
     },
     computed: {
@@ -229,6 +240,11 @@
             next-text="next"
         />
       </div>
+    </div>
+
+    <div class="p-4 shadow-md">
+      <h2 class="text-xl font-bold mb-4">Tabs</h2>
+      <tabs :items="tabs.items" v-model:active-index="tabs.activeIndex" />
     </div>
   </div>
 
