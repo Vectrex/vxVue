@@ -7,8 +7,8 @@
     >
       <option
           v-for="option in options"
-          :value="option.key || option.label || option"
-          :selected="(option.key || option.label || option) == modelValue"
+          :value="option.key !== undefined ? option.key : (option.label || option)"
+          :selected="(option.key !== undefined ? option.key : (option.label || option)) == modelValue"
       >{{ option.label || option }}
       </option>
     </select>
