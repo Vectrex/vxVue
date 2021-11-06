@@ -1,11 +1,14 @@
 # vxVue
 
-## What is this?
-A few basic Vue components styled with Tailwind CSS. At some point a more verbose documentation than this brief readme might emerge.
+## Introduction
+VxVue provides a few Vue components styled with Tailwind CSS. At some point a more verbose documentation than this brief readme might emerge.
 
 ## Requirements
+* Tailwind CSS 2.*
+* Vue.js 3.*
+
 The official Tailwind CSS forms plugin is used to provide basic styling of the form components using the class strategy which allows the styling of non-form elements consistently.
-An easy to configure color theming is applied. And since we are talking about Vue components Vue3 is a must.
+An easy to configure color theming is applied.
 
 ## Try it out
 Run
