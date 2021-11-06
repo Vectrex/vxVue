@@ -31,3 +31,4 @@ So far the following components have been implemented:
 | `autocomplete` | a simple autocomplete component
 | `message-toast` | displays a notification which dismisses itself after a configurable timeout
 | `alert` | alert component which must be manually dismissed
+| `pagination` | A pagination component for arbitrary items; opinionated in its layout 

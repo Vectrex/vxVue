@@ -1,25 +1,51 @@
 <template>
-  <div>
-    <ul class="pagination">
-      <li v-if="showNavButtons" class="page-item" :class="{ disabled: currentPage <= 1 }">
-        <a tabindex="-1" @click="prevPage" class="menu-item">{{ prevText }}</a>
-      </li>
-      
-      <li 
-        v-for="(page, idx) in pagesToShow"
-        v-bind:key="idx"
-        class="page-item"
-        :class="{active: currentPage === page}"
+  <nav class="px-4 flex items-center justify-between sm:px-0">
+    <div class="-mt-px w-0 flex-1 flex">
+      <a
+        @click.prevent="prevPage"
+        v-if="showNavButtons"
+        href="#"
+        class="border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
+        :class="{'cursor-default pointer-events-none': currentPage <=1 }"
       >
-        <a @click="pageClick(page)" v-if="page !== 'dots'">{{ page }}</a>
-        <span v-else>&hellip;</span>
-      </li>
-
-      <li v-if="showNavButtons" class="page-item" :class="{ disabled: currentPage >= maxPage }">
-        <a tabindex="-1" @click="nextPage">{{ nextText }}</a>
-      </li>
-    </ul>
-  </div>
+        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg>
+        {{ prevText }}
+      </a>
+    </div>
+    <div class="hidden md:-mt-px md:flex">
+      <component
+        :is="page === 'dots' ? 'span' : 'a'"
+        @click.prevent="pageClick(page)"
+        v-for="(page, idx) in pagesToShow"
+        :key="idx"
+        href="#"
+        class="border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium"
+        :class="{
+          'border-vxvue-500 text-vxvue-700': page === currentPage,
+          'border-transparent text-gray-500': page !== currentPage,
+          'hover:text-gray-700 hover:border-gray-300': page !== 'dots'
+        }"
+      >
+        {{ page !== 'dots' ? page : '...' }}
+      </component>
+    </div>
+    <div class="-mt-px w-0 flex-1 flex justify-end">
+      <a
+        @click.prevent="nextPage"
+        v-if="showNavButtons"
+        href="#"
+        class="border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
+        :class="{'cursor-default pointer-events-none': currentPage >= maxPage }"
+      >
+        {{ nextText }}
+        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+  </nav>
 </template>
 <script>
 
@@ -42,7 +68,6 @@ export default {
       currentPage: 1,
       maxPage: 0,
       showPerPage: 20,
-      dataItems: undefined,
     };
   },
   created () {
