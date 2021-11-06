@@ -2,28 +2,41 @@
   "name": "vx-vue",
   "version": "0.1.0",
   "description": "A collection of Vue3 UI components which use Tailwind CSS for their styling",
-  "keywords": ["vue", "vuejs","components", "vue-component","ui-component","tailwind css"],
+  "keywords": [
+    "vue",
+    "vuejs",
+    "components",
+    "vue-component",
+    "ui-component",
+    "tailwind css"
+  ],
   "homepage": "",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "build-bundle": "vue-cli-service build --target lib --dest dist --name vxvue lib.js"
   },
   "author": {
     "name": "Gregor Kofler",
     "email": "info@gregorkofler.com",
     "url": "https://vxweb.net"
   },
-  "dependencies": {
-    "vue": "^3.2.16"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vectrex/vxvue.git"
   },
+  "dependencies": {},
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.3",
     "autoprefixer": "^10.3.7",
     "postcss": "^8.3.9",
     "tailwindcss": "^2.2.17",
     "vite": "^2.6.4",
-    "@tailwindcss/forms": "^0.3.4"
+    "@tailwindcss/forms": "^0.3.4",
+    "vue": "^3.2.16",
+    "@vue/cli-service": "^5.0.0-rc.0",
+    "@vue/compiler-sfc": "^3.2.21"
   }
 }

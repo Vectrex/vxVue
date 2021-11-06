@@ -1,17 +1,17 @@
 <script setup>
-  import PasswordInput from './components/vx-vue/formelements/password-input.vue';
-  import FormSelect from './components/vx-vue/formelements/form-select.vue';
-  import FormSwitch from './components/vx-vue/formelements/form-switch.vue';
-  import FormFileButton from './components/vx-vue/formelements/form-file-button.vue';
-  import FormRadioGroup from './components/vx-vue/formelements/form-radio-group.vue';
-  import FormCheckboxGroup from './components/vx-vue/formelements/form-checkbox-group.vue';
-  import DateInput from './components/vx-vue/formelements/date-input.vue';
-  import DatePicker from './components/vx-vue/formelements/datepicker.vue';
-  import Sortable from './components/vx-vue/sortable.vue';
-  import Autocomplete from './components/vx-vue/autocomplete.vue';
-  import Alert from './components/vx-vue/alert.vue';
-  import MessageToast from './components/vx-vue/message-toast.vue';
-  import Pagination from './components/vx-vue/pagination.vue';
+  import PasswordInput from './components/formelements/password-input.vue';
+  import FormSelect from './components/formelements/form-select.vue';
+  import FormSwitch from './components/formelements/form-switch.vue';
+  import FormFileButton from './components/formelements/form-file-button.vue';
+  import FormRadioGroup from './components/formelements/form-radio-group.vue';
+  import FormCheckboxGroup from './components/formelements/form-checkbox-group.vue';
+  import DateInput from './components/formelements/date-input.vue';
+  import DatePicker from './components/formelements/datepicker.vue';
+  import Sortable from './components/sortable.vue';
+  import Autocomplete from './components/autocomplete.vue';
+  import Alert from './components/alert.vue';
+  import MessageToast from './components/message-toast.vue';
+  import Pagination from './components/pagination.vue';
 </script>
 
 <script>

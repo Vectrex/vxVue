@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import DateFunctions from "../../../util/date-functions.js";
+import DateFunctions from "../../util/date-functions.js";
 
 export default {
   emits: ['update:modelValue', 'toggle-datepicker'],
