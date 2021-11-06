@@ -1,10 +1,19 @@
 {
   "name": "vx-vue",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "A collection of Vue3 UI components which use Tailwind CSS for their styling",
+  "keywords": ["vue", "vuejs","components", "vue-component","ui-component","tailwind css"],
+  "homepage": "",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview"
+  },
+  "author": {
+    "name": "Gregor Kofler",
+    "email": "info@gregorkofler.com",
+    "url": "https://vxweb.net"
   },
   "dependencies": {
     "vue": "^3.2.16"
