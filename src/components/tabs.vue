@@ -18,9 +18,9 @@
         >
           <!-- icon  -->
 
-          <span v-if="item.icon" v-html="item.icon" class="-ml-0.5 mr-2 h-5 w-5"/>
+          <slot name="icon" :tab="item"></slot>
 
-          <span>{{ item.name }}</span>
+          <span><slot :tab="item">{{ item.name }}</slot></span>
 
           <!-- badge -->
           <span v-if="item.badge"

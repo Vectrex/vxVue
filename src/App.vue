@@ -52,11 +52,11 @@
         alert: {},
         tabs: {
           items: [
-            { name: 'Profile', badge: '!', icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>' },
+            { name: 'Profile', badge: '!', icon: 'profile' },
             { name: 'Tech' },
             { name: 'Intelligence', disabled: true },
             { name: 'Strategy' },
-            { name: 'Confidential', disabled: true, badge: '10' }
+            { name: 'Confidential', disabled: true, badge: '10', icon: 'confidential' }
           ],
           activeIndex: 0
         }
@@ -88,6 +88,31 @@
 </script>
 
 <template>
+
+  <alert ref="alert" :buttons="alert.buttons">
+    <template v-slot:icon>
+      <div class="text-gray-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    </template>
+    <template v-slot:default="slotProps">
+      <strong class="text-gray-700">{{ slotProps.message }}</strong>
+    </template>
+  </alert>
+
+  <message-toast v-bind="toast" @timeout="toast.active = false" @close="toast.active = false" class="bg-green-700 text-white">
+    <template v-slot:title><span class="text-green-200">{{ toast.title }}</span></template>
+    <template v-slot:icon>
+      <span class="text-green-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+      </span>
+    </template>
+  </message-toast>
+
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     <div class="p-4 shadow-md">
 
@@ -244,31 +269,17 @@
 
     <div class="p-4 shadow-md">
       <h2 class="text-xl font-bold mb-4">Tabs</h2>
-      <tabs :items="tabs.items" v-model:active-index="tabs.activeIndex" />
+      <tabs :items="tabs.items" v-model:active-index="tabs.activeIndex">
+        <template v-slot:icon="slotProps">
+          <span class="-ml-0.5 mr-2 h-5 w-5" v-if="slotProps.tab.icon === 'profile'">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
+          </span>
+          <span class="-ml-0.5 mr-2 h-5 w-5 -mt-1" v-if="slotProps.tab.icon === 'confidential'">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" /></svg>
+          </span>
+        </template>
+      </tabs>
     </div>
   </div>
 
-  <alert ref="alert" :buttons="alert.buttons">
-    <template v-slot:icon>
-        <div class="text-gray-500">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-          </svg>
-        </div>
-    </template>
-    <template v-slot:default="slotProps">
-      <strong class="text-gray-700">{{ slotProps.message }}</strong>
-    </template>
-  </alert>
-
-  <message-toast v-bind="toast" @timeout="toast.active = false" @close="toast.active = false" class="bg-green-700 text-white">
-    <template v-slot:title><span class="text-green-200">{{ toast.title }}</span></template>
-    <template v-slot:icon>
-      <span class="text-green-200">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-        </svg>
-      </span>
-    </template>
-  </message-toast>
 </template>
