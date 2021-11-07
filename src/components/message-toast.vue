@@ -1,6 +1,6 @@
 <template>
 
-  <div aria-live="assertive" class="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start">
+  <div aria-live="assertive" class="fixed inset-0 flex px-4 py-6 pointer-events-none sm:p-6 items-start z-50">
     <div class="w-full flex flex-col items-center space-y-4">
 
       <transition name="messagetoast-fade">
