@@ -16,11 +16,11 @@
     </div>
     <div class="hidden md:-mt-px md:flex">
       <component
-        :is="page === 'dots' ? 'span' : 'a'"
-        @click.prevent="pageClick(page)"
         v-for="(page, idx) in pagesToShow"
+        :is="page !== 'dots' ? 'a' : 'span'"
+        @click.prevent="page !== 'dots' ? pageClick(page) : null"
         :key="idx"
-        href="#"
+        :href="page !== 'dots' ? '#' : null"
         class="border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium"
         :class="{
           'border-vxvue-500 text-vxvue-700': page === currentPage,

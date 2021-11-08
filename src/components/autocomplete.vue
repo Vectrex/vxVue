@@ -116,7 +116,7 @@
       listProps() {
         return {
           id: this.resultListId,
-          class: ['autocomplete-list absolute min-w-full transform', this.resultListClass, this.position],
+          class: ['autocomplete-list absolute min-w-full transform z-10', this.resultListClass, this.position],
           role: 'listbox'
         }
       },
