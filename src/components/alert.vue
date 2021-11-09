@@ -1,9 +1,9 @@
 <template>
   <transition name="overlay-fade">
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75" aria-hidden="true" v-if="show"></div>
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-50" aria-hidden="true" v-if="show"></div>
   </transition>
   <transition name="modal-appear">
-    <div class="fixed z-10 inset-0 overflow-y-auto" v-if="show">
+    <div class="fixed z-50 inset-0 overflow-y-auto" v-if="show">
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <div v-if="show">
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
