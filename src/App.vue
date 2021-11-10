@@ -20,6 +20,7 @@
     data () {
       return {
         formData: {},
+        files: [],
         sortable: {
           rows: [
             { key: 1, name: 'Linda', role: 'Sarah', yob: 1956 },
@@ -62,12 +63,32 @@
             { name: 'Confidential', disabled: true, badge: '10', icon: 'confidential' }
           ],
           activeIndex: 0
-        }
+        },
+        formDataLog: null,
+        logTimeout: null
       }
     },
     computed: {
       paginatedItems() {
         return this.items.slice((this.pagination.currentPage - 1) * this.pagination.entriesPerPage, this.pagination.currentPage * this.pagination.entriesPerPage);
+      }
+    },
+    watch: {
+      formData: {
+        handler (newValue) {
+          this.formDataLog = Object.fromEntries(Object.entries(newValue).filter( ([k, v]) => v !== null && v !== undefined && v !== ''));
+
+          if (this.logTimeout) {
+            window.clearTimeout(this.logTimeout);
+          }
+          this.logTimeout = window.setTimeout(() => { this.formDataLog = null; this.logTimeout = null }, 3000);
+        },
+        deep: true
+      },
+      files (newValue) {
+        let names = [];
+        newValue.forEach(item => names.push(item.name));
+        this.formData.files = names.join(', ');
       }
     },
     methods: {
@@ -91,171 +112,163 @@
 </script>
 
 <template>
-  <div class="p-4 shadow-md">
+  <div id="app" class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4 max-w-screen-2xl mx-auto pt-32">
 
-    <h2 class="text-xl font-bold mb-4">Form Elements</h2>
+    <div class="p-4 shadow-md">
 
-    <div class="my-4 items-center">
-      <label for="password-input" class="inline-block w-1/3">password-input</label>
-      <password-input placeholder="6 characters or more" class="w-2/3" id="password-input" v-model="formData.passwordInput" />
-      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.passwordInput">{{ formData.passwordInput }}</span>
+      <h2 class="text-xl font-bold mb-4">Form Elements</h2>
+
+      <div class="my-4 items-center">
+        <label for="password-input" class="inline-block w-1/3">password-input</label>
+        <password-input placeholder="6 characters or more" class="w-2/3" id="password-input" v-model="formData.passwordInput" />
+      </div>
+
+      <div class="my-4 items-center">
+        <label for="form-select" class="inline-block w-1/3">form-select</label>
+        <form-select class="w-2/3" id="form-select" v-model="formData.formSelect" :options="['Please', 'Select', 'Me']" />
+      </div>
+
+      <div class="my-4 items-center">
+        <label for="date-input" class="inline-block w-1/3">date-input</label>
+        <date-input placeholder="yyyy-mm-dd" class="w-2/3" id="date-input" v-model="formData.dateInput" :show-button="false"/>
+      </div>
+
+      <div class="my-4 items-center">
+        <label for="date-picker" class="inline-block w-1/3">date-picker</label>
+        <date-picker
+            placeholder="mm/dd/yyyy"
+            class="w-2/3 inline-block"
+            id="date-picker"
+            v-model="formData.datePicker"
+            input-format="m/d/y"
+            output-format="d mmm y"
+        />
+      </div>
+
+      <div class="my-4 items-center">
+        <label for="date-picker-2" class="inline-block w-1/3">date-picker (de)</label>
+        <date-picker
+            placeholder="dd.mm.yyyy"
+            class="w-2/3 inline-block"
+            id="date-picker-2"
+            v-model="formData.datePicker2"
+            :day-names="'So Mo Di Mi Do Fr Sa'.split(' ')"
+            :start-of-week-index="1"
+            :month-names="'Jänner,Februar,März,April,Mai,Juni,Juli,August,September,Oktober,November,Dezember'.split(',')"
+            input-format="d.m.y"
+            output-format="d mmm y"
+        />
+      </div>
+
+      <div class="my-4 flex items-center">
+        <label for="form-file-button" class="inline-block w-1/3">form-file-button</label>
+        <form-file-button id="form-file-button" v-model="files" multiple="multiple" role="button" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600">Upload</form-file-button>
+      </div>
+
+      <div class="my-4 flex items-center">
+        <label for="form-switch" class="inline-block w-1/3">form-switch</label>
+        <form-switch id="form-switch" v-model="formData.formSwitch"><span class="pl-2">A simple toggle</span></form-switch>
+      </div>
+
+      <div class="my-4 flex items-center">
+        <span class="inline-block w-1/3">form-radio-group</span>
+        <form-radio-group v-model="formData.formRadioGroup" :options="['foo', 'bar', 'baz']" class="inline-block mr-4" name="radios">
+          <template v-slot="slotData">
+            <p class="pl-1 text-sm">{{ slotData.option.label || slotData.option }}</p>
+          </template>
+        </form-radio-group>
+      </div>
+
+      <div class="my-4 flex items-center">
+        <span class="inline-block w-1/3">form-checkbox-group</span>
+        <form-checkbox-group v-model="formData.formCheckboxGroup" :options="['foo', 'bar', 'baz']" class="inline-block mr-4" name="checkboxes">
+          <template v-slot="slotData">
+            <p class="pl-1 text-sm">{{ slotData.option.label || slotData.option }}</p>
+          </template>
+        </form-checkbox-group>
+      </div>
     </div>
 
-    <div class="my-4 items-center">
-      <label for="form-select" class="inline-block w-1/3">form-select</label>
-      <form-select class="w-2/3" id="form-select" v-model="formData.formSelect" :options="['Please', 'Select', 'Me']" />
-      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formSelect">{{ formData.formSelect }}</span>
+    <div class="p-4 shadow-md">
+
+      <h2 class="text-xl font-bold mb-4">Sortable</h2>
+
+      <div class="shadow overflow-hidden border-b border-gray-200 rounded-lg">
+        <sortable
+            :rows="sortable.rows"
+            :columns="sortable.cols"
+        ></sortable>
+      </div>
+    </div>
+    <div class="p-4 shadow-md">
+
+      <h2 class="text-xl font-bold mb-4">Autocomplete</h2>
+      <p class="my-2">This autocomplete searches a readily available list of items.</p>
+      <autocomplete
+          :search="findItem"
+          v-model="autocomplete.selected"
+          placeholder="pick a country"
+          @submit=""
+          class="w-full"
+          result-item-class="py-2 px-4 cursor-pointer hover:bg-gray-200"
+          result-list-class="shadow-md bg-white max-h-96 overflow-auto"
+      >
+      </autocomplete>
+      <p class="my-2">This autocomplete searches a promised list of items and will display a spinner.</p>
+      <autocomplete
+          :search="findItemDelayed"
+          v-model="autocomplete2.selected"
+          placeholder="pick a country"
+          @submit=""
+          class="w-full"
+          result-item-class="py-2 px-4 cursor-pointer hover:bg-gray-200"
+          result-list-class="shadow-md bg-white max-h-96 overflow-auto"
+      >
+      </autocomplete>
     </div>
 
-    <div class="my-4 items-center">
-      <label for="date-input" class="inline-block w-1/3">date-input</label>
-      <date-input placeholder="yyyy-mm-dd" class="w-2/3" id="date-input" v-model="formData.dateInput" :show-button="false"/>
-      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.dateInput">{{ formData.dateInput }}</span>
+    <div class="p-4 shadow-md">
+      <h2 class="text-xl font-bold mb-4">Toasts, Alerts &amp; Confirms</h2>
+      <div class="flex space-x-1">
+        <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="toast.active = true">Toast me!</button>
+        <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="alertMe">Alert me!</button>
+        <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="letsConfirm">Let me decide!</button>
+      </div>
     </div>
 
-    <div class="my-4 items-center">
-      <label for="date-picker" class="inline-block w-1/3">date-picker</label>
-      <date-picker
-          placeholder="mm/dd/yyyy"
-          class="w-2/3 inline-block"
-          id="date-picker"
-          v-model="formData.datePicker"
-          input-format="m/d/y"
-          output-format="d mmm y"
-      />
-      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.datePicker">{{ formData.datePicker }}</span>
+    <div class="p-4 shadow-md">
+      <h2 class="text-xl font-bold mb-4">Pagination</h2>
+
+      <table>
+        <tr v-for="item in paginatedItems">
+          <td>{{ item }}</td>
+        </tr>
+      </table>
+
+      <div class="border-t border-gray-200">
+        <pagination
+            v-model:page="pagination.currentPage"
+            :items="items"
+            :per-page="10"
+            prev-text="prev"
+            next-text="next"
+        />
+      </div>
     </div>
 
-    <div class="my-4 items-center">
-      <label for="date-picker-2" class="inline-block w-1/3">date-picker (de)</label>
-      <date-picker
-          placeholder="dd.mm.yyyy"
-          class="w-2/3 inline-block"
-          id="date-picker-2"
-          v-model="formData.datePicker2"
-          :day-names="'So Mo Di Mi Do Fr Sa'.split(' ')"
-          :start-of-week-index="1"
-          :month-names="'Jänner,Februar,März,April,Mai,Juni,Juli,August,September,Oktober,November,Dezember'.split(',')"
-          input-format="d.m.y"
-          output-format="d mmm y"
-      />
-      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.datePicker2">{{ formData.datePicker2 }}</span>
-    </div>
-
-    <div class="my-4 flex items-center">
-      <label for="form-file-button" class="inline-block w-1/3">form-file-button</label>
-      <form-file-button id="form-file-button" v-model="formData.formFileButton" multiple="multiple" role="button" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600">Upload</form-file-button>
-      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formFileButton" v-for="file in formData.formFileButton">{{ file.name }}</span>
-    </div>
-
-    <div class="my-4 flex items-center">
-      <label for="form-switch" class="inline-block w-1/3">form-switch</label>
-      <form-switch id="form-switch" v-model="formData.formSwitch"><span class="pl-2">A simple toggle</span></form-switch>
-      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formSwitch"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-  </svg></span>
-    </div>
-
-    <div class="my-4 flex items-center">
-      <span class="inline-block w-1/3">form-radio-group</span>
-      <form-radio-group v-model="formData.formRadioGroup" :options="['foo', 'bar', 'baz']" class="inline-block mr-4" name="radios">
-        <template v-slot="slotData">
-          <p class="pl-1 text-sm">{{ slotData.option.label || slotData.option }}</p>
+    <div class="p-4 shadow-md lg:col-span-2">
+      <h2 class="text-xl font-bold mb-4">Tabs</h2>
+      <tabs :items="tabs.items" v-model:active-index="tabs.activeIndex">
+        <template v-slot:icon="slotProps">
+          <span class="-ml-0.5 mr-2 h-5 w-5" v-if="slotProps.tab.icon === 'profile'">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
+          </span>
+          <span class="-ml-0.5 mr-2 h-5 w-5 -mt-1" v-if="slotProps.tab.icon === 'confidential'">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" /></svg>
+          </span>
         </template>
-      </form-radio-group>
-      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formRadioGroup">{{ formData.formRadioGroup }}</span>
+      </tabs>
     </div>
-
-    <div class="my-4 flex items-center">
-      <span class="inline-block w-1/3">form-checkbox-group</span>
-      <form-checkbox-group v-model="formData.formCheckboxGroup" :options="['foo', 'bar', 'baz']" class="inline-block mr-4" name="checkboxes">
-        <template v-slot="slotData">
-          <p class="pl-1 text-sm">{{ slotData.option.label || slotData.option }}</p>
-        </template>
-      </form-checkbox-group>
-      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 ml-2" v-if="formData.formCheckboxGroup" v-for="item in formData.formCheckboxGroup">{{ item }}</span>
-    </div>
-  </div>
-
-  <div class="p-4 shadow-md">
-
-    <h2 class="text-xl font-bold mb-4">Sortable</h2>
-
-    <div class="shadow overflow-hidden border-b border-gray-200 rounded-lg">
-      <sortable
-          :rows="sortable.rows"
-          :columns="sortable.cols"
-      ></sortable>
-    </div>
-  </div>
-  <div class="p-4 shadow-md">
-
-    <h2 class="text-xl font-bold mb-4">Autocomplete</h2>
-    <p class="my-2">This autocomplete searches a readily available list of items.</p>
-    <autocomplete
-        :search="findItem"
-        v-model="autocomplete.selected"
-        placeholder="pick a country"
-        @submit=""
-        class="w-full"
-        result-item-class="py-2 px-4 cursor-pointer hover:bg-gray-200"
-        result-list-class="shadow-md bg-white max-h-96 overflow-auto"
-    >
-    </autocomplete>
-    <p class="my-2">This autocomplete searches a promised list of items and will display a spinner.</p>
-    <autocomplete
-        :search="findItemDelayed"
-        v-model="autocomplete2.selected"
-        placeholder="pick a country"
-        @submit=""
-        class="w-full"
-        result-item-class="py-2 px-4 cursor-pointer hover:bg-gray-200"
-        result-list-class="shadow-md bg-white max-h-96 overflow-auto"
-    >
-    </autocomplete>
-  </div>
-
-  <div class="p-4 shadow-md">
-    <h2 class="text-xl font-bold mb-4">Toasts, Alerts &amp; Confirms</h2>
-    <div class="flex space-x-1">
-      <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="toast.active = true">Toast me!</button>
-      <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="alertMe">Alert me!</button>
-      <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="letsConfirm">Let me decide!</button>
-    </div>
-  </div>
-
-  <div class="p-4 shadow-md">
-    <h2 class="text-xl font-bold mb-4">Pagination</h2>
-
-    <table>
-      <tr v-for="item in paginatedItems">
-        <td>{{ item }}</td>
-      </tr>
-    </table>
-
-    <div class="border-t border-gray-200">
-      <pagination
-          v-model:page="pagination.currentPage"
-          :items="items"
-          :per-page="10"
-          prev-text="prev"
-          next-text="next"
-      />
-    </div>
-  </div>
-
-  <div class="p-4 shadow-md lg:col-span-2">
-    <h2 class="text-xl font-bold mb-4">Tabs</h2>
-    <tabs :items="tabs.items" v-model:active-index="tabs.activeIndex">
-      <template v-slot:icon="slotProps">
-        <span class="-ml-0.5 mr-2 h-5 w-5" v-if="slotProps.tab.icon === 'profile'">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
-        </span>
-        <span class="-ml-0.5 mr-2 h-5 w-5 -mt-1" v-if="slotProps.tab.icon === 'confidential'">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" /></svg>
-        </span>
-      </template>
-    </tabs>
   </div>
 
   <message-toast v-bind="toast" @timeout="toast.active = false" @close="toast.active = false" class="!bg-green-700 text-white">
@@ -281,4 +294,36 @@
       <strong class="text-gray-700">{{ slotProps.message }}</strong>
     </template>
   </alert>
+
+  <transition name="display-formdata">
+      <div class="absolute bottom-0 bg-gray-900 text-white h-64 md:h-24 flex py-1 items-center justify-center w-full flex-wrap" v-if="formDataLog">
+      <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 mx-2 mb-1 truncate max-w-xs" v-for="(v, k) in formDataLog"><strong class="pr-2">{{ k }}</strong>
+        <template v-if="typeof v === 'boolean' && v">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+        </template>
+        <template v-if="typeof v === 'boolean' && !v">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </template>
+        <template v-if="typeof v !== 'boolean'">
+        {{ v }}
+        </template>
+      </span>
+    </div>
+  </transition>
+
 </template>
+
+<style>
+  .display-formdata-enter-to,
+  .display-formdata-leave-from {
+    @apply opacity-100 transform-gpu translate-y-0;
+  }
+  .display-formdata-enter-from,
+  .display-formdata-leave-to {
+    @apply opacity-0 translate-y-full;
+  }
+  .display-formdata-enter-active,
+  .display-formdata-leave-active {
+    @apply transition-all duration-300;
+  }
+</style>
