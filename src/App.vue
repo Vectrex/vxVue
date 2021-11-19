@@ -78,17 +78,18 @@
         handler (newValue) {
           this.formDataLog = Object.fromEntries(Object.entries(newValue).filter( ([k, v]) => v !== null && v !== undefined && v !== ''));
 
+          let names = [];
+          if (newValue.files && newValue.files.length) {
+            newValue.files.forEach(item => names.push(item.name));
+          }
+          this.formDataLog.files = names.join(', ');
+
           if (this.logTimeout) {
             window.clearTimeout(this.logTimeout);
           }
           this.logTimeout = window.setTimeout(() => { this.formDataLog = null; this.logTimeout = null }, 3000);
         },
         deep: true
-      },
-      files (newValue) {
-        let names = [];
-        newValue.forEach(item => names.push(item.name));
-        this.formData.files = names.join(', ');
       }
     },
     methods: {
@@ -162,7 +163,7 @@
 
       <div class="my-4 flex items-center">
         <label for="form-file-button" class="inline-block w-1/3">form-file-button</label>
-        <form-file-button id="form-file-button" v-model="files" multiple="multiple" role="button" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600">Upload</form-file-button>
+        <form-file-button id="form-file-button" v-model="formData.files" multiple="multiple" role="button" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600">Upload</form-file-button>
       </div>
 
       <div class="my-4 flex items-center">
