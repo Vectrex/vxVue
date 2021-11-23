@@ -1,12 +1,12 @@
 <template>
-  <li :class="{ 'terminates': !branch.branches || !branch.branches.length }">
+  <li class="flex flex-col relative space-y-3" :class="{ 'terminates': !branch.branches || !branch.branches.length }">
     <template v-if="branch.branches && branch.branches.length">
       <input type="checkbox" :id="'branch-' + branch.id" @click="expanded = !expanded" :checked="expanded">
       <label :for="'branch-' + branch.id"/>
     </template>
     <strong v-if="branch.current">{{ branch.label }}</strong>
     <a :href="branch.path" @click.prevent="$emit('branch-selected', branch)" v-else>{{ branch.label }}</a>
-    <ul v-if="branch.branches && branch.branches.length" v-show="expanded">
+    <ul v-if="branch.branches && branch.branches.length" v-show="expanded" class="flex space-x-3">
       <simple-tree-branch v-for="child in branch.branches" :branch="child" :key="child.id" @branch-selected="$emit('branch-selected', $event)" />
     </ul>
   </li>
