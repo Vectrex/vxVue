@@ -46,7 +46,7 @@
         },
         pagination: {
           currentPage: 1,
-          entriesPerPage: 10
+          entriesPerPage: 10,
         },
         toast: {
           message: ["There might be a meaningful message.", "Someday. Who knows?"],
@@ -249,7 +249,7 @@
       <div class="border-t border-gray-200">
         <pagination
             v-model:page="pagination.currentPage"
-            :items="items"
+            :total="items.length"
             :per-page="10"
             prev-text="prev"
             next-text="next"
@@ -297,7 +297,7 @@
   </alert>
 
   <transition name="display-formdata">
-      <div class="absolute bottom-0 bg-gray-800 bg-opacity-75 text-white flex py-4 items-center justify-center w-full flex-wrap" v-if="formDataLog">
+    <div class="absolute bottom-0 bg-gray-800 bg-opacity-75 text-white flex py-4 items-center justify-center w-full flex-wrap" v-if="formDataLog">
       <span class="rounded-r-full rounded-l-full bg-yellow-300 text-yellow-900 py-1 px-2 mx-2 mb-1 truncate max-w-xs" v-for="(v, k) in formDataLog"><strong class="pr-2">{{ k }}</strong>
         <template v-if="typeof v === 'boolean' && v">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>

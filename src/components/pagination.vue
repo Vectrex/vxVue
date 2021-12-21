@@ -51,120 +51,50 @@
 
 export default {
   name: 'pagination',
-  emits: ['update:page', 'update:total'],
+  emits: ['update:page'],
   props: {
-    items: Array,
-    total: { type: Number, default: 1 },
     page: { type: Number, default: 1 },
-    perPage: { type: Number, default: 20 },
+    total: { type: Number, default: 1 },
+    perPage: { type: Number, default: 20, validator(v) { return v >= 1 } },
     showNavButtons: { type: Boolean, default: true },
     prevText: { type: String, default: 'Previous' },
     nextText: { type: String, default: 'Next' },
-    showAllPages: { type: Boolean, default: false },
-    onPageChange: Function
+    showAllPages: { type: Boolean, default: false }
   },
   data () {
     return {
       currentPage: 1,
-      maxPage: 0,
-      showPerPage: 20,
+      maxPage: 0
     };
   },
   created () {
-    this.currentPage = this.page;
-    this.totalResults = this.total;
-    this.showPerPage = this.perPage;
-
-    if (typeof this.items !== 'undefined') {
-      this.dataItems = this.items;
-      this.totalResults = this.items.length;
-    }
-
     this.countMaxPage();
-
-    if (typeof this.onPageChange === 'function') {
-      this.onPageChange.apply(null, [this.currentPage, this.dataResults, this.maxPage]);
-    }
+    this.currentPage = Math.min(Math.max(this.page, 1), this.maxPage);
   },
-  methods: {
-    pageClick(page) {
-      this.currentPage = page;
-      this.$emit('update:page', page);
 
-      if (typeof this.onPageChange === 'function') {
-        this.onPageChange.apply(null, [page, this.dataResults, this.maxPage]);
-      }
-    },
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.pageClick(this.currentPage - 1);
-      }
-    },
-    nextPage() {
-      if (this.currentPage < this.maxPage) {
-        this.pageClick(this.currentPage + 1);
-      }
-    },
-    countMaxPage() {
-      this.maxPage = Math.ceil(this.totalResults / this.showPerPage);
-    }
-  },
   watch: {
-    page(val) {
-      if (val < 1) {
-        val = 1;
-      } else if (val > this.maxPage) {
-        val = this.maxPage;
-      }
-      
-      this.currentPage = val;
 
-      if (typeof this.onPageChange === 'function') {
-        this.onPageChange.apply(null, [this.currentPage, this.dataResults, this.maxPage]);
-      }
+    page (val) {
+      this.currentPage = Math.min(Math.max(val, 1), this.maxPage);
     },
-    total(val) {
-      if (val < 0) {
-        val = 0;
-      }
 
-      this.totalResults = val;
-
-      this.countMaxPage();
-      // if total number of items has changed, go to page 1
-      this.pageClick(1);
-    },
-    perPage(val) {
-      if (val < 1) {
-        val = 20;
-      }
-      this.showPerPage = val;
-      
+    perPage () {
       this.countMaxPage();
       this.pageClick(1);
     },
-    items(val) {
-      this.dataItems = val;
 
-      this.totalResults = this.dataItems.length;
-      this.$emit('update:total', this.totalResults);
-
+    total () {
       this.countMaxPage();
-      this.pageClick(1);
+
+      // if current page is out of range set current page to first page
+
+      if(this.currentPage > this.maxPage) {
+        this.pageClick(1);
+      }
     }
   },
   computed: {
-    dataResults() {
-      if (typeof this.dataItems !== 'undefined' && this.dataItems.length > 0) {
-        let start = (this.currentPage - 1) * this.showPerPage;
-        let end = this.currentPage * this.showPerPage;
-
-        return this.dataItems.slice(start, end);
-      }
-
-      return null;
-    },
-    pagesToShow() {
+    pagesToShow () {
       let pages = [1];
 
       if (this.showAllPages === true || this.maxPage <= 7) {
@@ -205,9 +135,29 @@ export default {
 
       if (this.currentPage < this.maxPage) {
         pages.push(this.maxPage);
-      } 
+      }
 
       return pages;
+    }
+  },
+
+  methods: {
+    pageClick(page) {
+      this.currentPage = page;
+      this.$emit('update:page', page);
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.pageClick(this.currentPage - 1);
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.maxPage) {
+        this.pageClick(this.currentPage + 1);
+      }
+    },
+    countMaxPage() {
+      this.maxPage = Math.ceil(this.total / this.perPage);
     }
   }
 };
