@@ -13,6 +13,7 @@
   import MessageToast from './components/message-toast.vue';
   import Pagination from './components/pagination.vue';
   import Tabs from './components/tabs.vue';
+  import SimpleTree from "./components/simple-tree/simple-tree.vue";
 </script>
 
 <script>
@@ -64,6 +65,58 @@
           ],
           activeIndex: 0
         },
+        tree: {
+          "id": 1,
+          "label": "files",
+          "branches": [
+            {
+              "id": 325,
+              "label": "articles",
+              "branches": [
+                {
+                  "id": 332,
+                  "label": "projects",
+                  "branches": [],
+                  "current": false,
+                  "path": "files/articles/projects/"
+                },
+                {
+                  "id": 333,
+                  "label": "references",
+                  "branches": [
+                    {
+                      "id": 330,
+                      "label": "www",
+                      "branches": [],
+                      "current": false,
+                      "path": "files/articles/references/www/"
+                    }
+                  ],
+                  "current": false,
+                  "path": "files/articles/references/"
+                }
+              ],
+              "current": false,
+              "path": "files/articles/"
+            },
+            {
+              "id": 328,
+              "label": "media",
+              "branches": [],
+              "current": false,
+              "path": "files/media/"
+            },
+            {
+              "id": 329,
+              "label": "misc",
+              "branches": [],
+              "current": false,
+              "path": "files/misc/"
+            }
+          ],
+          "current": true,
+          "path": "files/"
+        },
         formDataLog: null,
         logTimeout: null
       }
@@ -107,6 +160,9 @@
       async letsConfirm () {
         this.alert.buttons = [{ label: 'Go for it!', value: 'ok', 'class': '!bg-green-600 !hover:bg-green-500 focus:!ring-green-500' }, { label: 'Shut it down! Now!', value: 'cancel' }];
         console.log(await this.$refs.alert.open('General Brewster', "Shall we turn on Skynet now?"));
+      },
+      branchSelected (item) {
+        this.formData.tree = item.path;
       }
     }
   }
@@ -240,11 +296,9 @@
     <div class="p-4 shadow-md">
       <h2 class="text-xl font-bold mb-4">Pagination</h2>
 
-      <table>
-        <tr v-for="item in paginatedItems">
-          <td>{{ item }}</td>
-        </tr>
-      </table>
+      <ul>
+        <li v-for="item in paginatedItems">{{ item }}</li>
+      </ul>
 
       <div class="border-t border-gray-200">
         <pagination
@@ -256,6 +310,12 @@
         />
       </div>
     </div>
+
+    <div class="p-4 shadow-md">
+      <h2 class="text-xl font-bold mb-4">Simple Tree</h2>
+      <simple-tree :branch="tree" @branch-selected="branchSelected"></simple-tree>
+    </div>
+
 
     <div class="p-4 shadow-md lg:col-span-2">
       <h2 class="text-xl font-bold mb-4">Tabs</h2>
