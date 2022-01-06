@@ -3,8 +3,6 @@
   import FormSelect from './components/formelements/form-select.vue';
   import FormSwitch from './components/formelements/form-switch.vue';
   import FormFileButton from './components/formelements/form-file-button.vue';
-  import FormRadioGroup from './components/formelements/form-radio-group.vue';
-  import FormCheckboxGroup from './components/formelements/form-checkbox-group.vue';
   import DateInput from './components/formelements/date-input.vue';
   import DatePicker from './components/formelements/datepicker.vue';
   import Sortable from './components/sortable.vue';
@@ -13,7 +11,8 @@
   import MessageToast from './components/message-toast.vue';
   import Pagination from './components/pagination.vue';
   import Tabs from './components/tabs.vue';
-  import SimpleTree from "./components/simple-tree/simple-tree.vue";
+  import SimpleTree from "./components/simple-tree.vue";
+  import CookieConsent from "./components/cookie-consent.vue";
 </script>
 
 <script>
@@ -117,6 +116,24 @@
           "current": true,
           "path": "files/"
         },
+        cookieConsent: {
+          options: [
+            {
+              selected: true,
+              disabled: true,
+              label: 'required',
+              key: 1
+            },
+            {
+              label: 'Personalization. Makes your visit even more pleasant.',
+              key: 2
+            },
+            {
+              label: 'Marketing. This will make us some money by selling your data to the highest bidder.',
+              key: 4
+            },
+          ]
+        },
         formDataLog: null,
         logTimeout: null
       }
@@ -163,13 +180,16 @@
       },
       branchSelected (item) {
         this.formData.tree = item.path;
+      },
+      acceptCookie (data) {
+        console.log(data);
       }
     }
   }
 </script>
 
 <template>
-  <div id="app" class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4 max-w-screen-2xl mx-auto pt-28 md:pt-32">
+  <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4 max-w-screen-2xl mx-auto pt-28 md:pt-32">
 
     <div class="p-4 shadow-md">
 
@@ -225,24 +245,6 @@
       <div class="my-4 flex items-center">
         <label for="form-switch" class="inline-block w-1/3">form-switch</label>
         <form-switch id="form-switch" v-model="formData.formSwitch"><span class="pl-2">A simple toggle</span></form-switch>
-      </div>
-
-      <div class="my-4 flex items-center">
-        <span class="inline-block w-1/3">form-radio-group</span>
-        <form-radio-group v-model="formData.formRadioGroup" :options="['foo', 'bar', 'baz']" class="inline-block mr-4" name="radios">
-          <template v-slot="slotData">
-            <p class="pl-1 text-sm">{{ slotData.option.label || slotData.option }}</p>
-          </template>
-        </form-radio-group>
-      </div>
-
-      <div class="my-4 flex items-center">
-        <span class="inline-block w-1/3">form-checkbox-group</span>
-        <form-checkbox-group v-model="formData.formCheckboxGroup" :options="['foo', 'bar', 'baz']" class="inline-block mr-4" name="checkboxes">
-          <template v-slot="slotData">
-            <p class="pl-1 text-sm">{{ slotData.option.label || slotData.option }}</p>
-          </template>
-        </form-checkbox-group>
       </div>
     </div>
 
@@ -355,6 +357,30 @@
       <strong class="text-gray-700">{{ slotProps.message }}</strong>
     </template>
   </alert>
+
+  <cookie-consent
+      :options="cookieConsent.options"
+      :cookie-options="{expires: new Date()}"
+      @accept="acceptCookie"
+      class="rounded max-w-md"
+  >
+    <template v-slot:message>
+      <div class="space-y-4">
+        <h2 class="text-xl font-bold">Attention Please!</h2>
+        <p>Some explanation how we exploit your data.<br>
+        And you better check all the boxes.</p>
+        <p>This is an extra simple cookie consent dialog which avoids any <em>dark patterns</em>.</p>
+        <p>The checkbox values are combined by a binary or into a single value.</p>
+        <p>For testing purposes the cookie set expires immediately.</p>
+      </div>
+    </template>
+    <template v-slot:option="option">
+      <template v-if="option.option.label === 'required'">Required. Most likely only a session cookie.</template>
+      <template v-else>
+        {{ option.option.label }}
+      </template>
+    </template>
+  </cookie-consent>
 
   <transition name="display-formdata">
     <div class="fixed bottom-0 bg-gray-800 bg-opacity-75 text-white flex py-4 items-center justify-center w-full flex-wrap" v-if="formDataLog">

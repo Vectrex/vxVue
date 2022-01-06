@@ -1,6 +1,6 @@
 <template>
   <transition name="overlay-fade">
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-50" aria-hidden="true" v-if="show"></div>
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-50 backdrop-blur-sm" aria-hidden="true" v-if="show"></div>
   </transition>
   <transition name="modal-appear">
     <div class="fixed z-50 inset-0 overflow-y-auto" v-if="show">
