@@ -9,6 +9,7 @@ import MessageToast from './src/components/message-toast';
 import Pagination from './src/components/pagination';
 import Sortable from  './src/components/sortable';
 import SimpleTree from "./src/components/simple-tree";
+import CookieConsent from "./src/components/cookie-consent";
 
 const Components = {
     DateInput,
@@ -21,7 +22,8 @@ const Components = {
     MessageToast,
     Pagination,
     Sortable,
-    SimpleTree
+    SimpleTree,
+    CookieConsent
 }
 
 export default Components;

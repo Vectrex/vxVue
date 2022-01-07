@@ -122,15 +122,15 @@
               selected: true,
               disabled: true,
               label: 'required',
-              key: 1
+              key: 'session'
             },
             {
               label: 'Personalization. Makes your visit even more pleasant.',
-              key: 2
+              key: 'personalization'
             },
             {
               label: 'Marketing. This will make us some money by selling your data to the highest bidder.',
-              key: 4
+              key: 'marketing'
             },
           ]
         },
@@ -360,18 +360,16 @@
 
   <cookie-consent
       :options="cookieConsent.options"
-      :cookie-options="{expires: new Date()}"
+      :cookie-options="{expires: 1}"
       @accept="acceptCookie"
       class="rounded max-w-md"
   >
     <template v-slot:message>
       <div class="space-y-4">
-        <h2 class="text-xl font-bold">Attention Please!</h2>
-        <p>Some explanation how we exploit your data.<br>
-        And you better check all the boxes.</p>
+        <h2 class="text-xl font-bold">Notice</h2>
         <p>This is an extra simple cookie consent dialog which avoids any <em>dark patterns</em>.</p>
-        <p>The checkbox values are combined by a binary or into a single value.</p>
-        <p>For testing purposes the cookie set expires immediately.</p>
+        <p>Your checkbox choices are stored in a cookie which expires after a day.</p>
+        <p>Your selected options are ignored.</p>
       </div>
     </template>
     <template v-slot:option="option">

@@ -83,8 +83,8 @@ export default {
     },
 
     flags () {
-      let flags = 0;
-      this.checked.forEach(val => flags = flags | val);
+      let flags = {};
+      this.options.forEach(option => flags[option.key] = this.checked.indexOf(option.key) !== -1);
       return flags;
     }
   },
@@ -99,17 +99,31 @@ export default {
     this.options.forEach(item => { if(item.selected) { this.checked.push(item.key) }});
   },
   mounted() {
-    const flags = Cookie.get(this.storageName);
+    let flags = Cookie.get(this.storageName), details = null;
+
     if (flags !== null) {
-      this.$emit('accept', parseInt(flags, 10));
+      try {
+        details = JSON.parse(flags);
+      }
+      catch(e) {}
+
+      if (details) {
+        // check whether keys have changed
+        let optionKeys = this.options.map(item => item['key']);
+
+        if(!Object.keys(details).filter(key => !optionKeys.includes(key)).length) {
+          this.$emit('accept', details);
+          return;
+        }
+      }
     }
-    else {
-      this.isOpen = true;
-    }
+    Cookie.remove(this.storageName);
+    this.isOpen = true;
+
   },
   methods: {
     accept() {
-      Cookie.set(this.storageName, this.flags, { expires: '1Y', ...this.cookieOptions })
+      Cookie.set(this.storageName, JSON.stringify(this.flags), { expires: '1Y', ...this.cookieOptions })
       this.isOpen = false;
       this.$emit('accept', this.flags);
     }

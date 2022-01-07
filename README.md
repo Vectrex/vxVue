@@ -43,3 +43,4 @@ So far the following components have been implemented:
 | `pagination`                                            | A pagination component for arbitrary items; opinionated in its layout
 | `tabs`                                                  | A tabs component which allows both badges and icons
 | `simple-tree`                                           | A simple tree component which expects a tree as nested objects in a branch property
+| `cookie-consent`                                        | A simple cookie consent dialog which avoids any dark patterns
