@@ -1,9 +1,9 @@
 <template>
 
-  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-50 backdrop-blur-sm" aria-hidden="true" v-if="isOpen && transitionName === 'fade'"></div>
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-50 backdrop-blur-sm" aria-hidden="true" v-if="isOpen && position === 'center'"></div>
 
   <transition :name="transitionName">
-    <div v-if="isOpen" :class="containerPosition">
+    <div v-if="isOpen" :class="position">
         <div :class="[$attrs['class'], 'space-y-4']">
           <div>
             <slot name="message">{{ message }}</slot>
@@ -56,13 +56,8 @@ export default {
     },
     position: {
       type: String,
-      default: 'bottom',
-      validator: value => ['top', 'left', 'right', 'bottom'].indexOf(value) !== -1
-    },
-    transition: {
-      type: String,
-      default: 'fade',
-      validator: value => ['fade', 'slide'].indexOf(value) !== -1
+      default: 'center',
+      validator: value => ['top', 'left', 'right', 'bottom', 'center'].indexOf(value) !== -1
     },
     storageName: {
       type: String,
@@ -83,18 +78,8 @@ export default {
   },
 
   computed: {
-    containerPosition () {
-
-      // centering when transition is set to fade
-
-      if (this.transitionName === 'fade') {
-        return 'center';
-      }
-      return this.position;
-    },
-
     transitionName () {
-      return this.transition === 'fade' ? 'fade' : ('slide-from-' + this.position);
+      return this.position === 'center' ? 'fade' : ('slide-' + this.position);
     },
 
     flags () {
@@ -143,10 +128,24 @@ export default {
 .fade-leave-active {
   @apply transition-opacity;
 }
+.slide-bottom-enter-to, .slide-bottom-leave-from {
+  @apply opacity-100 transform-gpu translate-y-0;
+}
+.slide-bottom-enter-from, .slide-bottom-leave-to {
+  @apply opacity-0 translate-y-full;
+}
+.slide-bottom-enter-active, .slide-bottom-leave-active {
+  @apply transition-all duration-300;
+}
+
 .center {
   @apply fixed inset-0 z-[100] flex justify-center items-center;
 }
 .center > div {
   @apply bg-white p-8;
+}
+
+.bottom {
+  @apply fixed bottom-0 bg-white flex py-4 items-center justify-center w-full
 }
 </style>
