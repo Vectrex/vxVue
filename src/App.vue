@@ -13,6 +13,7 @@
   import Tabs from './components/tabs.vue';
   import SimpleTree from "./components/simple-tree.vue";
   import CookieConsent from "./components/cookie-consent.vue";
+  import * as Cookie from './util/cookie';
 </script>
 
 <script>
@@ -131,8 +132,9 @@
             {
               label: 'Marketing. This will make us some money by selling your data to the highest bidder.',
               key: 'marketing'
-            },
-          ]
+            }
+          ],
+          hasCookie: false
         },
         formDataLog: null,
         logTimeout: null
@@ -141,7 +143,7 @@
     computed: {
       paginatedItems() {
         return this.items.slice((this.pagination.currentPage - 1) * this.pagination.entriesPerPage, this.pagination.currentPage * this.pagination.entriesPerPage);
-      }
+      },
     },
     watch: {
       formData: {
@@ -182,7 +184,11 @@
         this.formData.tree = item.path;
       },
       acceptCookie (data) {
-        console.log(data);
+        this.cookieConsent.hasCookie = true;
+      },
+      triggerConsent () {
+        Cookie.remove('cookies:consented');
+        this.$refs['cookie-consent'].isOpen = true;
       }
     }
   }
@@ -292,6 +298,7 @@
         <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="toast.active = true">Toast me!</button>
         <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="alertMe">Alert me!</button>
         <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="letsConfirm">Let me decide!</button>
+        <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-amber-700 hover:bg-amber-900" @click="triggerConsent" v-if="cookieConsent.hasCookie">Revoke cookie consent</button>
       </div>
     </div>
 
@@ -360,9 +367,10 @@
 
   <cookie-consent
       :options="cookieConsent.options"
-      :cookie-options="{expires: 1}"
+      :cookie-options="{expires: 1, SameSite: 'Strict'}"
       @accept="acceptCookie"
-      class="rounded max-w-md"
+      class="rounded mx-2 md:max-w-md bg-amber-100"
+      ref="cookie-consent"
   >
     <template v-slot:message>
       <div class="space-y-4">

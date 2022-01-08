@@ -86,7 +86,7 @@ function getAll () {
 }
 
 function remove (key, options = {}) {
-    return set (key, 'x',{ ...options, ...{ expires: -1 }});
+    return set (key, '',{ ...options, ...{ expires: -1 }});
 }
 
 function setRaw (key, val, options) {

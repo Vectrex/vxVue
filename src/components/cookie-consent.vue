@@ -3,8 +3,8 @@
   <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-50 backdrop-blur-sm" aria-hidden="true" v-if="isOpen && position === 'center'"></div>
 
   <transition :name="transitionName">
-    <div v-if="isOpen" :class="position">
-        <div :class="[$attrs['class'], 'space-y-4']">
+    <div v-if="isOpen" :class="[position, position !== 'center' ? $attrs['class'] : '']">
+        <div :class="[position === 'center' ? $attrs['class'] : '', 'space-y-4']">
           <div>
             <slot name="message">{{ message }}</slot>
           </div>
@@ -35,6 +35,7 @@
 import * as Cookie from '../util/cookie';
 
 export default {
+  inheritAttrs: false,
   name: 'cookie-consent',
   emits: ['accept'],
   props: {
@@ -117,7 +118,7 @@ export default {
         }
       }
     }
-    Cookie.remove(this.storageName);
+    Cookie.remove(this.storageName, this.cookieOptions);
     this.isOpen = true;
 
   },
@@ -156,10 +157,10 @@ export default {
   @apply fixed inset-0 z-[100] flex justify-center items-center;
 }
 .center > div {
-  @apply bg-white p-8;
+  @apply p-8;
 }
 
 .bottom {
-  @apply fixed bottom-0 bg-white flex py-4 items-center justify-center w-full
+  @apply fixed bottom-0 flex py-4 items-center justify-center w-full;
 }
 </style>
