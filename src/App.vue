@@ -174,11 +174,11 @@
       },
       async alertMe () {
         this.alert.buttons = { label: 'Call John!', value: 'ok' };
-        await this.$refs.alert.open('Skynet...', "...begins to learn at a geometric rate.");
+        await this.$refs.vxAlert.open('Skynet...', "...begins to learn at a geometric rate.");
       },
       async letsConfirm () {
         this.alert.buttons = [{ label: 'Go for it!', value: 'ok', 'class': '!bg-green-600 !hover:bg-green-500 focus:!ring-green-500' }, { label: 'Shut it down! Now!', value: 'cancel' }];
-        console.log(await this.$refs.alert.open('General Brewster', "Shall we turn on Skynet now?"));
+        console.log(await this.$refs.vxAlert.open('General Brewster', "Shall we turn on Skynet now?"));
       },
       branchSelected (item) {
         this.formData.tree = item.path;
@@ -188,7 +188,7 @@
       },
       triggerConsent () {
         Cookie.remove('cookies:consented');
-        this.$refs['cookie-consent'].isOpen = true;
+        this.$refs.vxCookieConsent.isOpen = true;
       }
     }
   }
@@ -352,7 +352,7 @@
     </template>
   </message-toast>
 
-  <alert ref="alert" :buttons="alert.buttons">
+  <alert ref="vxAlert" :buttons="alert.buttons">
     <template v-slot:icon>
       <div class="text-gray-500">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
@@ -370,7 +370,7 @@
       :cookie-options="{expires: 1, SameSite: 'Strict'}"
       @accept="acceptCookie"
       class="rounded mx-2 md:max-w-md bg-amber-100"
-      ref="cookie-consent"
+      ref="vxCookieConsent"
   >
     <template v-slot:message>
       <div class="space-y-4">
