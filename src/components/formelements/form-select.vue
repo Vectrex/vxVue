@@ -3,12 +3,12 @@
         v-bind="$attrs"
         :value="modelValue"
         class="form-select focus:border-vxvue"
-        @change="$emit('update:modelValue', $event.target.value)"
+        @change="emit($event.target.selectedIndex)"
     >
       <option
           v-for="option in options"
           :value="option.key !== undefined ? option.key : (option.label || option)"
-          :selected="(option.key !== undefined ? option.key : (option.label || option)) == modelValue"
+          :selected="(option.key !== undefined ? option.key : (option.label || option)) === modelValue"
       >{{ option.label || option }}
       </option>
     </select>
@@ -18,6 +18,11 @@
     export default {
       name: 'form-select',
       props: { options: Array, modelValue: [String, Number] },
-      emits: ['update:modelValue']
+      emits: ['update:modelValue'],
+      methods: {
+        emit (ndx) {
+          this.$emit('update:modelValue', this.options[ndx].key !== undefined ? this.options[ndx].key : (this.options[ndx].label || this.options[ndx]));
+        }
+      }
     }
 </script>

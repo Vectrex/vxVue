@@ -1,6 +1,6 @@
 {
   "name": "vx-vue",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "A collection of Vue3 UI components which use Tailwind CSS for their styling",
   "keywords": [
     "vue",
@@ -9,6 +9,12 @@
     "vue-component",
     "ui-component",
     "tailwind css"
+  ],
+  "files": [
+    "dist/*",
+    "src/*",
+    "*.js",
+    "*.json"
   ],
   "homepage": "",
   "license": "MIT",
@@ -29,14 +35,14 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.0.1",
-    "autoprefixer": "^10.3.7",
-    "postcss": "^8.3.9",
-    "tailwindcss": "^3.0.7",
-    "vite": "^2.6.4",
-    "@tailwindcss/forms": "^0.4.0",
-    "vue": "^3.2.16",
-    "@vue/cli-service": "^5.0.0-rc.0",
-    "@vue/compiler-sfc": "^3.2.21"
+    "@vitejs/plugin-vue": "^2.3.3",
+    "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.0.24",
+    "vite": "^2.9.9",
+    "@tailwindcss/forms": "^0.5.2",
+    "vue": "^3.2.34",
+    "@vue/cli-service": "^5.0.4",
+    "@vue/compiler-sfc": "^3.2.34"
   }
 }
