@@ -5,8 +5,8 @@
         @click.prevent="prevPage"
         v-if="showNavButtons"
         href="#"
-        class="border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
-        :class="{'cursor-default pointer-events-none': currentPage <=1 }"
+        class="border-transparent pr-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
+        :class="[{'cursor-default pointer-events-none': currentPage <=1 }, markerPositionClass]"
       >
         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -21,12 +21,12 @@
         @click.prevent="page !== 'dots' ? pageClick(page) : null"
         :key="idx"
         :href="page !== 'dots' ? '#' : null"
-        class="border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium"
-        :class="{
+        class="px-4 inline-flex items-center text-sm font-medium"
+        :class="[{
           'border-vxvue-500 text-vxvue-700': page === currentPage,
           'border-transparent text-gray-500': page !== currentPage,
           'hover:text-gray-700 hover:border-gray-300': page !== 'dots'
-        }"
+        }, markerPositionClass]"
       >
         {{ page !== 'dots' ? page : '...' }}
       </component>
@@ -36,8 +36,8 @@
         @click.prevent="nextPage"
         v-if="showNavButtons"
         href="#"
-        class="border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
-        :class="{'cursor-default pointer-events-none': currentPage >= maxPage }"
+        class="border-transparent pl-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300"
+        :class="[markerPositionClass, {'cursor-default pointer-events-none': currentPage >= maxPage }]"
       >
         {{ nextText }}
         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -59,7 +59,8 @@ export default {
     showNavButtons: { type: Boolean, default: true },
     prevText: { type: String, default: 'Previous' },
     nextText: { type: String, default: 'Next' },
-    showAllPages: { type: Boolean, default: false }
+    showAllPages: { type: Boolean, default: false },
+    markerPosition: { type: String, default: 'above', validator(v) { return ['above', 'below'].indexOf(v) !== -1 }}
   },
   data () {
     return {
@@ -94,6 +95,9 @@ export default {
     }
   },
   computed: {
+    markerPositionClass () {
+      return this.markerPosition === 'above' ? 'border-t-2 pt-4' : 'border-b-2 pb-4';
+    },
     pagesToShow () {
       let pages = [1];
 
