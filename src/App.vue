@@ -208,7 +208,7 @@
 
       <div class="my-4 items-center">
         <label for="form-select" class="inline-block w-1/3">form-select</label>
-        <form-select class="w-2/3" id="form-select" v-model="formData.formSelect" :options="['Please', 'Select', 'Me']" />
+        <form-select class="w-2/3" id="form-select" v-model="formData.formSelect" :options="['Please', 'Select', 'Me']" disabled-label="(Pick an option)" />
       </div>
 
       <div class="my-4 items-center">
