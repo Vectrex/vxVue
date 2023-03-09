@@ -2,6 +2,15 @@
   "name": "vx-vue",
   "version": "0.2.2",
   "description": "A collection of Vue3 UI components which use Tailwind CSS for their styling",
+  "main": "./dist/vx-vue.umd.js",
+  "files": ["dist"],
+  "module": "./dist/vx-vue.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vx-vue.es.js",
+      "require": "./dist/vx-vue.umd.js"
+    }
+  },
   "keywords": [
     "vue",
     "vuejs",
@@ -10,19 +19,12 @@
     "ui-component",
     "tailwind css"
   ],
-  "files": [
-    "dist/*",
-    "src/*",
-    "*.js",
-    "*.json"
-  ],
   "homepage": "",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview",
-    "build-bundle": "vue-cli-service build --target lib --dest dist --name vxvue lib.js"
+    "serve": "vite preview"
   },
   "author": {
     "name": "Gregor Kofler",
@@ -33,16 +35,17 @@
     "type": "git",
     "url": "https://github.com/vectrex/vxvue.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "vue": "^3.2.47"
+  },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.3.3",
-    "autoprefixer": "^10.4.8",
-    "postcss": "^8.4.16",
-    "tailwindcss": "^3.1.8",
-    "vite": "^2.9.14",
-    "@tailwindcss/forms": "^0.5.2",
-    "vue": "^3.2.37",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7",
+    "vite": "^4.1.4",
+    "@tailwindcss/forms": "^0.5.3",
     "@vue/cli-service": "^5.0.8",
-    "@vue/compiler-sfc": "^3.2.37"
+    "@vue/compiler-sfc": "^3.2.47"
   }
 }
