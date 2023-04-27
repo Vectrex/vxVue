@@ -21,9 +21,9 @@ npm run dev
 ```
 and navigate to the reported URL by Vite.
 ```
-http://localhost:3000
+http://localhost:5173
 ```
-The sample page gives simple examples of all currently available components.
+The sample page provides a simple example of each currently available component.
 
 ## Provided components
 So far the following components have been implemented:
