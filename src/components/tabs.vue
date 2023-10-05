@@ -1,10 +1,37 @@
+<script setup>
+  import FormSelect from "./form-select.vue"
+  import { computed, ref, watch } from "vue"
+
+  const props = defineProps({
+    items: { type: Array, default: [] },
+    activeIndex: { type: Number, default: 0 }
+  })
+  const emit = defineEmits(['update:active-index'])
+
+  const activeTab = ref(props.items[props.activeIndex] || {})
+  const selectOptions = computed(() => {
+    let options = []
+    props.items.forEach((item, ndx) => { if(!item.disabled) {options.push( { label: item.name, key: ndx })}})
+    return options
+  })
+  watch(() => props.activeIndex, newVal => {
+    activeTab.value = props.items[newVal] || {}
+  })
+  const itemOnClick = item => {
+    if (!item.disabled) {
+      activeTab.value = item
+      emit('update:active-index', props.items.indexOf(item))
+    }
+  }
+</script>
+
 <template>
   <div class="sm:hidden">
-    <form-select :options="selectOptions" :model-value="activeIndex" @update:model-value="$emit('update:activeIndex', $event)" class="w-full" />
+    <form-select :options="selectOptions" :model-value="activeIndex" @update:model-value="emit('update:activeIndex', $event)" class="w-full" />
   </div>
   <div class="hidden sm:block">
     <div class="border-b border-gray-200">
-      <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+      <nav class="flex -mb-px space-x-8" aria-label="Tabs">
         <a v-for="item in items"
            :key="item.name"
            href="#"
@@ -12,7 +39,7 @@
            :class="[
               activeTab === item ? 'border-vxvue-500 text-vxvue-600' : 'border-transparent text-gray-900 hover:text-gray-700 hover:border-gray-300',
               item.disabled ? 'cursor-not-allowed text-gray-400 hover:border-transparent' : '',
-              'group inline-flex items-center py-4 px-1 border-b-4 font-medium text-sm',
+              'group inline-flex items-center py-4 px-1 border-b-4 font-medium',
            ]"
            :aria-current="activeTab === item ? 'page' : undefined"
         >
@@ -35,54 +62,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import FormSelect from "./formelements/form-select.vue";
-
-export default {
-  name: 'tabs',
-  components: {FormSelect},
-  emits: ['update:active-index'],
-  props: {
-    items: {
-      type: Array,
-      default: () => ([])
-    },
-    activeIndex: {
-      type: Number,
-      default: 0
-    }
-  },
-
-  data() {
-    return {
-      activeTab: {}
-    };
-  },
-
-  computed: {
-    selectOptions () {
-      let options = [];
-      this.items.forEach((item, ndx) => { if(!item.disabled) {options.push( { label: item.name, key: ndx })}});
-      return options;
-    }
-  },
-
-  created() {
-    this.activeTab = this.items[this.activeIndex] || {};
-  },
-  watch: {
-    activeIndex(newVal) {
-      this.activeTab = this.items[newVal] || {};
-    },
-  },
-  methods: {
-    itemOnClick(item) {
-      if (!item.disabled) {
-        this.activeTab = item;
-        this.$emit('update:active-index', this.items.indexOf(item));
-      }
-    }
-  }
-}
-</script>
