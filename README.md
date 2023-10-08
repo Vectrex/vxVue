@@ -21,13 +21,16 @@ module.exports = {
 ## Provided components
 So far the following components have been implemented:
 
-| element           | description                                                                                        |
-|-------------------|----------------------------------------------------------------------------------------------------|
-| `password-input`  | a simple input with toggle button which toggles between `type='button'` and `type='text'`          |
-| `form-select`     | a select element adapted for Vue.js integration                                                    |                                                                               
-| `form-switch`     | a fancy checkbox                                                                                   |       
-| `sortable`        | a sortable table; the `columns` attribute specifies the columns and their sorting options          |       
-| `message-toast`   | displays a notification which dismisses itself after a configurable timeout                        |      
-| `confirm`         | promise-based component which can either take one ("confirm") or two buttons ("confirm", "cancel") | 
-| `pagination`      | A pagination component for arbitrary items; opinionated in its layout                              |  
-| `tabs`            | A tabs component which allows both badges and icons                                                |  
+| element          | description                                                                                        |
+|------------------|----------------------------------------------------------------------------------------------------|
+| `password-input` | a simple input with toggle button which toggles between `type='button'` and `type='text'`          |
+| `form-select`    | a select element adapted for Vue.js integration                                                    |                                                                               
+| `form-switch`    | a fancy checkbox                                                                                   |       
+| `sortable`       | a sortable table; the `columns` attribute specifies the columns and their sorting options          |       
+| `message-toast`  | displays a notification which dismisses itself after a configurable timeout                        |      
+| `confirm`        | promise-based component which can either take one ("confirm") or two buttons ("confirm", "cancel") | 
+| `pagination`     | a pagination component for arbitrary items; opinionated in its layout                              |  
+| `tabs`           | a tabs component which allows both badges and icons                                                |
+| `simple-tree`    | a simple tree implemented with a recursive component                                               |
+| `date-input`     | input element for guided date inputs, also used by the datepicker                                  |
+| `datepicker`     | a bare bones datepicker component                                                                  |
