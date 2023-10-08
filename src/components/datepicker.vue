@@ -1,5 +1,5 @@
 <script setup>
-  import DateInput from "@/components/vx-vue/date-input.vue"
+  import DateInput from "./date-input.vue"
   import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/solid"
   import { onClickOutside } from "@vueuse/core"
   import { ref, computed, useAttrs, watch, nextTick } from "vue"

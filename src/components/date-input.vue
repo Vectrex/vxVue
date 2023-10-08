@@ -1,5 +1,5 @@
 <script setup>
-  import { parseDate } from "@/composables/parseDate"
+  import { parseDate } from "../composables/parseDate"
   import { formatDate } from "@vueuse/core"
   import { computed, ref, useAttrs, watch } from "vue"
 
