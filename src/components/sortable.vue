@@ -100,19 +100,19 @@
 </template>
 
 <style scoped>
-tbody tr:nth-of-type(2n + 1) {
-  @apply bg-slate-100 text-slate-700;
-}
-tbody tr:nth-of-type(2n) {
-  @apply bg-slate-200 text-slate-800;
-}
-tbody tr:nth-of-type(2n + 1) td.active {
-  @apply bg-amber-100 text-amber-700;
-}
-tbody tr:nth-of-type(2n) td.active {
-  @apply bg-amber-200 text-amber-800;
-}
-thead th.active {
-    @apply bg-amber-800;
-}
+  tbody tr:nth-of-type(2n + 1) {
+    @apply bg-slate-100 text-slate-700;
+  }
+  tbody tr:nth-of-type(2n) {
+    @apply bg-slate-200 text-slate-800;
+  }
+  tbody tr:nth-of-type(2n + 1) td.active {
+    @apply bg-amber-100 text-amber-700;
+  }
+  tbody tr:nth-of-type(2n) td.active {
+    @apply bg-amber-200 text-amber-800;
+  }
+  thead th.active {
+      @apply bg-amber-800;
+  }
 </style>

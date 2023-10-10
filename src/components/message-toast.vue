@@ -60,17 +60,14 @@
   </div>
 </template>
 
-<style>
-  .messagetoast-fade-enter-from,
-  .messagetoast-fade-leave-to {
+<style scoped>
+  .messagetoast-fade-enter-from, .messagetoast-fade-leave-to {
     @apply opacity-0 transform-gpu -translate-y-10;
   }
-  .messagetoast-fade-enter-to,
-  .messagetoast-fade-leave-from {
+  .messagetoast-fade-enter-to, .messagetoast-fade-leave-from {
     @apply opacity-100 translate-y-0;
   }
-  .messagetoast-fade-enter-active,
-  .messagetoast-fade-leave-active {
+  .messagetoast-fade-enter-active, .messagetoast-fade-leave-active {
     @apply transition-all duration-300;
   }
 </style>
