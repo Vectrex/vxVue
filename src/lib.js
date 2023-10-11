@@ -2,6 +2,7 @@ import Autocomplete from "./components/autocomplete.vue"
 import Confirm from './components/confirm.vue'
 import DateInput from './components/date-input.vue'
 import Datepicker from './components/datepicker.vue'
+import FormFileButton from "./components/form-file-button.vue"
 import FormSelect from './components/form-select.vue'
 import FormSwitch from './components/form-switch.vue'
 import MessageToast from './components/message-toast.vue'
@@ -15,6 +16,7 @@ export {
     Confirm,
     DateInput,
     Datepicker,
+    FormFileButton,
     FormSelect,
     FormSwitch,
     MessageToast,
