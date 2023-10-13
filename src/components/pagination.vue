@@ -49,12 +49,12 @@
       if (currentPage.value <= 1) {
         pages.push(currentPage.value + 2)
       }
-      if (currentPage.value + 2 < this.maxPage) {
+      if (currentPage.value + 2 < maxPage.value) {
         pages.push('dots')
       }
     }
-    if (currentPage.value < this.maxPage) {
-      pages.push(this.maxPage)
+    if (currentPage.value < maxPage.value) {
+      pages.push(maxPage.value)
     }
     return pages
   })
