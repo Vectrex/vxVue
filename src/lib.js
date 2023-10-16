@@ -6,6 +6,7 @@ import FormFileButton from "./components/form-file-button.vue"
 import FormSelect from './components/form-select.vue'
 import FormSwitch from './components/form-switch.vue'
 import MessageToast from './components/message-toast.vue'
+import Modal from "./components/modal.vue"
 import Pagination from './components/pagination.vue'
 import PasswordInput from './components/password-input.vue'
 import SimpleTree from "./components/simple-tree.vue"
@@ -20,6 +21,7 @@ export {
     FormSelect,
     FormSwitch,
     MessageToast,
+    Modal,
     Pagination,
     PasswordInput,
     SimpleTree,

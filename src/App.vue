@@ -9,18 +9,20 @@
   import MessageToast from "./components/message-toast.vue"
   import Confirm from "./components/confirm.vue"
   import Pagination from "./components/pagination.vue"
+  import Modal from "./components/modal.vue"
+  import SimpleTree from "./components/simple-tree.vue"
+  import { XMarkIcon, UserIcon, ShieldExclamationIcon } from "@heroicons/vue/24/solid"
 
-  import {computed, ref} from "vue"
-  import SimpleTree from "./components/simple-tree.vue";
+  import { computed, ref } from "vue"
 
   const form = ref({ pw: '', switch: false, formSelect: null, files: [], autocomplete: '', branch: {} })
   const tabs = ref({
     items: [
-      { name: 'Profile', badge: '!', icon: 'profile' },
+      { name: 'Profile', badge: '!', icon: UserIcon },
       { name: 'Tech' },
       { name: 'Intelligence', disabled: true },
       { name: 'Strategy' },
-      { name: 'Confidential', disabled: true, badge: '10', icon: 'confidential' }
+      { name: 'Confidential', disabled: true, badge: '10', icon: ShieldExclamationIcon }
     ],
     activeIndex: 0
   })
@@ -40,6 +42,7 @@
       { label: 'Born in', prop: 'yob', sortable: true }
     ]
   })
+  const modal = ref({ show: false })
   const paginationData = ref({ currentPage: 1, entriesPerPage: 10 })
   const tree = ref({
     "id": 1,
@@ -147,10 +150,12 @@
       <h2 class="text-xl font-bold mb-4">Simple Tree</h2>
       <simple-tree :branch="tree" @branch-selected="form.branch = $event" />
     </div>
+
     <div class="p-4 shadow-md">
-      <h2 class="text-xl font-bold mb-4">Toast &amp; Confirm</h2>
+      <h2 class="text-xl font-bold mb-4">Toast, Modal &amp; Confirm</h2>
       <div class="space-x-1">
         <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="toast.message = ['There might be a meaningful message.', 'Someday. Who knows?']; toast.active = true">Toast me!</button>
+        <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="modal.show = true">Show a Modal</button>
         <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="doConfirm">Confirm!</button>
       </div>
     </div>
@@ -176,12 +181,9 @@
     <div class="p-4 shadow-md lg:col-span-2">
       <h2 class="text-xl font-bold mb-4">Tabs</h2>
       <tabs :items="tabs.items" v-model:active-index="tabs.activeIndex">
-        <template v-slot:icon="slotProps">
-          <span class="-ml-0.5 mr-2 h-5 w-5" v-if="slotProps.tab.icon === 'profile'">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
-          </span>
-          <span class="-ml-0.5 mr-2 h-5 w-5 -mt-1" v-if="slotProps.tab.icon === 'confidential'">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" /></svg>
+        <template #icon="slotProps">
+          <span class="-ml-0.5 mr-2 h-5 w-5" v-if="slotProps.tab.icon">
+            <component :is="slotProps.tab.icon" class="h-5 w-5" fill="currentColor" />
           </span>
         </template>
       </tabs>
@@ -189,8 +191,8 @@
   </div>
 
   <message-toast v-bind="toast" @timeout="toast.active = false" @close="toast.active = false" class="!bg-green-700 text-white">
-    <template v-slot:title><span class="text-green-200">{{ toast.title }}</span></template>
-    <template v-slot:icon>
+    <template #title><span class="text-green-200">{{ toast.title }}</span></template>
+    <template #icon>
       <span class="text-green-200">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -198,6 +200,18 @@
       </span>
     </template>
   </message-toast>
+
+  <modal :show="modal.show" @clicked-outside="modal.show = false" container-class="w-full lg:w-1/2 xl:w-1/4">
+    <template #title>
+      <div class="flex fixed justify-between items-center px-4 w-full h-16 bg-vxvue-500">
+        <span class="text-xl font-bold text-white">A Modal</span>
+        <a href="#" @click.prevent="modal.show = false"><x-mark-icon class="w-5 h-5 text-white"/></a>
+      </div>
+    </template>
+    <template #default>
+      <div class="text-center p-4 text-xl">Something of importance might be said here.</div>
+    </template>
+  </modal>
 
   <teleport to="body">
     <confirm
