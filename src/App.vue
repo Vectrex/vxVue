@@ -110,6 +110,7 @@
       toast.value.active = true
     }).catch(() => {})
   }
+  const clearFormData = () => form.value = { pw: '', switch: false, formSelect: null, files: [], autocomplete: '', branch: {} }
 </script>
 
 <template>
@@ -132,7 +133,7 @@
     </div>
 
     <div class="p-4 shadow-md space-y-2">
-      <h2 class="text-xl font-bold mb-4">Form Data</h2>
+      <h2 class="mb-4 flex items-center justify-between"><span class="text-xl font-bold">Form Data</span><button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="clearFormData">Clear</button></h2>
       <pre>{{ form }}</pre>
     </div>
 
@@ -153,10 +154,10 @@
 
     <div class="p-4 shadow-md">
       <h2 class="text-xl font-bold mb-4">Toast, Modal &amp; Confirm</h2>
-      <div class="space-x-1">
-        <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="toast.message = ['There might be a meaningful message.', 'Someday. Who knows?']; toast.active = true">Toast me!</button>
-        <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="modal.show = true">Show a Modal</button>
-        <button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="doConfirm">Confirm!</button>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
+        <button class="block w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="toast.message = ['There might be a meaningful message.', 'Someday. Who knows?']; toast.active = true">Toast me!</button>
+        <button class="block w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="modal.show = true">Show a Modal</button>
+        <button class="block w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="doConfirm">Confirm!</button>
       </div>
     </div>
 
@@ -201,7 +202,7 @@
     </template>
   </message-toast>
 
-  <modal :show="modal.show" @clicked-outside="modal.show = false" container-class="w-full lg:w-1/2 xl:w-1/4">
+  <modal :show="modal.show" @clicked-outside="modal.show = false" container-class="w-full mx-4 lg:w-1/2 xl:w-1/4">
     <template #title>
       <div class="flex fixed justify-between items-center px-4 w-full h-16 bg-vxvue-500">
         <span class="text-xl font-bold text-white">A Modal</span>
