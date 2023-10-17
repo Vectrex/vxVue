@@ -42,7 +42,7 @@
   <div class="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm" aria-hidden="true" v-if="show" />
   <transition name="appear">
     <div class="overflow-y-auto fixed inset-0 z-50" v-if="show">
-      <div class="flex justify-center items-end px-4 pt-4 pb-20 min-h-screen text-center sm:block sm:p-0">
+      <div class="flex justify-center items-center min-h-screen text-center sm:block sm:p-0">
         <div v-if="show">
           <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
 
