@@ -11,11 +11,13 @@
   import Pagination from "./components/pagination.vue"
   import Modal from "./components/modal.vue"
   import SimpleTree from "./components/simple-tree.vue"
+  import DateInput from "./components/date-input.vue"
+  import Datepicker from "./components/datepicker.vue"
   import { XMarkIcon, UserIcon, ShieldExclamationIcon } from "@heroicons/vue/24/solid"
 
   import { computed, ref } from "vue"
 
-  const form = ref({ pw: '', switch: false, formSelect: null, files: [], autocomplete: '', branch: {} })
+  const form = ref({ pw: '', switch: false, formSelect: null, files: [], autocomplete: '', branch: {}, dateInput: null, datepicker: null })
   const tabs = ref({
     items: [
       { name: 'Profile', badge: '!', icon: UserIcon },
@@ -35,6 +37,8 @@
       { key: 5, name: 'Michael', role: 'Kyle', yob: 1956 },
       { key: 6, name: 'Joe', role: 'Miles', yob: 1947 },
       { key: 7, name: 'Kristanna', role: 'T-X', yob: 1979 },
+      { key: 8, name: 'Gabriel', role: 'REV-9', yob: 1982 },
+      { key: 9, name: 'Mackenzie', role: 'Grace', yob: 1987 },
     ],
     cols: [
       { label: 'Name', prop: 'name', sortable: true },
@@ -110,7 +114,7 @@
       toast.value.active = true
     }).catch(() => {})
   }
-  const clearFormData = () => form.value = { pw: '', switch: false, formSelect: null, files: [], autocomplete: '', branch: {} }
+  const clearFormData = () => form.value = { pw: '', switch: false, formSelect: null, files: [], autocomplete: '', branch: {}, dateInput: null, datepicker: null }
 </script>
 
 <template>
@@ -118,11 +122,11 @@
     <div class="p-4 shadow-md space-y-2">
       <h2 class="text-xl font-bold mb-4">Form Elements</h2>
       <div><label for="password-input">Password Input</label><password-input id="password-input" v-model="form.pw" class="w-full" /></div>
-      <div><autocomplete
+      <div><label for="autocomplete">Autocomplete</label><autocomplete
           :search="findItem"
           v-model="form.autocomplete"
           placeholder="pick a country"
-          @submit=""
+          id="autocomplete"
           class="w-full"
           result-item-class="py-2 px-4 cursor-pointer hover:bg-gray-200"
           result-list-class="shadow-md bg-white max-h-96 overflow-auto"
@@ -130,6 +134,8 @@
       <div class="flex space-x-2 items-center"><label for="form-switch">Form Switch</label><form-switch id="form-switch" v-model="form.switch" /></div>
       <div><label for="form-select">Form Select</label><form-select class="w-full" id="form-select" v-model="form.formSelect" :options="['Please', 'Select', 'Me']" disabled-label="(Pick an option)" /></div>
       <div><label for="form-file-button">Form File Button</label><form-file-button id="form-file-button" v-model="form.files" multiple="multiple" role="button" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600 block text-center">Pick Files</form-file-button></div>
+      <div><label for="date-input">Date Input</label><date-input class="w-full" placeholder="yyyy-mm-dd" id="date-input" v-model="form.dateInput" :show-button="false" /></div>
+      <div><label for="datepicker">Datepicker</label><datepicker class="w-full" placeholder="mm/dd/yyyy" id="datepicker" v-model="form.datepicker" locale="en-US" output-format="M/D/YYYY" input-format="mm/dd/yyyy"/></div>
     </div>
 
     <div class="p-4 shadow-md space-y-2">
