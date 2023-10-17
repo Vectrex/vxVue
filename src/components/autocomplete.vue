@@ -13,6 +13,7 @@ const props = defineProps({
   autoSelect: { type: Boolean, default: false },
   getResultValue: { type: Function, default: result => result }
 })
+defineOptions({ inheritAttrs: false })
 const attrs = useAttrs()
 const uniqueId = (() => {
   let counter = 0
