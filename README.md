@@ -9,7 +9,7 @@ VxVue provides a handful of reusable Vue components styled with Tailwind CSS. Al
 
 The official Tailwind CSS forms plugin is used to provide basic styling of the form components using the class strategy which allows the styling of non-form elements consistently.
 An easy to configure color theming is applied. Since Tailwind won't observe classes in imported components tailwind.config.js should contain
-```
+```javascript
 module.exports = {
     content: [
         './node_modules/vx-vue/**/*.js',
@@ -18,6 +18,13 @@ module.exports = {
     ...
 }
 ```
+To use the few scoped styles along with your CSS add
+
+```javascript
+import 'vx-vue/vx-vue.css'
+```
+to your main.js or index.js file.
+
 ## Provided components
 So far the following components have been implemented:
 
