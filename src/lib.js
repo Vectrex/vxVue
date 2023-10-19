@@ -11,6 +11,7 @@ import Pagination from './components/pagination.vue'
 import PasswordInput from './components/password-input.vue'
 import SimpleTree from "./components/simple-tree.vue"
 import Sortable from './components/sortable.vue'
+import Tabs from "./components/tabs.vue"
 
 export {
     Autocomplete,
@@ -26,4 +27,5 @@ export {
     PasswordInput,
     SimpleTree,
     Sortable,
+    Tabs
 }
