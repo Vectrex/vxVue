@@ -29,7 +29,7 @@
     </div>
     <input v-else
        type="text"
-       class="block w-full form-input focus:border-vxvue peer"
+       class="block w-full form-input peer focus:border-vxvue"
        :class="{ 'pr-10': showButton }"
        v-model="inputString"
        @blur="emit('update:modelValue', parseDate(inputString, props.inputFormat).date?.value || null)"

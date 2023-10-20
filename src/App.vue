@@ -102,14 +102,14 @@
   })
   const toast = ref({ message: '', active: false, title: 'You got toasted!' })
   const items = ["Afghanistan", "Åland Islands", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia, Plurinational State of", "Bonaire, Sint Eustatius and Saba", "Bosnia and Herzegovina", "Botswana", "Bouvet Island", "Brazil", "British Indian Ocean Territory", "Brunei Darussalam", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central African Republic", "Chad", "Chile", "China", "Christmas Island", "Cocos (Keeling) Islands", "Colombia", "Comoros", "Congo", "Congo, the Democratic Republic of the", "Cook Islands", "Costa Rica", "Côte d'Ivoire", "Croatia", "Cuba", "Curaçao", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands (Malvinas)", "Faroe Islands", "Fiji", "Finland", "France", "French Guiana", "French Polynesia", "French Southern Territories", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Heard Island and McDonald Islands", "Holy See (Vatican City State)", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran, Islamic Republic of", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea, Democratic People's Republic of", "Korea, Republic of", "Kuwait", "Kyrgyzstan", "Lao People's Democratic Republic", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao", "Macedonia, the Former Yugoslav Republic of", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Micronesia, Federated States of", "Moldova, Republic of", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue", "Norfolk Island", "Northern Mariana Islands", "Norway", "Oman", "Pakistan", "Palau", "Palestine, State of", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Pitcairn", "Poland", "Portugal", "Puerto Rico", "Qatar", "Réunion", "Romania", "Russian Federation", "Rwanda", "Saint Barthélemy", "Saint Helena, Ascension and Tristan da Cunha", "Saint Kitts and Nevis", "Saint Lucia", "Saint Martin (French part)", "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Sint Maarten (Dutch part)", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Georgia and the South Sandwich Islands", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Svalbard and Jan Mayen", "Swaziland", "Sweden", "Switzerland", "Syrian Arab Republic", "Taiwan, Province of China", "Tajikistan", "Tanzania, United Republic of", "Thailand", "Timor-Leste", "Togo", "Tokelau", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos Islands", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "United States Minor Outlying Islands", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela, Bolivarian Republic of", "Viet Nam", "Virgin Islands, British", "Virgin Islands, U.S.", "Wallis and Futuna", "Western Sahara", "Yemen", "Zambia", "Zimbabwe"]
-  const confirm = ref(null)
+  const confirmDialog = ref(null)
   const paginatedItems = computed(() => items.slice((paginationData.value.currentPage - 1) * paginationData.value.entriesPerPage, paginationData.value.currentPage * paginationData.value.entriesPerPage))
   const findItem = async query => {
     await new Promise(resolve => setTimeout(resolve, 500));
     return items.filter(item => item.toLowerCase().indexOf(query.toLowerCase()) !== -1)
   }
   const doConfirm = id => {
-    confirm.value.open("General Brewster", "Shall we turn on Skynet?").then(() => {
+    confirmDialog.value.open("General Brewster", "Shall we turn on Skynet?").then(() => {
       toast.value.message = ['Skynet begins to learn at a geometric rate.', 'It becomes self-aware at 2:14 a.m. Eastern time, August 29th.']
       toast.value.active = true
     }).catch(() => {})
@@ -118,9 +118,9 @@
 </script>
 
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4 px-4 mx-auto pt-28 md:pt-32">
-    <div class="p-4 shadow-md space-y-2">
-      <h2 class="text-xl font-bold mb-4">Form Elements</h2>
+  <div class="grid grid-cols-1 gap-4 px-4 pt-28 mx-auto md:pt-32 lg:grid-cols-2 2xl:grid-cols-3">
+    <div class="p-4 space-y-2 shadow-md">
+      <h2 class="mb-4 text-xl font-bold">Form Elements</h2>
       <div><label for="password-input">Password Input</label><password-input id="password-input" v-model="form.pw" class="w-full" /></div>
       <div><label for="autocomplete">Autocomplete</label><autocomplete
           :search="findItem"
@@ -129,23 +129,23 @@
           id="autocomplete"
           class="w-full"
           result-item-class="py-2 px-4 cursor-pointer hover:bg-gray-200"
-          result-list-class="shadow-md bg-white max-h-96 overflow-auto"
+          result-list-class="overflow-auto max-h-96 bg-white shadow-md"
       /></div>
-      <div class="flex space-x-2 items-center"><label for="form-switch">Form Switch</label><form-switch id="form-switch" v-model="form.switch" /></div>
+      <div class="flex items-center space-x-2"><label for="form-switch">Form Switch</label><form-switch id="form-switch" v-model="form.switch" /></div>
       <div><label for="form-select">Form Select</label><form-select class="w-full" id="form-select" v-model="form.formSelect" :options="['Please', 'Select', 'Me']" disabled-label="(Pick an option)" /></div>
-      <div><label for="form-file-button">Form File Button</label><form-file-button id="form-file-button" v-model="form.files" multiple="multiple" role="button" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600 block text-center">Pick Files</form-file-button></div>
+      <div><label for="form-file-button">Form File Button</label><form-file-button id="form-file-button" v-model="form.files" multiple="multiple" role="button" class="block py-2 px-4 text-center text-white rounded-md border border-transparent shadow-sm bg-vxvue hover:bg-vxvue-600">Pick Files</form-file-button></div>
       <div><label for="date-input">Date Input</label><date-input class="w-full" placeholder="yyyy-mm-dd" id="date-input" v-model="form.dateInput" :show-button="false" /></div>
       <div><label for="datepicker">Datepicker</label><datepicker class="w-full" placeholder="mm/dd/yyyy" id="datepicker" v-model="form.datepicker" locale="en-US" output-format="M/D/YYYY" input-format="mm/dd/yyyy"/></div>
     </div>
 
-    <div class="p-4 shadow-md space-y-2">
-      <h2 class="mb-4 flex items-center justify-between"><span class="text-xl font-bold">Form Data</span><button class="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="clearFormData">Clear</button></h2>
+    <div class="p-4 space-y-2 shadow-md">
+      <h2 class="flex justify-between items-center mb-4"><span class="text-xl font-bold">Form Data</span><button class="py-2 px-4 text-white rounded-md border border-transparent shadow-sm bg-vxvue hover:bg-vxvue-600" @click="clearFormData">Clear</button></h2>
       <pre>{{ form }}</pre>
     </div>
 
     <div class="p-4 shadow-md">
-      <h2 class="text-xl font-bold mb-4">Sortable</h2>
-      <div class="shadow overflow-hidden border-b border-gray-200 rounded-lg">
+      <h2 class="mb-4 text-xl font-bold">Sortable</h2>
+      <div class="overflow-hidden rounded-lg border-b border-gray-200 shadow">
         <sortable
             :rows="sortable.rows"
             :columns="sortable.cols"
@@ -154,21 +154,21 @@
     </div>
 
     <div class="p-4 shadow-md">
-      <h2 class="text-xl font-bold mb-4">Simple Tree</h2>
+      <h2 class="mb-4 text-xl font-bold">Simple Tree</h2>
       <simple-tree :branch="tree" @branch-selected="form.branch = $event" />
     </div>
 
     <div class="p-4 shadow-md">
-      <h2 class="text-xl font-bold mb-4">Toast, Modal &amp; Confirm</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
-        <button class="block w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="toast.message = ['There might be a meaningful message.', 'Someday. Who knows?']; toast.active = true">Toast me!</button>
-        <button class="block w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="modal.show = true">Show a Modal</button>
-        <button class="block w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-vxvue hover:bg-vxvue-600" @click="doConfirm">Confirm!</button>
+      <h2 class="mb-4 text-xl font-bold">Toast, Modal &amp; Confirm</h2>
+      <div class="grid grid-cols-1 gap-1 sm:grid-cols-3">
+        <button class="block py-2 px-4 w-full text-white rounded-md border border-transparent shadow-sm bg-vxvue hover:bg-vxvue-600" @click="toast.message = ['There might be a meaningful message.', 'Someday. Who knows?']; toast.active = true">Toast me!</button>
+        <button class="block py-2 px-4 w-full text-white rounded-md border border-transparent shadow-sm bg-vxvue hover:bg-vxvue-600" @click="modal.show = true">Show a Modal</button>
+        <button class="block py-2 px-4 w-full text-white rounded-md border border-transparent shadow-sm bg-vxvue hover:bg-vxvue-600" @click="doConfirm">Confirm!</button>
       </div>
     </div>
 
     <div class="p-4 shadow-md lg:row-span-2">
-      <h2 class="text-xl font-bold mb-4">Pagination</h2>
+      <h2 class="mb-4 text-xl font-bold">Pagination</h2>
       <ul>
         <li v-for="item in paginatedItems">{{ item }}</li>
       </ul>
@@ -186,11 +186,11 @@
     </div>
 
     <div class="p-4 shadow-md lg:col-span-2">
-      <h2 class="text-xl font-bold mb-4">Tabs</h2>
+      <h2 class="mb-4 text-xl font-bold">Tabs</h2>
       <tabs :items="tabs.items" v-model:active-index="tabs.activeIndex">
         <template #icon="slotProps">
-          <span class="-ml-0.5 mr-2 h-5 w-5" v-if="slotProps.tab.icon">
-            <component :is="slotProps.tab.icon" class="h-5 w-5" fill="currentColor" />
+          <span class="mr-2 -ml-0.5 w-5 h-5" v-if="slotProps.tab.icon">
+            <component :is="slotProps.tab.icon" class="w-5 h-5" fill="currentColor" />
           </span>
         </template>
       </tabs>
@@ -201,14 +201,14 @@
     <template #title><span class="text-green-200">{{ toast.title }}</span></template>
     <template #icon>
       <span class="text-green-200">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
       </span>
     </template>
   </message-toast>
 
-  <modal :show="modal.show" @clicked-outside="modal.show = false" container-class="w-full mx-4 lg:w-1/2 xl:w-1/4">
+  <modal :show="modal.show" @clicked-outside="modal.show = false" container-class="mx-4 w-full lg:w-1/2 xl:w-1/4">
     <template #title>
       <div class="flex fixed justify-between items-center px-4 w-full h-16 bg-vxvue-500">
         <span class="text-xl font-bold text-white">A Modal</span>
@@ -216,13 +216,13 @@
       </div>
     </template>
     <template #default>
-      <div class="text-center p-4 text-xl">Something of importance might be said here.</div>
+      <div class="p-4 text-xl text-center">Something of importance might be said here.</div>
     </template>
   </modal>
 
   <teleport to="body">
     <confirm
-        ref="confirm"
+        ref="confirmDialog"
         :buttons="[
           { label: 'Go ahead!', value: true, class: 'py-2 px-4 bg-red-600 hover:bg-red-500 text-white rounded-md' },
           { label: 'Cancel', value: false, class: 'py-2 px-4 text-stone-700 hover:bg-stone-200 rounded-md' }

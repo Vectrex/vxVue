@@ -26,6 +26,7 @@
     "@heroicons/vue": "^2.0.18",
     "@vitejs/plugin-vue": "^4.4.0",
     "vite": "^4.4.11",
-    "@vueuse/core": "^10.5.0"
+    "@vueuse/core": "^10.5.0",
+    "rustywind": "^0.20.0"
   }
 }
