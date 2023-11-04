@@ -146,10 +146,12 @@
     <div class="p-4 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Sortable</h2>
       <div class="overflow-hidden rounded-lg border-b border-gray-200 shadow">
-        <sortable
-            :rows="sortable.rows"
-            :columns="sortable.cols"
-        />
+        <div class="overflow-x-auto">
+          <sortable
+              :rows="sortable.rows"
+              :columns="sortable.cols"
+          />
+        </div>
       </div>
     </div>
 

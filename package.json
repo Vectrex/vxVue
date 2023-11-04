@@ -11,7 +11,7 @@
     "./vx-vue.css": "./dist/style.css",
     "./dist/*": "./dist/*"
   },
-  "version": "0.6.4",
+  "version": "0.6.5",
   "license": "MIT",
   "homepage": "https://github.com/Vectrex/vxVue",
   "scripts": {

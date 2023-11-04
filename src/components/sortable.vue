@@ -63,46 +63,38 @@
 </script>
 
 <template>
-  <div class="flow-root">
-    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-sm">
-          <table class="min-w-full divide-y divide-y-slate-900">
-            <thead class="text-white bg-slate-700">
-              <tr>
-                <th
-                    scope="col"
-                    class="py-3 px-6 text-left"
-                    v-for="column in columns"
-                    :class="[
-                              { 'cursor-pointer': column.sortable, 'active': sortBy === column.prop },
-                              column.cssClass
-                          ]"
-                    @click="column.sortable ? clickSort(column.prop) : null"
-                >
-                  <slot :name="column.prop + '-header'" :column="column" :sort-dir="sortDir" :sort-prop="sortBy">
-                    <div class="flex items-center"><span>{{ column.label }}</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-if="column.sortable">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="sortDir === 'asc' ? 'M19 9l-7 7-7-7' : 'M5 15l7-7 7 7'" v-if="sortBy === column.prop" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" v-else />
-                      </svg>
-                    </div>
-                  </slot>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="row in sortedRows" :key="row[keyProperty]" :class="row.cssClass">
-                <td v-for="column in columns" class="py-3 px-6 whitespace-nowrap" :class="{ 'active': sortBy === column.prop }">
-                  <slot :name="column.prop" :row="row">{{ row[column.prop] }}</slot>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-         </div>
-      </div>
-    </div>
-  </div>
+  <table class="w-full divide-y divide-y-slate-900">
+    <thead class="text-white bg-slate-700">
+      <tr>
+        <th
+            scope="col"
+            class="py-3 px-6 text-left"
+            v-for="column in columns"
+            :class="[
+                      { 'cursor-pointer': column.sortable, 'active': sortBy === column.prop },
+                      column.cssClass
+                  ]"
+            @click="column.sortable ? clickSort(column.prop) : null"
+        >
+          <slot :name="column.prop + '-header'" :column="column" :sort-dir="sortDir" :sort-prop="sortBy">
+            <div class="flex items-center"><span>{{ column.label }}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-if="column.sortable">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="sortDir === 'asc' ? 'M19 9l-7 7-7-7' : 'M5 15l7-7 7 7'" v-if="sortBy === column.prop" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" v-else />
+              </svg>
+            </div>
+          </slot>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="row in sortedRows" :key="row[keyProperty]" :class="row.cssClass">
+        <td v-for="column in columns" class="py-3 px-6 whitespace-nowrap" :class="{ 'active': sortBy === column.prop }">
+          <slot :name="column.prop" :row="row">{{ row[column.prop] }}</slot>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <style scoped>
