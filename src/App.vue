@@ -13,6 +13,7 @@
   import SimpleTree from "./components/simple-tree.vue"
   import DateInput from "./components/date-input.vue"
   import Datepicker from "./components/datepicker.vue"
+  import Slider from "./components/slider.vue"
   import { XMarkIcon, UserIcon, ShieldExclamationIcon } from "@heroicons/vue/24/solid"
 
   import { computed, ref } from "vue"
@@ -121,6 +122,7 @@
   <div class="grid grid-cols-1 gap-4 px-4 pt-28 mx-auto md:pt-32 lg:grid-cols-2 2xl:grid-cols-3">
     <div class="p-4 space-y-2 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Form Elements</h2>
+      <div><slider :min="0" :max="100" /></div>
       <div><label for="password-input">Password Input</label><password-input id="password-input" v-model="form.pw" class="w-full" /></div>
       <div><label for="autocomplete">Autocomplete</label><autocomplete
           :search="findItem"
