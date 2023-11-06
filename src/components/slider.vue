@@ -24,7 +24,7 @@
       setValue(e)
     }
   }
-  const dragStart = () => {
+  const dragStart = e => {
     dragging.value = true
     const doc = document.documentElement
     const box = track.value.getBoundingClientRect()
@@ -36,12 +36,15 @@
       w: track.value.offsetWidth,
       h: track.value.offsetHeight
     }
+    e.currentTarget.focus()
     document.addEventListener('mousemove', drag)
+    document.addEventListener('mouseup', dragStop)
   }
   const dragStop = () => {
     if (dragging.value) {
       dragging.value = false
       document.removeEventListener('mousemove', drag)
+      document.removeEventListener('mouseup', dragStop)
     }
   }
 </script>
@@ -53,7 +56,6 @@
         tabindex="0"
         :style="{ left: v1 + '%' }"
         @mousedown.prevent="dragStart"
-        @mouseup.prevent="dragStop"
         role="slider"
     />
   </div>
