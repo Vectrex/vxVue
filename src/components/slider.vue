@@ -5,7 +5,9 @@
   const props = defineProps({
     min: { type: Number, default: 0 },
     max: { type: Number, default: 100 },
-    modelValue: Number
+    modelValue: { type: [Number, Array], validator(v) {
+      return v instanceof Number || v.length === 2 && v[0] instanceof Number && v[1] instanceof Number
+    }}
   })
   const emit = defineEmits(['update:modelValue'])
 
