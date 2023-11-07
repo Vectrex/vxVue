@@ -1,5 +1,6 @@
 <script setup>
-  import { ref } from "vue"
+  import { computed, ref } from "vue"
+  defineOptions({ inheritAttrs: false })
 
   const props = defineProps({
     min: { type: Number, default: 0 },
@@ -12,6 +13,7 @@
   const trackSize = ref( { w: null, h: null })
   const dragging = ref(false)
   const track = ref(null)
+  const boundValue = computed(() => Math.max(Math.min(props.modelValue, props.max), props.min) * 100 / (props.max - props.min))
   const updateModel = v => {
     let newValue = parseFloat(v.toFixed(10))
     newValue = Math.min(props.max, (Math.max(props.min, newValue)))
@@ -41,6 +43,7 @@
       h: track.value.offsetHeight
     }
     e.currentTarget.focus()
+    /* @todo omit when triggered by touch event */
     document.addEventListener('mousemove', drag)
     document.addEventListener('mouseup', dragStop)
   }
@@ -70,13 +73,20 @@
 </script>
 
 <template>
-  <div class="relative w-full h-2 rounded-r-full rounded-l-full bg-vxvue-500" ref="track">
+  <div class="relative w-full h-2 rounded-r-full rounded-l-full bg-slate-300" ref="track">
+    <div class="h-full rounded-r-full rounded-l-full bg-vxvue" :style="{ width: boundValue + '%' }" />
     <div
-        class="absolute w-5 h-5 bg-white rounded-full border-2 transition-colors duration-200 -translate-x-2.5 -translate-y-1.5 focus:ring-4 focus:outline-none border-vxvue hover:bg-vxvue focus:ring-vxvue/50"
+        class="absolute top-0 w-5 h-5 bg-white rounded-full border-2 transition-colors duration-200 -translate-x-2.5 -translate-y-1.5 focus:ring-4 focus:outline-none border-vxvue cursor-grab touch-none hover:bg-vxvue focus:ring-vxvue/50"
         tabindex="0"
-        :style="{ left: (Math.max(Math.min(modelValue, max), min) * 100 / (max - min)) + '%' }"
+        :style="{ left: boundValue + '%' }"
+        :aria-valuemin="min"
+        :aria-valuemax="max"
+        :aria-valuenow="modelValue"
         @mousedown.prevent="dragStart"
         @keydown.prevent="handleKeydown"
+        @touchstart.prevent="dragStart"
+        @touchmove="drag"
+        @touchend="dragStop"
         role="slider"
     />
   </div>
