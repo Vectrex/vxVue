@@ -132,7 +132,7 @@
   <div class="grid grid-cols-1 gap-4 px-4 pt-28 mx-auto md:pt-32 lg:grid-cols-2 2xl:grid-cols-3">
     <div class="p-4 space-y-2 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Form Elements</h2>
-      <div><slider :min="0" :max="50" v-model="form.slider" />{{ form.slider }}</div>
+      <div class="flex items-center space-x-2"><slider :min="0" :max="50" v-model.number="form.slider" /><input class="w-20 form-input" v-model.number="form.slider" /></div>
       <div><label for="password-input">Password Input</label><password-input id="password-input" v-model="form.pw" class="w-full" /></div>
       <div><label for="autocomplete">Autocomplete</label><autocomplete
           :search="findItem"

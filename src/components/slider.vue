@@ -70,11 +70,11 @@
 </script>
 
 <template>
-  <div class="relative w-full h-2 bg-vxvue-500 rounded-l-full rounded-r-full" ref="track">
+  <div class="relative w-full h-2 rounded-r-full rounded-l-full bg-vxvue-500" ref="track">
     <div
-        class="rounded-full h-5 w-5 -translate-x-2.5 -translate-y-1.5 absolute bg-white border-2 border-vxvue-500"
+        class="absolute w-5 h-5 bg-white rounded-full border-2 transition-colors duration-200 -translate-x-2.5 -translate-y-1.5 focus:ring-4 focus:outline-none border-vxvue hover:bg-vxvue focus:ring-vxvue/50"
         tabindex="0"
-        :style="{ left: (modelValue * 100 / (max - min)) + '%' }"
+        :style="{ left: (Math.max(Math.min(modelValue, max), min) * 100 / (max - min)) + '%' }"
         @mousedown.prevent="dragStart"
         @keydown.prevent="handleKeydown"
         role="slider"
