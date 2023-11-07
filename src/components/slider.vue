@@ -1,9 +1,13 @@
 <script setup>
   import { ref } from "vue"
 
-  const props = defineProps({ min: Number, max: Number })
+  const props = defineProps({
+    min: { type: Number, default: 0 },
+    max: { type: Number, default: 100 },
+    modelValue: Number
+  })
+  const emit = defineEmits(['update:modelValue'])
 
-  const v1 = ref(20)
   const initPos = ref({ x: null, y: null })
   const trackSize = ref( { w: null, h: null })
   const dragging = ref(false)
@@ -11,7 +15,7 @@
   const updateModel = v => {
     let newValue = parseFloat(v.toFixed(10))
     newValue = Math.min(props.max, (Math.max(props.min, newValue)))
-    v1.value = newValue
+    emit('update:modelValue', newValue)
   }
   const setValue = e => {
     const { pageX, pageY } = e.touches ? e.touches[0] : e
@@ -47,17 +51,33 @@
       document.removeEventListener('mouseup', dragStop)
     }
   }
+  const handleKeydown = e => {
+    switch (e.keyCode) {
+      case 37:
+        updateModel(props.modelValue - 1); break
+      case 39:
+        updateModel(props.modelValue + 1); break
+      case 33:
+        updateModel(props.modelValue + (props.max - props.min) / 10); break
+      case 34:
+        updateModel(props.modelValue - (props.max - props.min) / 10); break
+      case 36:
+        updateModel(props.min); break
+      case 35:
+        updateModel(props.max)
+    }
+  }
 </script>
 
 <template>
   <div class="relative w-full h-2 bg-vxvue-500 rounded-l-full rounded-r-full" ref="track">
     <div
-        class="rounded-full h-6 w-6 -translate-x-3 -translate-y-2 absolute bg-vxvue-alt-500"
+        class="rounded-full h-5 w-5 -translate-x-2.5 -translate-y-1.5 absolute bg-white border-2 border-vxvue-500"
         tabindex="0"
-        :style="{ left: v1 + '%' }"
+        :style="{ left: (modelValue * 100 / (max - min)) + '%' }"
         @mousedown.prevent="dragStart"
+        @keydown.prevent="handleKeydown"
         role="slider"
     />
   </div>
-  {{ initPos }}
 </template>
