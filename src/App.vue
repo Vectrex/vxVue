@@ -28,7 +28,8 @@
     dateInput: null,
     datepicker: null,
     slider: 30,
-    sliderPair: [10, 30]
+    sliderPair: [10, 30],
+    sliderVertical: [10, 15]
   })
   const tabs = ref({
     items: [
@@ -126,20 +127,28 @@
       toast.value.active = true
     }).catch(() => {})
   }
-  const clearFormData = () => form.value = { pw: '', switch: false, formSelect: null, files: [], autocomplete: '', branch: {}, dateInput: null, datepicker: null, slider: 30, sliderPair: [10, 30] }
+  const clearFormData = () => form.value = { pw: '', switch: false, formSelect: null, files: [], autocomplete: '', branch: {}, dateInput: null, datepicker: null, slider: 30, sliderPair: [10, 30], sliderVertical: [10, 15] }
 </script>
 
 <template>
   <div class="grid grid-cols-1 gap-4 px-4 pt-28 mx-auto md:pt-32 lg:grid-cols-2 2xl:grid-cols-3">
     <div class="p-4 space-y-2 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Form Elements</h2>
-      <div>
-        <label for="slider-1">Slider with a single numeric value as model</label>
-        <div class="flex items-center space-x-2"><slider id="slider-1" :min="0" :max="50" v-model="form.slider" /><input class="w-20 form-input" v-model.number="form.slider" /></div>
-      </div>
-      <div>
-        <label for="slider-2">Slider with an array of two numeric values as model</label>
-        <div class="flex items-center space-x-2"><slider id="slider-2" :min="0" :max="50" v-model="form.sliderPair" /><input class="w-20 form-input" v-model.number="form.sliderPair[0]" /><input class="w-20 form-input" v-model.number="form.sliderPair[1]" /></div>
+      <div class="grid grid-cols-4 gap-4">
+        <div class="col-span-3 space-y-2">
+          <div>
+            <label for="slider-1">Slider with a single numeric value as model</label>
+            <div class="flex items-center space-x-2"><slider id="slider-1" :min="0" :max="50" v-model="form.slider" /><input class="w-12 form-input" v-model.number="form.slider" /></div>
+          </div>
+          <div>
+            <label for="slider-2">Slider with an array of two numeric values as model</label>
+            <div class="flex items-center space-x-2"><slider id="slider-2" :min="0" :max="50" v-model="form.sliderPair" /><input class="w-12 form-input" v-model.number="form.sliderPair[0]" /><input class="w-12 form-input" v-model.number="form.sliderPair[1]" /></div>
+          </div>
+        </div>
+        <div class="flex justify-center items-start space-x-2">
+          <label class="hidden sm:block" for="slider-v">Vertical Slider</label>
+          <slider id="slider-v" :min="0" :max="30" v-model="form.sliderVertical" vertical />
+        </div>
       </div>
       <div><label for="password-input">Password Input</label><password-input id="password-input" v-model="form.pw" class="w-full" /></div>
       <div><label for="autocomplete">Autocomplete</label><autocomplete
