@@ -145,7 +145,7 @@
             <div class="flex items-center space-x-2"><slider id="slider-2" :min="0" :max="50" v-model="form.sliderPair" /><input class="w-12 form-input" v-model.number="form.sliderPair[0]" /><input class="w-12 form-input" v-model.number="form.sliderPair[1]" /></div>
           </div>
         </div>
-        <div class="flex items-start space-x-2 justify-center">
+        <div class="flex justify-center items-start space-x-2">
           <label class="hidden sm:block" for="slider-v">Vertical Slider</label>
           <slider id="slider-v" :min="0" :max="30" v-model="form.sliderVertical" vertical />
         </div>
