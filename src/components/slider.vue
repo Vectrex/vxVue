@@ -5,6 +5,7 @@
   const props = defineProps({
     min: { type: Number, default: 0 },
     max: { type: Number, default: 100 },
+    vertical: Boolean,
     modelValue: { type: [Number, Array], validator(v) {
       return typeof v === 'number' || v.every(item => typeof item === 'number')
     }}
@@ -26,12 +27,14 @@
   })
   const selectedTrackStyle = computed(() => {
     if (props.modelValue instanceof Array) {
-      return { left: Math.min(...thumbPos.value) + '%', width: Math.max(...thumbPos.value) - Math.min(...thumbPos.value) + '%' }
+      const offset = Math.min(...thumbPos.value) + '%'
+      const length = Math.max(...thumbPos.value) - Math.min(...thumbPos.value) + '%'
+      return props.vertical ? { bottom:  offset, height:  length } : { left: offset, width: length }
     }
-    return { width: thumbPos.value + '%' }
+    return props.vertical ? { bottom: 0, height: thumbPos.value + '%' } : { width: thumbPos.value + '%' }
   })
   const thumbAttrs = ref({
-    class: "absolute top-0 w-5 h-5 bg-white rounded-full border-2 transition-colors duration-200 -translate-x-2.5 -translate-y-1.5 focus:ring-4 focus:outline-none border-vxvue cursor-grab touch-none hover:bg-vxvue focus:ring-vxvue/50",
+    class: (props.vertical ? 'left-0 -translate-x-1.5 translate-y-2.5' : 'top-0 -translate-x-2.5 -translate-y-1.5') + ' absolute w-5 h-5 bg-white rounded-full border-2 transition-colors duration-200 focus:ring-4 focus:outline-none border-vxvue cursor-grab touch-none hover:bg-vxvue focus:ring-vxvue/50',
     tabindex: 0,
     role: 'slider',
     'aria-valuemin': props.min,
@@ -51,7 +54,7 @@
   }
   const setValue = e => {
     const { pageX, pageY } = e.touches ? e.touches[0] : e
-    const thumbValue = (pageX - initPos.value.x) / trackSize.value.w
+    const thumbValue = props.vertical ? (-pageY + initPos.value.y) / trackSize.value.h : (pageX - initPos.value.x) / trackSize.value.w
     updateModel(Math.floor((props.max - props.min) * thumbValue + props.min))
   }
   const drag = e => {
@@ -66,7 +69,7 @@
     const box = track.value.getBoundingClientRect()
     initPos.value = {
       x: box.left + doc.scrollLeft - doc.clientLeft,
-      y: box.top + doc.scrollTop - doc.clientTop
+      y: box.bottom + doc.scrollTop - doc.clientTop
     }
     trackSize.value = {
       w: track.value.offsetWidth,
@@ -92,8 +95,10 @@
 
     switch (e.keyCode) {
       case 37:
+      case 40:
         updateModel(v - 1); break
       case 39:
+      case 38:
         updateModel(v + 1); break
       case 33:
         updateModel(v + (props.max - props.min) / 10); break
@@ -108,12 +113,12 @@
 </script>
 
 <template>
-  <div class="relative w-full h-2 rounded-r-full rounded-l-full bg-slate-300" ref="track">
-    <div class="absolute h-full rounded-r-full rounded-l-full bg-vxvue" :style="selectedTrackStyle" />
+  <div :class="['relative  bg-slate-300', vertical ? 'h-full w-2 rounded-t-full rounded-b-full' : 'w-full h-2 rounded-r-full rounded-l-full']" ref="track">
+    <div :class="['absolute bg-vxvue', vertical ? 'w-full rounded-t-full rounded-b-full' : 'h-full rounded-r-full rounded-l-full']" :style="selectedTrackStyle" />
     <button
         v-if="!modelValue.length"
         :id="attrs['id']"
-        :style="{ left: thumbPos + '%' }"
+        :style="vertical ? { bottom: thumbPos + '%' } : { left: thumbPos + '%' }"
         :aria-valuenow="modelValue"
         @focus="thumbNdx = 0"
         @keydown="handleKeydown"
@@ -127,7 +132,7 @@
       <button
           v-for="(_, ndx) in modelValue"
           :id="!ndx ? attrs['id'] : null"
-          :style="{ left: thumbPos[ndx] + '%' }"
+          :style="vertical ? { bottom: thumbPos[ndx] + '%' } : { left: thumbPos[ndx] + '%' }"
           :aria-valuenow="modelValue[ndx]"
           @focus="thumbNdx = ndx"
           @keydown="handleKeydown"
