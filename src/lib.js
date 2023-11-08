@@ -27,6 +27,7 @@ export {
     Pagination,
     PasswordInput,
     SimpleTree,
+    Slider,
     Sortable,
     Tabs
 }
