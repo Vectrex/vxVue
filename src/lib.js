@@ -10,6 +10,7 @@ import Modal from "./components/modal.vue"
 import Pagination from './components/pagination.vue'
 import PasswordInput from './components/password-input.vue'
 import SimpleTree from "./components/simple-tree.vue"
+import Slider from "./components/slider.vue"
 import Sortable from './components/sortable.vue'
 import Tabs from "./components/tabs.vue"
 
