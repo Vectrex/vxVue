@@ -6,7 +6,7 @@
     min: { type: Number, default: 0 },
     max: { type: Number, default: 100 },
     modelValue: { type: [Number, Array], validator(v) {
-      return typeof v === 'number' || v.length === 2 && typeof v[0] === 'number' && typeof v[1] === 'number'
+      return typeof v === 'number' || v.every(item => typeof item === 'number')
     }}
   })
   const emit = defineEmits(['update:modelValue'])
