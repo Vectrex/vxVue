@@ -6,6 +6,7 @@
     min: { type: Number, default: 0 },
     max: { type: Number, default: 100 },
     vertical: Boolean,
+    disabled: Boolean,
     modelValue: { type: [Number, Array], validator(v) {
       return typeof v === 'number' || v.every(item => typeof item === 'number')
     }}
@@ -34,7 +35,11 @@
     return props.vertical ? { bottom: 0, height: thumbPos.value + '%' } : { width: thumbPos.value + '%' }
   })
   const thumbAttrs = ref({
-    class: (props.vertical ? 'left-0 -translate-x-1.5 translate-y-2.5' : 'top-0 -translate-x-2.5 -translate-y-1.5') + ' absolute w-5 h-5 bg-white rounded-full border-2 transition-colors duration-200 focus:ring-4 focus:outline-none border-vxvue cursor-grab touch-none hover:bg-vxvue focus:ring-vxvue/50',
+    class:
+        (props.vertical ? 'left-0 -translate-x-1.5 translate-y-2.5' : 'top-0 -translate-x-2.5 -translate-y-1.5') +
+        ' touch-none absolute w-5 h-5 rounded-full border-2 bg-white transition-colors duration-200 ' +
+        (!props.disabled ? ' focus:ring-4 focus:outline-none border-vxvue cursor-grab hover:bg-vxvue focus:ring-vxvue/50' : '')
+    ,
     tabindex: 0,
     role: 'slider',
     'aria-valuemin': props.min,
@@ -64,6 +69,7 @@
     }
   }
   const dragStart = e => {
+    e.preventDefault()
     dragging.value = true
     const doc = document.documentElement
     const box = track.value.getBoundingClientRect()
@@ -113,19 +119,28 @@
 </script>
 
 <template>
-  <div :class="['relative  bg-slate-300', vertical ? 'h-full w-2 rounded-t-full rounded-b-full' : 'w-full h-2 rounded-r-full rounded-l-full']" ref="track">
-    <div :class="['absolute bg-vxvue', vertical ? 'w-full rounded-t-full rounded-b-full' : 'h-full rounded-r-full rounded-l-full']" :style="selectedTrackStyle" />
+  <div
+    :class="['relative  bg-slate-300', vertical ? 'h-full w-2 rounded-t-full rounded-b-full' : 'w-full h-2 rounded-r-full rounded-l-full']"
+    ref="track"
+  >
+    <div
+        v-if="!disabled"
+        :class="['absolute bg-vxvue', vertical ? 'w-full rounded-t-full rounded-b-full' : 'h-full rounded-r-full rounded-l-full']"
+        :style="selectedTrackStyle"
+    />
     <button
         v-if="!modelValue.length"
         :id="attrs['id']"
         :style="vertical ? { bottom: thumbPos + '%' } : { left: thumbPos + '%' }"
         :aria-valuenow="modelValue"
-        @focus="thumbNdx = 0"
-        @keydown="handleKeydown"
-        @mousedown.prevent="thumbNdx = 0; dragStart($event)"
-        @touchstart.prevent="thumbNdx = 0; dragStart($event)"
-        @touchmove="drag"
-        @touchend="dragStop"
+        v-on="!disabled ? {
+          focus: () => thumbNdx = 0,
+          keydown: handleKeydown,
+          mousedown: e => { thumbNdx = 0; dragStart(e) },
+          touchstart: e => { thumbNdx = 0; dragStart(e) },
+          touchmove: drag,
+          touchend: dragStop
+        } : {}"
         v-bind="thumbAttrs"
     />
     <template v-else>
@@ -134,12 +149,14 @@
           :id="!ndx ? attrs['id'] : null"
           :style="vertical ? { bottom: thumbPos[ndx] + '%' } : { left: thumbPos[ndx] + '%' }"
           :aria-valuenow="modelValue[ndx]"
-          @focus="thumbNdx = ndx"
-          @keydown="handleKeydown"
-          @mousedown.prevent="thumbNdx = ndx; dragStart($event)"
-          @touchstart.prevent="thumbNdx = ndx; dragStart($event)"
-          @touchmove="drag"
-          @touchend="dragStop"
+          v-on="!disabled ? {
+            focus: () => thumbNdx = ndx,
+            keydown: handleKeydown,
+            mousedown: e => { thumbNdx = ndx; dragStart(e) },
+            touchstart: e => { thumbNdx = ndx; dragStart(e) },
+            touchmove: drag,
+            touchend: dragStop
+          } : {}"
           v-bind="thumbAttrs"
       />
     </template>
