@@ -1,3 +1,6 @@
+## [v0.7.3] - 2023-11-13
+- slider track can be clicked to set value
+
 ## [v0.7.2] - 2023-11-10
 - slider component accepts a `disabled` attribute
 

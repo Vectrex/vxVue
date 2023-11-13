@@ -62,15 +62,7 @@
     const thumbValue = props.vertical ? (-pageY + initPos.value.y) / trackSize.value.h : (pageX - initPos.value.x) / trackSize.value.w
     updateModel(Math.floor((props.max - props.min) * thumbValue + props.min))
   }
-  const drag = e => {
-    if(dragging.value) {
-      e.preventDefault()
-      setValue(e)
-    }
-  }
-  const dragStart = e => {
-    e.preventDefault()
-    dragging.value = true
+  const initBounds = () => {
     const doc = document.documentElement
     const box = track.value.getBoundingClientRect()
     initPos.value = {
@@ -81,7 +73,18 @@
       w: track.value.offsetWidth,
       h: track.value.offsetHeight
     }
+  }
+  const drag = e => {
+    if(dragging.value) {
+      e.preventDefault()
+      setValue(e)
+    }
+  }
+  const dragStart = e => {
+    e.preventDefault()
     e.currentTarget.focus()
+    initBounds()
+    dragging.value = true
     /* @todo omit when triggered by touch event */
     document.addEventListener('mousemove', drag)
     document.addEventListener('mouseup', dragStop)
@@ -116,12 +119,19 @@
         updateModel(props.max)
     }
   }
+  const handleBarClick = e => {
+    initBounds()
+    setValue(e)
+  }
 </script>
 
 <template>
   <div
     :class="['relative  bg-slate-300', vertical ? 'h-full w-2 rounded-t-full rounded-b-full' : 'w-full h-2 rounded-r-full rounded-l-full']"
     ref="track"
+    v-on="!disabled ? {
+      click: handleBarClick
+    } : {}"
   >
     <div
         v-if="!disabled"
