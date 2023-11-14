@@ -159,6 +159,7 @@
           class="w-full"
           result-item-class="py-2 px-4 cursor-pointer hover:bg-gray-200"
           result-list-class="overflow-auto max-h-96 bg-white shadow-md"
+          auto-select
       /></div>
       <div class="flex items-center space-x-2"><label for="form-switch">Form Switch</label><form-switch id="form-switch" v-model="form.switch" /></div>
       <div><label for="form-select">Form Select</label><form-select class="w-full" id="form-select" v-model="form.formSelect" :options="['Please', 'Select', 'Me']" disabled-label="(Pick an option)" /></div>

@@ -10,8 +10,8 @@ const props = defineProps({
   resultListClass: { type: String, default: 'result-list' },
   resultItemClass: { type: String, default: 'result-list-item' },
   inputClass: { type: String, default: 'autocomplete-input' },
-  autoSelect: { type: Boolean, default: false },
-  getResultValue: { type: Function, default: result => result }
+  getResultValue: { type: Function, default: result => result },
+  autoSelect: Boolean
 })
 defineOptions({ inheritAttrs: false })
 const attrs = useAttrs()
@@ -103,7 +103,10 @@ const selectResult = () => {
 }
 const handleInput  = v => { emit('update:modelValue', v); updateResults(v) }
 const handleFocus = e => updateResults(e.target.value)
-const handleBlur = () => { hideResults(); emit('blur') }
+const handleBlur = () => {
+  hideResults()
+  emit('blur')
+}
 const handleUp = () => {
   const listLen = results.value.length
   selectedIndex.value = (((selectedIndex.value - 1) % listLen) + listLen) % listLen
@@ -115,7 +118,10 @@ const handleDown = e => {
   const listLen = results.value.length
   selectedIndex.value = (((selectedIndex.value + 1) % listLen) + listLen) % listLen
 }
-const handleEsc = () => { hideResults(); emit('update:modelValue', '') }
+const handleEsc = () => {
+  hideResults()
+  emit('update:modelValue', '')
+}
 const handleEnter = () => emit('submit', selectResult())
 const handleResultClick = e => {
   const result = e.target.closest('[data-result-index]')
