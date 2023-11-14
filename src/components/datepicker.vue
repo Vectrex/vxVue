@@ -13,7 +13,7 @@
     startOfWeekIndex: { type: Number, default: 0, validator: value => value === 0 || value === 1 },
     hasInput: { type: Boolean, default: true }
   })
-  const emit = defineEmits(['update:modelValue', 'month-change'])
+  const emit = defineEmits(['update:modelValue', 'month-change', 'year-change'])
   const today = (() => { let d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate())})()
 
   const sheetDate = ref(new Date(today.getFullYear(), today.getMonth(), 1))
@@ -60,13 +60,13 @@
     }
   })
   onClickOutside(calendar, () => expanded.value = false)
-  const previousMonth = () => {
-    sheetDate.value = new Date(sheetDate.value.getFullYear(), sheetDate.value.getMonth() - 1, 1)
+  const setMonth = month => {
+    sheetDate.value = new Date(sheetDate.value.getFullYear(), month, 1)
     emit("month-change", sheetDate.value)
   }
-  const nextMonth = () => {
-    sheetDate.value = new Date(sheetDate.value.getFullYear(), sheetDate.value.getMonth() + 1, 1)
-    emit("month-change", sheetDate.value)
+  const setYear = year => {
+    sheetDate.value = new Date(year, sheetDate.value.getMonth(), 1)
+    emit("year-change", sheetDate.value)
   }
   const selectDate = day => {
     selectedDate.value = day
@@ -94,14 +94,25 @@
     ><slot /></date-input>
 
     <div class="z-10 bg-white shadow-md" v-bind="calendarProps" ref="calendar" :class="[alignHoriz, alignVert]">
-      <div class="flex flex-row items-center py-2 px-3 text-white bg-vxvue-700">
-        <button @click.stop="previousMonth" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
-          <chevron-left-icon class="w-6 h-6" />
-        </button>
-        <div class="flex-grow text-center">{{ sheetDate.toLocaleString(locale, { month: 'long'}) }} {{ sheetDate.getFullYear() }}</div>
-        <button @click.stop="nextMonth" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
-          <chevron-right-icon class="w-6 h-6" />
-        </button>
+      <div class="flex items-center py-2 px-3 text-white bg-vxvue-700">
+        <div class="flex w-1/2 justify-between">
+          <button @click.stop="setMonth(sheetDate.getMonth() - 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
+            <chevron-left-icon class="w-6 h-6" />
+          </button>
+          <span>{{ sheetDate.toLocaleString(locale, { month: 'long'}) }}</span>
+          <button @click.stop="setMonth(sheetDate.getMonth() + 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
+            <chevron-right-icon class="w-6 h-6" />
+          </button>
+        </div>
+        <div class="flex w-1/2 justify-between">
+          <button @click.stop="setYear(sheetDate.getFullYear() - 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
+            <chevron-left-icon class="w-6 h-6" />
+          </button>
+          <div>{{ sheetDate.getFullYear() }}</div>
+          <button @click.stop="setYear(sheetDate.getFullYear() + 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
+            <chevron-right-icon class="w-6 h-6" />
+          </button>
+        </div>
       </div>
 
       <div class="grid grid-cols-7 gap-0.5 p-0.5">
