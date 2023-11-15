@@ -1,3 +1,7 @@
+## [v0.7.4] - 2023-11-15
+- datepicker can now change year and month independently; in addition a `year-change` is emitted
+- fix: a second click the toggle button of the datepicker doesn't hide the datepicker
+
 ## [v0.7.3] - 2023-11-13
 - slider track can be clicked to set value
 
