@@ -2,7 +2,7 @@
   import DateInput from "./date-input.vue"
   import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/solid"
   import { onClickOutside } from "@vueuse/core"
-  import { ref, computed, useAttrs, watch, nextTick } from "vue"
+  import {ref, computed, watch, nextTick, onMounted } from "vue"
 
   const props = defineProps({
     modelValue: [Date, Boolean],
@@ -23,6 +23,7 @@
   const alignVert = ref('top-0')
   const input = ref(null)
   const calendar = ref(null)
+  const toggleButton = ref(null)
   const calendarProps = computed(() => props.hasInput ? { 'class': ['absolute', expanded.value ? 'block' : 'hidden'] } : {})
   const days = computed(() => {
     const
@@ -59,7 +60,7 @@
       })
     }
   })
-  onClickOutside(calendar, () => expanded.value = false)
+  onClickOutside(calendar, () => expanded.value = false, { ignore: [toggleButton] })
   const setMonth = month => {
     sheetDate.value = new Date(sheetDate.value.getFullYear(), month, 1)
     emit("month-change", sheetDate.value)
@@ -77,6 +78,7 @@
     selectedDate.value = date
     emit('update:modelValue', date)
   }
+  onMounted(() => toggleButton.value = input.value?.$refs.toggleButton)
 </script>
 
 <template>
@@ -85,7 +87,7 @@
     <date-input
         v-if="hasInput"
         :modelValue="selectedDate"
-        @toggle-datepicker="expanded = true"
+        @toggle-datepicker="expanded = !expanded"
         @update:modelValue="handleInput"
         v-bind="$attrs"
         ref="input"
