@@ -63,7 +63,7 @@
 </script>
 
 <template>
-  <table class="w-full divide-y divide-y-slate-900">
+  <table :class="$attrs.class || 'w-full divide-y divide-y-slate-900 table-fixed'">
     <thead class="text-white bg-slate-700">
       <tr>
         <th
@@ -89,7 +89,7 @@
     </thead>
     <tbody>
       <tr v-for="row in sortedRows" :key="row[keyProperty]" :class="row.cssClass">
-        <td v-for="column in columns" class="py-3 px-6 whitespace-nowrap" :class="{ 'active': sortBy === column.prop }">
+        <td v-for="column in columns" class="py-3 px-6 whitespace-nowrap text-ellipsis overflow-hidden" :class="{ 'active': sortBy === column.prop }">
           <slot :name="column.prop" :row="row">{{ row[column.prop] }}</slot>
         </td>
       </tr>
