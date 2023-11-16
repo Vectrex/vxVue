@@ -14,9 +14,9 @@
   const emit = defineEmits(['update:modelValue'])
   const attrs = useAttrs()
 
-  const initPos = ref({ x: null, y: null })
-  const trackSize = ref( { w: null, h: null })
-  const dragging = ref(false)
+  const initPos = { x: null, y: null }
+  const trackSize = { w: null, h: null }
+  let dragging = false
   const track = ref(null)
   const thumbNdx = ref(0)
   const thumbPos = computed(() => {
@@ -59,23 +59,19 @@
   }
   const setValue = e => {
     const { pageX, pageY } = e.touches ? e.touches[0] : e
-    const thumbValue = props.vertical ? (-pageY + initPos.value.y) / trackSize.value.h : (pageX - initPos.value.x) / trackSize.value.w
+    const thumbValue = props.vertical ? (-pageY + initPos.y) / trackSize.h : (pageX - initPos.x) / trackSize.w
     updateModel(Math.floor((props.max - props.min) * thumbValue + props.min))
   }
   const initBounds = () => {
-    const doc = document.documentElement
+    const { clientLeft, clientTop, scrollLeft, scrollTop } = document.documentElement
     const box = track.value.getBoundingClientRect()
-    initPos.value = {
-      x: box.left + doc.scrollLeft - doc.clientLeft,
-      y: box.bottom + doc.scrollTop - doc.clientTop
-    }
-    trackSize.value = {
-      w: track.value.offsetWidth,
-      h: track.value.offsetHeight
-    }
+    initPos.x =  box.left + scrollLeft - clientLeft
+    initPos.y = box.bottom + scrollTop - clientTop
+    trackSize.w = track.value.offsetWidth
+    trackSize.h = track.value.offsetHeight
   }
   const drag = e => {
-    if(dragging.value) {
+    if(dragging) {
       e.preventDefault()
       setValue(e)
     }
@@ -84,14 +80,14 @@
     e.preventDefault()
     e.currentTarget.focus()
     initBounds()
-    dragging.value = true
+    dragging = true
     /* @todo omit when triggered by touch event */
     document.addEventListener('mousemove', drag)
     document.addEventListener('mouseup', dragStop)
   }
   const dragStop = () => {
-    if (dragging.value) {
-      dragging.value = false
+    if (dragging) {
+      dragging = false
       document.removeEventListener('mousemove', drag)
       document.removeEventListener('mouseup', dragStop)
     }
