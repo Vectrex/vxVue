@@ -25,6 +25,16 @@
   const buttonArray = computed (() => Array.isArray(props.buttons) ? props.buttons : [props.buttons])
   const buttonsContainer = ref(null)
 
+  // if no value is assigned to buttons, the first button resolves
+  const handleClick = (button, ndx) => {
+    show.value = false
+    if (button.value !== undefined) {
+      button.value ? resolve() : reject()
+    }
+    else {
+      ndx ? reject() : resolve()
+    }
+  }
   const open = (t, m) => {
     title.value = t
     message.value = m
@@ -63,7 +73,7 @@
                 <button
                     v-for="(button, ndx) in buttonArray"
                     :class="[buttonClass, button['class']]"
-                    @click.prevent="show = false; ndx === 0 ? resolve() : reject()"
+                    @click.prevent="handleClick(button, ndx)"
                 >{{ button.label }}</button>
               </div>
             </div>
