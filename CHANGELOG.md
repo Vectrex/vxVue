@@ -1,3 +1,6 @@
+## [v0.7.5] - 2023-12-02
+- Confirm parses either a value property of a button (truthy resolves, falsy rejects) or the index of button (first button resolves, second rejects)
+
 ## [v0.7.4] - 2023-11-15
 - datepicker can now change year and month independently; in addition a `year-change` is emitted
 - fix: a second click the toggle button of the datepicker doesn't hide the datepicker
