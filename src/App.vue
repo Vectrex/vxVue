@@ -161,9 +161,9 @@
           result-list-class="overflow-auto max-h-96 bg-white shadow-md"
           auto-select
       /></div>
-      <div class="flex items-center space-x-2"><label for="form-switch">Form Switch</label><form-switch id="form-switch" v-model="form.switch" /></div>
+      <div class="flex items-center space-x-2"><label for="form-switch">Form Switch</label><form-switch id="form-switch" aria-label="sample-switch" v-model="form.switch" /></div>
       <div><label for="form-select">Form Select</label><form-select class="w-full" id="form-select" v-model="form.formSelect" :options="['Please', 'Select', 'Me']" disabled-label="(Pick an option)" /></div>
-      <div><label for="form-file-button">Form File Button</label><form-file-button id="form-file-button" v-model="form.files" multiple="multiple" role="button" class="block py-2 px-4 text-center text-white rounded-md border border-transparent shadow-sm bg-vxvue hover:bg-vxvue-600">Pick Files</form-file-button></div>
+      <div><label for="form-file-button">Form File Button</label><form-file-button id="form-file-button" v-model="form.files" multiple="multiple" class="block py-2 px-4 text-center text-white rounded-md border border-transparent shadow-sm bg-vxvue hover:bg-vxvue-600">Pick Files</form-file-button></div>
       <div><label for="date-input">Date Input</label><date-input class="w-full" placeholder="yyyy-mm-dd" id="date-input" v-model="form.dateInput" :show-button="false" /></div>
       <div><label for="datepicker">Datepicker</label><datepicker class="w-full" placeholder="mm/dd/yyyy" id="datepicker" v-model="form.datepicker" locale="en-US" output-format="M/D/YYYY" input-format="mm/dd/yyyy"/></div>
     </div>

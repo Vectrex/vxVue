@@ -22,7 +22,11 @@
         v-bind="inputAttrs"
         class="block pr-10 w-full form-input peer"
     >
-    <button @click.stop="show = !show" class="flex absolute inset-y-0 right-0 items-center pr-3 text-brand-700 hover:text-brand">
+    <button
+      class="flex absolute inset-y-0 right-0 items-center pr-3 text-brand-700 hover:text-brand"
+      aria-label="show-password-toggle"
+      @click.stop="show = !show"
+    >
       <eye-slash-icon class="w-5 h-5" v-if="show" />
       <eye-icon class="w-5 h-5" v-else />
     </button>

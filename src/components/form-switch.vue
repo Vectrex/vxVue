@@ -20,6 +20,7 @@
         class="inline-flex relative flex-shrink-0 w-11 h-6 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out cursor-pointer focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-vxvue"
         role="switch"
         :aria-checked="!!modelValue"
+        :aria-label="$attrs['aria-label']"
     >
       <span
           aria-hidden="true"

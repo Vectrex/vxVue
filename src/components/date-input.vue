@@ -3,6 +3,7 @@
   import { formatDate } from "@vueuse/core"
   import { computed, ref, useAttrs, watch } from "vue"
 
+  defineOptions({ inheritAttrs: false })
   const emit = defineEmits(['update:modelValue', 'toggle-datepicker'])
   const props = defineProps({
         outputFormat: { type: String, default: 'YYYY-MM-DD' },
@@ -39,6 +40,7 @@
     <button
       v-if="showButton"
       class="flex absolute inset-y-0 right-0 items-center px-2 text-vxvue-700 hover:text-vxvue"
+      aria-label="datepicker-toggle"
       @click.stop="emit('toggle-datepicker')"
       ref="toggleButton"
     >

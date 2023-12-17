@@ -40,10 +40,7 @@
         ' touch-none absolute w-5 h-5 rounded-full border-2 bg-white transition-colors duration-200 ' +
         (!props.disabled ? ' focus:ring-4 focus:outline-none border-vxvue cursor-grab hover:bg-vxvue focus:ring-vxvue/50' : '')
     ,
-    tabindex: 0,
-    role: 'slider',
-    'aria-valuemin': props.min,
-    'aria-valuemax': props.max,
+    tabindex: 0
   })
   const updateModel = v => {
     let newValue = parseFloat(v.toFixed(10))
@@ -125,6 +122,12 @@
   <div
     :class="['relative  bg-slate-300', vertical ? 'h-full w-2 rounded-t-full rounded-b-full' : 'w-full h-2 rounded-r-full rounded-l-full']"
     ref="track"
+    role="slider"
+    aria-label="slider-thumb"
+    :aria-valuemin="min"
+    :aria-valuemax="props.max"
+    :aria-valuenow="modelValue[0] ?? modelValue"
+    :aria-valuetext="modelValue"
     v-on="!disabled ? {
       click: handleBarClick
     } : {}"
@@ -138,7 +141,7 @@
         v-if="!modelValue.length"
         :id="attrs['id']"
         :style="vertical ? { bottom: thumbPos + '%' } : { left: thumbPos + '%' }"
-        :aria-valuenow="modelValue"
+        aria-label="slider-thumb"
         v-on="!disabled ? {
           focus: () => thumbNdx = 0,
           keydown: handleKeydown,
@@ -154,7 +157,7 @@
           v-for="(_, ndx) in modelValue"
           :id="!ndx ? attrs['id'] : null"
           :style="vertical ? { bottom: thumbPos[ndx] + '%' } : { left: thumbPos[ndx] + '%' }"
-          :aria-valuenow="modelValue[ndx]"
+          :aria-label="'slider-thumb-' + (ndx + 1)"
           v-on="!disabled ? {
             focus: () => thumbNdx = ndx,
             keydown: handleKeydown,

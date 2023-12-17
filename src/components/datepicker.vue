@@ -4,6 +4,7 @@
   import { onClickOutside } from "@vueuse/core"
   import {ref, computed, watch, nextTick, onMounted } from "vue"
 
+  defineOptions({ inheritAttrs: false })
   const props = defineProps({
     modelValue: [Date, Boolean],
     validFrom: Date,
