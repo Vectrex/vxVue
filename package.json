@@ -1,6 +1,9 @@
 {
   "name": "vx-vue",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
+  "type": "module",
   "main": "./dist/vxvue.umd.js",
   "module": "./dist/vxvue.es.js",
   "exports": {
@@ -11,23 +14,27 @@
     "./vx-vue.css": "./dist/style.css",
     "./dist/*": "./dist/*"
   },
-  "version": "0.7.4",
+  "version": "0.7.5",
   "license": "MIT",
   "homepage": "https://vxweb.net/vxvue/index.html",
   "repository": "https://github.com/Vectrex/vxVue",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest --dom"
   },
   "devDependencies": {
-    "vue": "^3.3.8",
-    "tailwindcss": "^3.3.5",
+    "@heroicons/vue": "^2.1.1",
     "@tailwindcss/forms": "^0.5.7",
-    "@heroicons/vue": "^2.0.18",
-    "@vitejs/plugin-vue": "^4.4.1",
-    "vite": "^4.5.0",
-    "@vueuse/core": "^10.6.1",
-    "rustywind": "^0.20.0"
+    "@vitejs/plugin-vue": "^4.5.2",
+    "@vue/test-utils": "^2.4.3",
+    "@vueuse/core": "^10.7.0",
+    "happy-dom": "^12.10.3",
+    "rustywind": "^0.20.0",
+    "tailwindcss": "^3.3.7",
+    "vite": "^5.0.10",
+    "vitest": "^1.0.4",
+    "vue": "^3.3.12"
   }
 }
