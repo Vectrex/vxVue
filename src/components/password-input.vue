@@ -27,8 +27,8 @@
       aria-label="show-password-toggle"
       @click.stop="show = !show"
     >
-      <eye-slash-icon class="w-5 h-5" v-if="show" />
-      <eye-icon class="w-5 h-5" v-else />
+      <eye-slash-icon class="size-5" v-if="show" />
+      <eye-icon class="size-5" v-else />
     </button>
     <slot />
   </div>

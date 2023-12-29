@@ -49,7 +49,7 @@
               <div class="flex flex-shrink-0 ml-4">
                 <button @click="emit('close')" class="inline-flex text-white bg-black bg-opacity-20 rounded-sm focus:ring-2 focus:outline-none hover:text-stone-200 focus:ring-stone-200">
                   <span class="sr-only">Close</span>
-                  <x-mark-icon class="w-5 h-5" />
+                  <x-mark-icon class="size-5" />
                 </button>
               </div>
             </div>

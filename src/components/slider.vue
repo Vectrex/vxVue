@@ -37,7 +37,7 @@
   const thumbAttrs = ref({
     class:
         (props.vertical ? 'left-0 -translate-x-1.5 translate-y-2.5' : 'top-0 -translate-x-2.5 -translate-y-1.5') +
-        ' touch-none absolute w-5 h-5 rounded-full border-2 bg-white transition-colors duration-200 ' +
+        ' touch-none absolute size-5 rounded-full border-2 bg-white transition-colors duration-200 ' +
         (!props.disabled ? ' focus:ring-4 focus:outline-none border-vxvue cursor-grab hover:bg-vxvue focus:ring-vxvue/50' : '')
     ,
     tabindex: 0

@@ -25,7 +25,7 @@
       <span
           aria-hidden="true"
           :class="innerClass"
-          class="inline-block w-5 h-5 bg-white rounded-full ring-0 shadow transition duration-200 ease-in-out transform pointer-events-none"
+          class="inline-block size-5 bg-white rounded-full ring-0 shadow transition duration-200 ease-in-out transform pointer-events-none"
       ></span>
       <input class="hidden" value="1" type="checkbox" @change="emit('update:modelValue', $event.target.checked)" v-bind="inputAttrs" :checked="modelValue" />
     </span>

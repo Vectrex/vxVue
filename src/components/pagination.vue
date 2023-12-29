@@ -91,7 +91,7 @@
           class="inline-flex items-center pr-1 text-sm font-medium text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300"
           :class="[{'cursor-default pointer-events-none': currentPage <=1 }, markerPositionClass]"
       >
-        <chevron-left-icon class="w-5 h-5" />
+        <chevron-left-icon class="size-5" />
         {{ prevText }}
       </a>
     </div>
@@ -121,7 +121,7 @@
           :class="[markerPositionClass, {'cursor-default pointer-events-none': currentPage >= maxPage }]"
       >
         {{ nextText }}
-        <chevron-right-icon class="w-5 h-5" />
+        <chevron-right-icon class="size-5" />
       </a>
     </div>
   </nav>
