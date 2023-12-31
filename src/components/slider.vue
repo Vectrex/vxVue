@@ -22,9 +22,9 @@
   const thumbPos = computed(() => {
     const max = props.max, min = props.min
     if (props.modelValue instanceof Array) {
-      return props.modelValue.map(v => Math.max(Math.min(v, max), min) * 100 / (max - min))
+      return props.modelValue.map(v => (Math.max(Math.min(v, max), min) - min) * 100 / (max - min))
     }
-    return Math.max(Math.min(props.modelValue, max), min) * 100 / (max - min)
+    return (Math.max(Math.min(props.modelValue, max), min) - min) * 100 / (max - min)
   })
   const selectedTrackStyle = computed(() => {
     if (props.modelValue instanceof Array) {

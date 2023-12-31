@@ -27,7 +27,7 @@
     branch: {},
     dateInput: null,
     datepicker: null,
-    slider: 30,
+    slider: 0,
     sliderPair: [10, 30],
     sliderVertical: [10, 15]
   })
@@ -127,7 +127,7 @@
       toast.value.active = true
     }).catch(() => {})
   }
-  const clearFormData = () => form.value = { pw: '', switch: false, formSelect: null, files: [], autocomplete: '', branch: {}, dateInput: null, datepicker: null, slider: 30, sliderPair: [10, 30], sliderVertical: [10, 15] }
+  const clearFormData = () => form.value = { pw: '', switch: false, formSelect: null, files: [], autocomplete: '', branch: {}, dateInput: null, datepicker: null, slider: 0, sliderPair: [10, 30], sliderVertical: [10, 15] }
 </script>
 
 <template>
@@ -138,7 +138,7 @@
         <div class="col-span-3 space-y-2">
           <div>
             <label for="slider-1">Slider with a single numeric value as model</label>
-            <div class="flex items-center space-x-2"><slider id="slider-1" :min="0" :max="50" v-model="form.slider" /><input class="w-12 form-input" v-model.number="form.slider" /></div>
+            <div class="flex items-center space-x-2"><slider id="slider-1" :min="-20" :max="20" v-model="form.slider" /><input class="w-12 form-input" v-model.number="form.slider" /></div>
           </div>
           <div>
             <label for="slider-2">Slider with an array of two numeric values as model</label>

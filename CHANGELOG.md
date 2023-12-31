@@ -1,3 +1,6 @@
+## [v0.7.6] - 2023-12-31
+- Fix: Slider can now handle negative min and max values
+
 ## [v0.7.5] - 2023-12-02
 - Confirm parses either a value property of a button (truthy resolves, falsy rejects) or the index of button (first button resolves, second rejects)
 
