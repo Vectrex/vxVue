@@ -1,3 +1,6 @@
+## [v0.7.7] - 2024-01-01
+- Fix: Custom colors did not observe alpha modifiers
+
 ## [v0.7.6] - 2023-12-31
 - Fix: Slider can now handle negative min and max values
 
