@@ -1,4 +1,4 @@
-## [v0.7.8] - 2024-01-11
+## [v0.7.9] - 2024-01-11 (0.7.8 skipped)
 - Fix: Vertical padding of pagination component improved to allow for easier alignment
 - A disabled switch component is rendered in a different color 
 
