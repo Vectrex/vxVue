@@ -216,7 +216,19 @@
     </div>
 
     <div class="p-4 shadow-md lg:row-span-2">
+
       <h2 class="mb-4 text-xl font-bold">Pagination</h2>
+
+      <div class="border-b border-gray-200">
+        <pagination
+            v-model:page="paginationData.currentPage"
+            :total="items.length"
+            :per-page="paginationData.entriesPerPage"
+            :show-nav-buttons="false"
+            marker-position="below"
+        />
+      </div>
+
       <ul>
         <li v-for="item in paginatedItems">{{ item }}</li>
       </ul>

@@ -23,7 +23,7 @@
   })
   const maxPage = ref(Math.ceil(props.total / props.perPage))
   const currentPage = ref(null)
-  const markerPositionClass = computed(() => props.markerPosition === 'above' ? 'border-t-2 pt-4' : 'border-b-2 pb-4')
+  const markerPositionClass = computed(() => (props.markerPosition === 'above' ? 'border-t-2 -mt-[2px]' : 'border-b-2 -mb-[2px]') + ' py-4')
   const pagesToShow = computed(() => {
     let pages = [1]
     if (props.showAllPages || maxPage.value <= 7) {
@@ -89,7 +89,7 @@
           v-if="showNavButtons"
           href="#"
           class="inline-flex items-center pr-1 text-sm font-medium text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300"
-          :class="[{'cursor-default pointer-events-none': currentPage <=1 }, markerPositionClass]"
+          :class="[{ 'cursor-default pointer-events-none': currentPage <=1 }, markerPositionClass]"
       >
         <chevron-left-icon class="size-5" />
         {{ prevText }}
@@ -118,7 +118,7 @@
           v-if="showNavButtons"
           href="#"
           class="inline-flex items-center pl-1 text-sm font-medium text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300"
-          :class="[markerPositionClass, {'cursor-default pointer-events-none': currentPage >= maxPage }]"
+          :class="[markerPositionClass, { 'cursor-default pointer-events-none': currentPage >= maxPage }]"
       >
         {{ nextText }}
         <chevron-right-icon class="size-5" />
