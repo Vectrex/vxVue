@@ -1,3 +1,7 @@
+## [v0.7.8] - 2024-01-11
+- Fix: Vertical padding of pagination component improved to allow for easier alignment
+- A disabled switch component is rendered in a different color 
+
 ## [v0.7.7] - 2024-01-01
 - Fix: Custom colors did not observe alpha modifiers
 
