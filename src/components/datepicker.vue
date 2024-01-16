@@ -100,20 +100,20 @@
       <div class="flex items-center py-2 px-3 text-white bg-vxvue-700">
         <div class="flex w-1/2 justify-between">
           <button @click.stop="setMonth(sheetDate.getMonth() - 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
-            <chevron-left-icon class="w-6 h-6" />
+            <chevron-left-icon class="size-6" />
           </button>
           <span>{{ sheetDate.toLocaleString(locale, { month: 'long'}) }}</span>
           <button @click.stop="setMonth(sheetDate.getMonth() + 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
-            <chevron-right-icon class="w-6 h-6" />
+            <chevron-right-icon class="size-6" />
           </button>
         </div>
         <div class="flex w-1/2 justify-between">
           <button @click.stop="setYear(sheetDate.getFullYear() - 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
-            <chevron-left-icon class="w-6 h-6" />
+            <chevron-left-icon class="size-6" />
           </button>
           <div>{{ sheetDate.getFullYear() }}</div>
           <button @click.stop="setYear(sheetDate.getFullYear() + 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
-            <chevron-right-icon class="w-6 h-6" />
+            <chevron-right-icon class="size-6" />
           </button>
         </div>
       </div>

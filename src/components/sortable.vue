@@ -82,7 +82,7 @@
               <component
                   :is="sortBy !== column.prop ? ChevronUpDownIcon : (sortDir === 'asc' ? ChevronDownIcon : ChevronUpIcon)"
                   v-if="column.sortable"
-                  class="h-4 w-4"
+                  class="size-4"
               />
             </div>
           </slot>

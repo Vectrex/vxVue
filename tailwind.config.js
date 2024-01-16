@@ -42,8 +42,11 @@ export default {
                 warn:  'var(--warn-color)',
                 info:  'var(--info-color)',
             },
-            spacing: {
-                sidebar: '32rem'
+            transitionProperty: {
+                'grid-template-rows': 'grid-template-rows'
+            },
+            gridTemplateRows: {
+                '0': 'repeat(1, minmax(0, 0fr))'
             }
         }
     },
