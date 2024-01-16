@@ -17,6 +17,8 @@
   import { XMarkIcon, UserIcon, ShieldExclamationIcon } from "@heroicons/vue/24/solid"
 
   import { computed, ref } from "vue"
+  import Accordion from "./components/accordion.vue";
+  import AccordionPanel from "./components/accordion-panel.vue";
 
   const form = ref({
     pw: '',
@@ -41,6 +43,7 @@
     ],
     activeIndex: 0
   })
+  const accordionIndex = ref(-1)
   const sortable = ref({
     rows: [
       { key: 1, name: 'Linda', role: 'Sarah', yob: 1956 },
@@ -132,6 +135,14 @@
 
 <template>
   <div class="grid grid-cols-1 gap-4 px-4 pt-28 mx-auto md:pt-32 lg:grid-cols-2 2xl:grid-cols-3">
+    <div class="p-4 space-y-2 shadow-md">
+      <h2 class="mb-4 text-xl font-bold">Accordion</h2>
+      <accordion @update:active-index="accordionIndex = $event" :active-index="accordionIndex">
+        <accordion-panel />
+        <accordion-panel />
+        <div>Dummy</div>
+      </accordion>
+    </div>
     <div class="p-4 space-y-2 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Form Elements</h2>
       <div class="grid grid-cols-4 gap-4">
