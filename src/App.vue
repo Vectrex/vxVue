@@ -137,11 +137,61 @@
   <div class="grid grid-cols-1 gap-4 px-4 pt-28 mx-auto md:pt-32 lg:grid-cols-2 2xl:grid-cols-3">
     <div class="p-4 space-y-2 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Accordion</h2>
+      <div>
       <accordion @update:active-index="accordionIndex = $event" :active-index="accordionIndex">
-        <accordion-panel />
-        <accordion-panel />
-        <div>Dummy</div>
+        <accordion-panel>
+          <template #header>Header 1</template>
+          <template #body>
+            <div class="p-4 bg-amber-200">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+            </div>
+          </template>
+        </accordion-panel>
+        <accordion-panel>
+          <template #header>Header 2</template>
+          <template #body>
+            <div class="p-4 bg-emerald-200">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+            </div>
+          </template>
+        </accordion-panel>
+        <accordion-panel>
+          <template #header>Header 3</template>
+          <template #body>
+            <div class="p-4 bg-fuchsia-300">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+            </div>
+          </template>
+        </accordion-panel>
       </accordion>
+      </div>
     </div>
     <div class="p-4 space-y-2 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Form Elements</h2>
@@ -260,7 +310,7 @@
       <h2 class="mb-4 text-xl font-bold">Tabs</h2>
       <tabs :items="tabs.items" v-model:active-index="tabs.activeIndex">
         <template #icon="slotProps">
-          <span class="mr-2 -ml-0.5 w-5 h-5" v-if="slotProps.tab.icon">
+          <span class="mr-2 -ml-0.5 size-5" v-if="slotProps.tab.icon">
             <component :is="slotProps.tab.icon" class="w-5 h-5" fill="currentColor" />
           </span>
         </template>
@@ -272,7 +322,7 @@
     <template #title><span class="text-green-200">{{ toast.title }}</span></template>
     <template #icon>
       <span class="text-green-200">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
       </span>
@@ -283,7 +333,7 @@
     <template #title>
       <div class="flex fixed justify-between items-center px-4 w-full h-16 bg-vxvue-500">
         <span class="text-xl font-bold text-white">A Modal</span>
-        <a href="#" @click.prevent="modal.show = false"><x-mark-icon class="w-5 h-5 text-white"/></a>
+        <a href="#" @click.prevent="modal.show = false"><x-mark-icon class="size-5 text-white"/></a>
       </div>
     </template>
     <template #default>
