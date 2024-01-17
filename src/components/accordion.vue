@@ -1,39 +1,35 @@
 <script setup>
-  import AccordionPanel from "./accordion-panel.vue"
-  import {computed, onMounted, onUpdated, ref, useSlots} from "vue"
+  import { computed, useSlots } from "vue"
 
-  const props = defineProps({ activeIndex: Number, multiple: Boolean })
+  const props = defineProps({ activeIndex: [Number, Array] })
   const emit = defineEmits(['update:activeIndex'])
   const slots = useSlots()
   const tabs = computed(() => {
     return slots.default().reduce((tabs, child) => {
-        if (child.type.name === 'accordion-panel') {
+        if ((child.type.__name || child.type.name) === 'accordion-panel') {
           tabs.push(child)
         }
         return tabs
     }, [])
   })
-  onMounted(() => {
-    let panels = []
-    slots.default().forEach(child => {
-      if (child.type.name === 'accordion-panel') {
-        panels.push(child)
+  const setIndex = ndx => {
+    if(Array.isArray(props.activeIndex)) {
+      let currentNdx = [].concat(props.activeIndex)
+      let found = currentNdx.findIndex(item => item === ndx)
+      if (found === -1) {
+        emit('update:activeIndex', [...currentNdx, ndx])
       }
-    })
-    tabs.value = panels
-  })
-  onUpdated(() => {
-    let panels = []
-    slots.default().forEach(child => {
-      if (child.type.__name === 'accordion-panel') {
-        panels.push(child)
+      else {
+        currentNdx.splice(found, 1)
+        emit('update:activeIndex', currentNdx)
       }
-    })
-    tabs.value = panels
-  })
+    }
+    else {
+      emit('update:activeIndex', ndx === props.activeIndex ? -1 : ndx)
+    }
+  }
 </script>
 
 <template>
-  <component v-for="(tab, ndx) in tabs" :is="tab" :show="activeIndex === ndx" @select="emit('update:activeIndex', ndx)" />
+  <component v-for="(tab, ndx) in tabs" :is="tab" :show="Array.isArray(activeIndex) ? activeIndex?.indexOf(ndx) !== -1 : activeIndex === ndx" @select="setIndex(ndx)" />
 </template>
-

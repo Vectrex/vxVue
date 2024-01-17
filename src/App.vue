@@ -43,7 +43,7 @@
     ],
     activeIndex: 0
   })
-  const accordionIndex = ref(-1)
+  const accordionIndex = ref({ multiple: [1], single: 0 })
   const sortable = ref({
     rows: [
       { key: 1, name: 'Linda', role: 'Sarah', yob: 1956 },
@@ -124,7 +124,7 @@
     await new Promise(resolve => setTimeout(resolve, 500));
     return items.filter(item => item.toLowerCase().indexOf(query.toLowerCase()) !== -1)
   }
-  const doConfirm = id => {
+  const doConfirm = () => {
     confirmDialog.value.open("General Brewster", "Shall we turn on Skynet?").then(() => {
       toast.value.message = ['Skynet begins to learn at a geometric rate.', 'It becomes self-aware at 2:14 a.m. Eastern time, August 29th.']
       toast.value.active = true
@@ -136,12 +136,11 @@
 <template>
   <div class="grid grid-cols-1 gap-4 px-4 pt-28 mx-auto md:pt-32 lg:grid-cols-2 2xl:grid-cols-3">
     <div class="p-4 space-y-2 shadow-md">
-      <h2 class="mb-4 text-xl font-bold">Accordion</h2>
-      <div>
-      <accordion @update:active-index="accordionIndex = $event" :active-index="accordionIndex">
-        <accordion-panel>
-          <template #header>Header 1</template>
-          <template #body>
+      <h2 class="mb-4 text-xl font-bold">Accordion (activeIndex is an array)</h2>
+      <div class="space-y-1">
+        <accordion v-model:active-index="accordionIndex.multiple">
+          <accordion-panel>
+            <template #header><strong>Header 1</strong></template>
             <div class="p-4 bg-amber-200">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -149,11 +148,9 @@
                 laborum.
               </p>
             </div>
-          </template>
-        </accordion-panel>
-        <accordion-panel>
-          <template #header>Header 2</template>
-          <template #body>
+          </accordion-panel>
+          <accordion-panel>
+            <template #header><strong>Header 2</strong></template>
             <div class="p-4 bg-emerald-200">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -171,11 +168,9 @@
                 laborum.
               </p>
             </div>
-          </template>
-        </accordion-panel>
-        <accordion-panel>
-          <template #header>Header 3</template>
-          <template #body>
+          </accordion-panel>
+          <accordion-panel>
+            <template #header><strong>Header 3</strong></template>
             <div class="p-4 bg-fuchsia-300">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -188,9 +183,65 @@
                 laborum.
               </p>
             </div>
-          </template>
+          </accordion-panel>
+        <accordion-panel :disabled="true">
+          <template #header>Header 4 (disabled)</template>
+          <div class="p-4 bg-sky-200">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+              laborum.
+            </p>
+          </div>
         </accordion-panel>
-      </accordion>
+
+        </accordion>
+      </div>
+      <h2 class="mb-4 text-xl font-bold">Accordion (activeIndex is a number)</h2>
+      <div class="space-y-1">
+        <accordion v-model:active-index="accordionIndex.single">
+          <accordion-panel>
+            <template #header><strong>Header 1</strong></template>
+            <div class="p-4 bg-amber-200">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+            </div>
+          </accordion-panel>
+          <accordion-panel>
+            <template #header><strong>Header 2</strong></template>
+            <div class="p-4 bg-emerald-200">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+            </div>
+          </accordion-panel>
+          <accordion-panel>
+            <template #header><strong>Header 3</strong></template>
+            <div class="p-4 bg-fuchsia-300">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+            </div>
+          </accordion-panel>
+          <accordion-panel>
+            <template #header><strong>Header 4</strong></template>
+            <div class="p-4 bg-sky-200">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.
+              </p>
+            </div>
+          </accordion-panel>
+
+        </accordion>
       </div>
     </div>
     <div class="p-4 space-y-2 shadow-md">
