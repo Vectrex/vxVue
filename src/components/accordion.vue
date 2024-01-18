@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref, useSlots} from "vue"
+import { computed, onBeforeUpdate, ref, useSlots } from "vue"
 
   const props = defineProps({ activeIndex: [Number, Array] })
   const emit = defineEmits(['update:activeIndex'])
@@ -8,11 +8,11 @@ import {computed, ref, useSlots} from "vue"
   const setRef = comp => refs.value.push(comp)
   const tabs = computed(() => {
     refs.value = []
-    return slots.default().reduce((tabs, child) => {
+    return slots.default().reduce((t, child) => {
         if ((child.type.__name || child.type.name) === 'accordion-panel') {
-          tabs.push(child)
+          t.push(child)
         }
-        return tabs
+        return t
     }, [])
   })
   const setIndex = ndx => {
@@ -33,14 +33,23 @@ import {computed, ref, useSlots} from "vue"
   }
   const focusNext = ndx => {
     ndx = ++ndx % tabs.value.length
-    setIndex(ndx)
-    refs.value[ndx].focus()
+    if (!refs.value[ndx].disabled) {
+      setIndex(ndx)
+      refs.value[ndx].focus()
+      return
+    }
+    focusNext(ndx)
   }
   const focusPrevious = ndx => {
     ndx = (ndx ? ndx : tabs.value.length) - 1
-    setIndex(ndx)
-    refs.value[ndx].focus()
+    if (!refs.value[ndx].disabled) {
+      setIndex(ndx)
+      refs.value[ndx].focus()
+      return
+    }
+    focusPrevious(ndx)
   }
+  onBeforeUpdate(() => refs.value = [])
 </script>
 
 <template>

@@ -8,16 +8,21 @@
   const attrs = useAttrs()
   const btn = ref(null)
   const rndStr = Math.random().toString(20).substring(2, 8)
+  const handleKeys = e => {
+    if (!props.disabled) {
+      if (e.keyCode === 40) emit('keydown')
+      if (e.keyCode === 38) emit('keyup')
+    }
+  }
   const focus = () => btn.value.focus()
-  defineExpose({ focus })
+  defineExpose({ focus, disabled: props.disabled })
 </script>
 
 <template>
   <div>
     <button
       @click="emit('select')"
-      @keydown.up.prevent="emit('keyup')"
-      @keydown.down.prevent="emit('keydown')"
+      @keydown.prevent="handleKeys"
       :class="[
           'flex items-center w-full space-x-2 px-4 py-2',
           show ? 'rounded-t' : 'rounded',
