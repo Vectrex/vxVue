@@ -20,10 +20,10 @@
         :type="show ? 'text': 'password'"
         @input="emit('update:modelValue', $event.target.value)"
         v-bind="inputAttrs"
-        class="block pr-10 w-full form-input peer"
+        class="block pr-12 w-full form-input peer"
     >
     <button
-      class="flex absolute inset-y-0 right-0 items-center pr-3 text-brand-700 hover:text-brand"
+      class="flex absolute inset-y-0 right-0 items-center px-3 text-brand-700 hover:text-brand"
       aria-label="show-password-toggle"
       @click.stop="show = !show"
     >

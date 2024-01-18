@@ -98,7 +98,7 @@
 
     <div class="z-10 bg-white shadow-md" v-bind="calendarProps" ref="calendar" :class="[alignHoriz, alignVert]">
       <div class="flex items-center py-2 px-3 text-white bg-vxvue-700">
-        <div class="flex w-1/2 justify-between">
+        <div class="flex justify-between w-1/2">
           <button @click.stop="setMonth(sheetDate.getMonth() - 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
             <chevron-left-icon class="size-6" />
           </button>
@@ -107,7 +107,7 @@
             <chevron-right-icon class="size-6" />
           </button>
         </div>
-        <div class="flex w-1/2 justify-between">
+        <div class="flex justify-between w-1/2">
           <button @click.stop="setYear(sheetDate.getFullYear() - 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
             <chevron-left-icon class="size-6" />
           </button>

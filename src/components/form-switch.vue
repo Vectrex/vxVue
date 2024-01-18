@@ -16,8 +16,7 @@
   <label :class="$attrs['class']" tabindex="0">
     <span
         role="switch"
-        :class="[
-          'inline-flex relative flex-shrink-0 w-11 h-6 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out cursor-pointer focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-vxvue',
+        :class="['inline-flex relative flex-shrink-0 w-11 h-6 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out cursor-pointer focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-vxvue',
           disabled ? 'bg-slate-200' : (modelValue ? 'bg-vxvue' : 'bg-slate-300')
         ]"
         :aria-checked="!!modelValue"
@@ -25,8 +24,7 @@
     >
       <span
           aria-hidden="true"
-          :class="[
-            'inline-block size-5 rounded-full ring-0 shadow transition duration-200 ease-in-out transform pointer-events-none',
+          :class="['inline-block size-5 rounded-full ring-0 shadow transition duration-200 ease-in-out transform pointer-events-none',
             modelValue ? 'translate-x-5' : 'translate-x-0',
             disabled ? 'bg-slate-100' : 'bg-white'
           ]"

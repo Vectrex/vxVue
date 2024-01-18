@@ -23,7 +23,7 @@
     <div v-if="dateString">
       <div class="block flex items-center w-full form-input bg-vxvue-50" :class="{ 'pr-10': showButton }">
         <span class="text-vxvue-700">{{ dateString }}</span>
-        <button @click="emit('update:modelValue', null)" class="inline-flex flex-shrink-0 justify-center items-center ml-2 size-4 rounded-full focus:text-white focus:outline-none text-vxvue hover:bg-vxvue-100 hover:text-vue-700 focus:bg-vxvue-700">
+        <button @click="emit('update:modelValue', null)" class="inline-flex flex-shrink-0 justify-center items-center ml-2 rounded-full focus:text-white focus:outline-none size-4 text-vxvue hover:bg-vxvue-100 hover:text-vue-700 focus:bg-vxvue-700">
           <svg class="size-2" stroke="currentColor" fill="none" viewBox="0 0 8 8"><path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" /></svg>
         </button>
       </div>
