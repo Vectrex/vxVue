@@ -10,8 +10,11 @@
   const rndStr = Math.random().toString(20).substring(2, 8)
   const handleKeys = e => {
     if (!props.disabled) {
-      if (e.keyCode === 40) emit('keydown')
-      if (e.keyCode === 38) emit('keyup')
+      const evt = (new Map([[40, 'keydown'], [38, 'keyup']])).get(e.keyCode)
+      if (evt) {
+        emit(evt)
+        e.preventDefault()
+      }
     }
   }
   const focus = () => btn.value.focus()
@@ -22,9 +25,8 @@
   <div>
     <button
       @click="emit('select')"
-      @keydown.prevent="handleKeys"
-      :class="[
-          'flex items-center w-full space-x-2 px-4 py-2',
+      @keydown="handleKeys"
+      :class="['flex items-center w-full space-x-2 px-4 py-2 ring-vxvue',
           show ? 'rounded-t' : 'rounded',
           disabled ? 'bg-slate-300 text-slate-700' : 'bg-vxvue hover:bg-vxvue-600 text-white',
           attrs.class

@@ -28,3 +28,7 @@
     --vxvue-highlight-900: 124 47 11;
     --vxvue-highlight-950: 72 22 0;
 }
+
+@layer components {
+    :focus-visible { @apply outline outline-2 outline-offset-0 outline-vxvue-alt/50 }
+}

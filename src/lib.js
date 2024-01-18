@@ -1,3 +1,5 @@
+import Accordion from "./components/accordion.vue"
+import AccordionPanel from "./components/accordion-panel.vue"
 import Autocomplete from "./components/autocomplete.vue"
 import Confirm from './components/confirm.vue'
 import DateInput from './components/date-input.vue'
@@ -15,6 +17,8 @@ import Sortable from './components/sortable.vue'
 import Tabs from "./components/tabs.vue"
 
 export {
+    Accordion,
+    AccordionPanel,
     Autocomplete,
     Confirm,
     DateInput,
