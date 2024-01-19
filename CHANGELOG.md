@@ -1,3 +1,8 @@
+## [v0.8.0]
+- Added an accordion component (and the accompanying accordion-panel child component)
+- minor bug fixes
+- requires Tailwind CSS 3.4+
+ 
 ## [v0.7.9] - 2024-01-11 (0.7.8 skipped)
 - Fix: Vertical padding of pagination component improved to allow for easier alignment
 - A disabled switch component is rendered in a different color 
