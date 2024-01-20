@@ -1,3 +1,6 @@
+## [v0.8.1]
+- accordion animation uses inline Tailwind customizing instead of Tailwind configuration
+
 ## [v0.8.0]
 - Added an accordion component (and the accompanying accordion-panel child component)
 - minor bug fixes

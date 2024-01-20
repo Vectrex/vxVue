@@ -43,7 +43,7 @@
       <span><slot name="header" /></span>
     </button>
     <div
-      :class="['grid transition-grid-template-rows duration-300 ease-in-out', show && !disabled ? 'grid-rows-1' : 'grid-rows-0']"
+      :class="['grid transition-[grid-template-rows] duration-300 ease-in-out', show && !disabled ? 'grid-rows-1' : 'grid-rows-[repeat(1,minmax(0,0fr))]']"
       :aria-labelledby="'ap-control-' + rndStr"
       :id="'ap-' + rndStr"
     >
