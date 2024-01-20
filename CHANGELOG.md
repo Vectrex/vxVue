@@ -1,4 +1,4 @@
-## [v0.8.1]
+## [v0.8.2] (0.8.1 skipped)
 - accordion animation uses inline Tailwind customizing instead of Tailwind configuration
 
 ## [v0.8.0]
