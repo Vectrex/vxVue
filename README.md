@@ -56,9 +56,9 @@ If `activeIndex` is an array multiple panels can be open at the same time; if it
 ### AccordionPanel
 **Only** useful as child component of an Accordion component.
 
-| props                                  | events                           | slots                 |
-|----------------------------------------|----------------------------------|-----------------------|
-| `show [Boolean]<br>`disabled [Boolean] | `keyup`<br>`keydown`<br>`select` | `header`<br>`default` |
+| props                                    | events                           | slots                 |
+|------------------------------------------|----------------------------------|-----------------------|
+| `show [Boolean]`<br>`disabled [Boolean]` | `keyup`<br>`keydown`<br>`select` | `header`<br>`default` |
 
 
 ### Autocomplete
