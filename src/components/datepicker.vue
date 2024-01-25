@@ -2,7 +2,7 @@
   import DateInput from "./date-input.vue"
   import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/solid"
   import { onClickOutside } from "@vueuse/core"
-  import {ref, computed, watch, nextTick, onMounted } from "vue"
+  import { ref, computed, watch, nextTick, onMounted } from "vue"
 
   defineOptions({ inheritAttrs: false })
   const props = defineProps({
@@ -25,7 +25,7 @@
   const input = ref(null)
   const calendar = ref(null)
   const toggleButton = ref(null)
-  const calendarProps = computed(() => props.hasInput ? { 'class': ['absolute', expanded.value ? 'block' : 'hidden'] } : {})
+  const calendarProps = computed(() => props.hasInput ? { class: ['absolute', expanded.value ? 'block' : 'hidden'] } : {})
   const days = computed(() => {
     const
       dates = [],
@@ -62,23 +62,11 @@
     }
   })
   onClickOutside(calendar, () => expanded.value = false, { ignore: [toggleButton] })
-  const setMonth = month => {
-    sheetDate.value = new Date(sheetDate.value.getFullYear(), month, 1)
-    emit("month-change", sheetDate.value)
-  }
-  const setYear = year => {
-    sheetDate.value = new Date(year, sheetDate.value.getMonth(), 1)
-    emit("year-change", sheetDate.value)
-  }
-  const selectDate = day => {
-    selectedDate.value = day
-    emit('update:modelValue', day)
-    expanded.value = !props.hasInput
-  }
-  const handleInput = date => {
-    selectedDate.value = date
-    emit('update:modelValue', date)
-  }
+  const setMonth = month => { sheetDate.value = new Date(sheetDate.value.getFullYear(), month, 1); emit("month-change", sheetDate.value) }
+  const setYear = year => { sheetDate.value = new Date(year, sheetDate.value.getMonth(), 1); emit("year-change", sheetDate.value) }
+  const selectDate = day => { expanded.value = !props.hasInput; selectedDate.value = day; emit('update:modelValue', day) }
+  const handleInput = date => { selectedDate.value = date; emit('update:modelValue', date) }
+  const showYears = year => console.log(year)
   onMounted(() => toggleButton.value = input.value?.$refs.toggleButton)
 </script>
 
@@ -96,7 +84,7 @@
         :locale="locale"
     ><slot /></date-input>
 
-    <div class="z-10 bg-white shadow-md" v-bind="calendarProps" ref="calendar" :class="[alignHoriz, alignVert]">
+    <div class="z-10 bg-white shadow-md min-w-80" v-bind="calendarProps" ref="calendar" :class="[alignHoriz, alignVert]">
       <div class="flex items-center py-2 px-3 text-white bg-vxvue-700">
         <div class="flex justify-between w-1/2">
           <button @click.stop="setMonth(sheetDate.getMonth() - 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
@@ -111,7 +99,7 @@
           <button @click.stop="setYear(sheetDate.getFullYear() - 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
             <chevron-left-icon class="size-6" />
           </button>
-          <div>{{ sheetDate.getFullYear() }}</div>
+          <button @click="showYears(sheetDate.getFullYear())">{{ sheetDate.getFullYear() }}</button>
           <button @click.stop="setYear(sheetDate.getFullYear() + 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
             <chevron-right-icon class="size-6" />
           </button>

@@ -1,3 +1,6 @@
+## [v0.8.3]
+- added a minimum width to the datepicker
+
 ## [v0.8.2] (0.8.1 skipped)
 - accordion animation uses inline Tailwind customizing instead of Tailwind configuration
 
