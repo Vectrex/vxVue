@@ -245,7 +245,7 @@
       </div>
       <div>
         <label for="datepicker">Datepicker</label>
-        <datepicker class="w-full" placeholder="mm/dd/yyyy" id="datepicker" v-model="form.datepicker" locale="en-US" output-format="M/D/YYYY" input-format="mm/dd/yyyy"/>
+        <datepicker class="w-64" placeholder="mm/dd/yyyy" id="datepicker" v-model="form.datepicker" locale="en-US" output-format="M/D/YYYY" input-format="mm/dd/yyyy"/>
       </div>
     </div>
 

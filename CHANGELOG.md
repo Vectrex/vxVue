@@ -1,3 +1,7 @@
+## [v0.8.3]
+- datepicker allows quick selection of years by clicking the year in the header
+- colors and minimum width of datepicker fixed
+
 ## [v0.8.2] (0.8.1 skipped)
 - accordion animation uses inline Tailwind customizing instead of Tailwind configuration
 
