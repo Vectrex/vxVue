@@ -161,6 +161,13 @@ A sortable table; the `columns` prop specifies the columns and their sorting opt
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------|--------------------------------------------------|
 | `columns [Array]`<br/>`rows [Array]`<br/>`offset [Number]`<br/>`count [Number]`<br/>`sortProp [String]`<br/>`sortDirection ['asc', 'desc']`<br/>`keyProperty [String]` | `before-sort`<br/>`after-sort` | `{ column: prop }-header`<br/>`{ column: prop }` |
 
+### SubmitButton
+A button which will be disabled when `busy` is true and display a spinner to its right. Apart from a default theme a `success` and `error` theme are provided with matching spinner. In any case the spinner can be styled by a separate class string.
+
+| props                                                              | events    | slots     |
+|--------------------------------------------------------------------|-----------|-----------|
+| `busy [Boolean]`<br/>`theme [String]`<br/>`spinnerClass [String]`  | `submit`  | `default` |
+
 ### Tabs
 A responsive tabs component. The items array holds objects with a required `name [String]` and optional `badge [String]`, `icon [Component]` and `disabled [Boolean]` properties. 
 

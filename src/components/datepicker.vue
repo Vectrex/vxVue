@@ -149,7 +149,7 @@
         </div>
 
         <div class="grid grid-cols-2 gap-0.5 p-0.5">
-          <div v-for="n in 10" class="text-center text-vxvue-700 hover:ring-2 hover:ring-vxvue">
+          <div v-for="n in 10" class="text-center hover:ring-2 text-vxvue-700 hover:ring-vxvue">
             <button class="py-2 px-3" @click.stop="setYear(panelYear + n - 1); panelShown = 'days'">{{ panelYear + n - 1 }}</button>
           </div>
         </div>

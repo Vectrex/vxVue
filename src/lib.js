@@ -14,6 +14,7 @@ import PasswordInput from './components/password-input.vue'
 import SimpleTree from "./components/simple-tree.vue"
 import Slider from "./components/slider.vue"
 import Sortable from './components/sortable.vue'
+import SubmitButton from "./components/submit-button.vue"
 import Tabs from "./components/tabs.vue"
 
 export {
@@ -33,5 +34,6 @@ export {
     SimpleTree,
     Slider,
     Sortable,
+    SubmitButton,
     Tabs
 }
