@@ -1,3 +1,6 @@
+## [v0.9.1]
+- added the spinner component used by the submit button as standalone
+
 ## [v0.9.0]
 - added a submit button component
  
