@@ -8,7 +8,7 @@
 <template>
   <div class="flex items-center space-x-2">
     <button
-      :class="[$attrs.class || 'button', theme || '']"
+      :class="[$attrs.class, theme]"
       :disabled="busy"
       type="button"
       @click="emit('submit')"
@@ -21,17 +21,14 @@
   </div>
 </template>
 
-<style>
-  .button {
-    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded text-white bg-vxvue hover:bg-vxvue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vxvue;
+<style scoped>
+  button.success {
+    @apply bg-success text-white hover:bg-success-700 focus:ring-success
   }
-  .button.success {
-    @apply bg-success hover:bg-success-700 focus:ring-success text-white
+  button.error {
+    @apply bg-error text-error-50 hover:bg-error-600 focus:ring-error-600
   }
-  .button.error {
-    @apply bg-error hover:bg-error-600 focus:ring-error-600 text-error-50
-  }
-  .button:disabled {
-    @apply bg-slate-300 hover:bg-slate-300 focus:ring-0 text-slate-800
+  button:disabled {
+    @apply bg-slate-300 text-slate-800 hover:bg-slate-300 focus:ring-0
   }
 </style>

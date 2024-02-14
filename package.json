@@ -14,7 +14,7 @@
     "./vx-vue.css": "./dist/style.css",
     "./dist/*": "./dist/*"
   },
-  "version": "0.9.1",
+  "version": "0.9.2",
   "license": "MIT",
   "homepage": "https://vxweb.net/vxvue/index.html",
   "repository": "https://github.com/Vectrex/vxVue",

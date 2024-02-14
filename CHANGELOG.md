@@ -1,3 +1,6 @@
+## [v0.9.2]
+- submit button dropped styling, theme attribute adds color presets with scoped CSS
+
 ## [v0.9.1]
 - added the spinner component used by the submit button as standalone
 

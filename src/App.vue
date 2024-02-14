@@ -251,9 +251,9 @@
         <datepicker class="w-full" placeholder="mm/dd/yyyy" id="datepicker" v-model="form.datepicker" locale="en-US" output-format="M/D/YYYY" input-format="mm/dd/yyyy"/>
       </div>
       <div class="flex justify-between space-x-2">
-        <submit-button @submit="doSubmit" :busy="submitBusy">A default submit button</submit-button>
-        <submit-button @submit="doSubmit" :busy="submitBusy" theme="success">Submit button 'success'</submit-button>
-        <submit-button @submit="doSubmit" :busy="submitBusy" theme="error">Submit button 'error'</submit-button>
+        <submit-button class="px-4 py-2 font-medium rounded text-white bg-vxvue hover:bg-vxvue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vxvue" @submit="doSubmit" :busy="submitBusy">A default submit button</submit-button>
+        <submit-button class="px-4 py-2 font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2" @submit="doSubmit" :busy="submitBusy" theme="success">Submit button 'success'</submit-button>
+        <submit-button class="px-4 py-2 font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-2" @submit="doSubmit" :busy="submitBusy" theme="error">Submit button 'error'</submit-button>
       </div>
     </div>
 
