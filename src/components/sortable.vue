@@ -65,7 +65,7 @@
 
 <template>
   <table :class="$attrs.class || 'w-full divide-y divide-y-slate-900 table-fixed'">
-    <thead class="text-white bg-slate-700">
+    <thead class="text-white bg-vxvue-800">
       <tr>
         <th
             scope="col"
@@ -100,19 +100,16 @@
 </template>
 
 <style scoped>
-  tbody tr:nth-of-type(2n + 1) {
-    @apply bg-slate-100 text-slate-700;
-  }
   tbody tr:nth-of-type(2n) {
-    @apply bg-slate-200 text-slate-800;
+    @apply bg-vxvue-50;
   }
   tbody tr:nth-of-type(2n + 1) td.active {
-    @apply bg-amber-100 text-amber-700;
+    @apply bg-vxvue-alt-50;
   }
   tbody tr:nth-of-type(2n) td.active {
-    @apply bg-amber-200 text-amber-800;
+    @apply bg-vxvue-alt-100;
   }
   thead th.active {
-      @apply bg-amber-800;
+      @apply bg-vxvue-alt-800;
   }
 </style>
