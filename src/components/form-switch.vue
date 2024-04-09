@@ -24,11 +24,11 @@
     >
       <span
           aria-hidden="true"
-          :class="['inline-block size-5 rounded-full ring-0 shadow transition duration-200 ease-in-out transform pointer-events-none',
+          :class="['block relative size-5 rounded-full ring-0 shadow transition duration-200 ease-in-out transform pointer-events-none',
             modelValue ? 'translate-x-5' : 'translate-x-0',
             disabled ? 'bg-slate-100' : 'bg-white'
           ]"
-      ></span>
+      ><slot name="handle" /></span>
       <input
           v-bind="inputAttrs"
           :checked="modelValue"
