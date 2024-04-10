@@ -28,7 +28,11 @@
             modelValue ? 'translate-x-5' : 'translate-x-0',
             disabled ? 'bg-slate-100' : 'bg-white'
           ]"
-      ><slot name="handle" /></span>
+      ><slot name="handle">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="5" stroke="currentColor" :class="['absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-3', modelValue && !disabled ? 'text-vxvue' : 'text-slate-300']">
+          <path stroke-linecap="round" stroke-linejoin="round" :d="modelValue ? 'M12 18 V6' : 'm18.5 12 c0 3.5 -3 6.5 -6.5 6.5 -3.5 0 -6.5 -3 -6.5 -6.5 0 -3.5 3 -6.5 6.5 -6.5 3.5 0 6.5 3 6.5 6.5z'" />
+        </svg>
+      </slot></span>
       <input
           v-bind="inputAttrs"
           :checked="modelValue"

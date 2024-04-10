@@ -106,9 +106,9 @@ A select element adapted for Vue.js integration.
 ### FormSwitch
 Nothing more than a fancy checkbox.
 
-| props                | events              | slots     |
-|----------------------|---------------------|-----------|
-| `modelValue [Mixed]` | `update:modelValue` | `default` |
+| props                | events              | slots                  |
+|----------------------|---------------------|------------------------|
+| `modelValue [Mixed]` | `update:modelValue` | `default`<br/>`handle` |
 
 ### MessageToast
 Displays a notification message which can either be dismissed by the user and/or by itself after a configurable timeout.
