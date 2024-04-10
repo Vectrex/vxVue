@@ -1,11 +1,15 @@
 <script setup>
     import FormSwitch from "../src/components/form-switch.vue"
+    import SubmitButton from "../src/components/submit-button.vue"
+    import { ref } from "vue"
+    const form = ref({})
 </script>
 
 # Markdown Extension Examples
 
 This page demonstrates some of the built-in markdown extensions provided by VitePress.
-<form-switch />
+<form-switch :v-model="form.switch" />
+<submit-button theme="alert">Ok!</submit-button>
 ## Syntax Highlighting
 
 VitePress provides Syntax Highlighting powered by [Shiki](https://github.com/shikijs/shiki), with additional features like line-highlighting:
