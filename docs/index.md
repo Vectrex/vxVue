@@ -4,15 +4,12 @@ layout: home
 
 hero:
   name: "vxVue"
-  text: "vxVue documentation"
+  text: "a collection of simple Vue components, styled with Tailwind CSS"
   tagline: simple VueJS components
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Documentation
+      link: /components
 
 features:
   - title: Feature A
