@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: Documentation
-      link: /components
+      link: /getting-started
 
 features:
   - title: Feature A

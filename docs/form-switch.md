@@ -10,15 +10,17 @@
 A simple checkbox replacement.
 
 ## Default Component Using the Default Slot
-```md
-<form-switch v-model="state" class="flex items-center space-x-2"><span>{{ state ? 'on' : 'off' }}</span></form-switch>
+```html
+<form-switch v-model="state" class="flex items-center space-x-2">
+    <span>{{ state ? 'on' : 'off' }}</span>
+</form-switch>
 ```
 ::: info Result
 <form-switch v-model="state" class="flex items-center space-x-2"><span>{{ state ? 'on' : 'off' }}</span></form-switch>
 :::
 
 ## Disabled Component
-```md
+```html
 <form-switch :disabled="true" />
 ```
 ::: info Result
@@ -26,7 +28,7 @@ A simple checkbox replacement.
 :::
 
 ## Component Customizing the Handle Slot
-```md
+```html
 <form-switch v-model="state">
     <template #handle>
         <x-mark-icon class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-3 text-vxvue-300" />
