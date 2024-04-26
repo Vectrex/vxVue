@@ -5,7 +5,7 @@
     const doSubmit = () => { busy.value = true; setTimeout(() => busy.value = false, 3000) }
 </script>
 
-# Submit Button
+# SubmitButton
 
 A themed button with an animated spinner. OOTB styling is deliberately sparse.
 

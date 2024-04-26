@@ -5,7 +5,7 @@
     const state = ref(false)
 </script>
 
-# Form Switch
+# FormSwitch
 
 A simple checkbox replacement.
 
