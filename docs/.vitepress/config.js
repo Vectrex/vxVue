@@ -1,11 +1,9 @@
 import { defineConfig } from 'vitepress'
 
-// https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "vxVue",
   description: "vxVue documentation",
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' }
     ],
@@ -21,7 +19,8 @@ export default defineConfig({
       }
     ],
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/Vectrex/vxVue' }
+      { icon: 'github', link: 'https://github.com/Vectrex/vxVue' },
+      { icon: 'npm', link: 'https://npmjs.com/vx-vue' },
     ]
   }
 })

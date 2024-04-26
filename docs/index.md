@@ -1,22 +1,18 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
 hero:
   name: "vxVue"
-  text: "a collection of simple Vue components, styled with Tailwind CSS"
-  tagline: simple VueJS components
+  tagline: a collection of simple Vue components, styled with Tailwind CSS
   actions:
     - theme: brand
       text: Documentation
       link: /getting-started
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 10+ UI Components
+    details: Tailored towards simplicity
+  - title: Tailwind Styled
+    details: Incorporates easily with Tailwind projects, won't interfere with your custom CSS
 ---
 

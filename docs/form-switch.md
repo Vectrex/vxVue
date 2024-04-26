@@ -40,9 +40,17 @@ A simple checkbox replacement.
 :::
 
 ## Properties
-| Name         | Type    |
-|--------------|---------|
-| `modelValue` | Boolean |
+| Name         | Type      | Default | Description         |
+|--------------|-----------|---------|---------------------|
+| `modelValue` | `Boolean` |         | State of the switch |
+
+## Events
+| Name                | Arguments                                              | Description                                           |
+|---------------------|--------------------------------------------------------|-------------------------------------------------------|
+| `update:modelValue` | `state` - Boolean with the current state of the switch | Emitted when switch state changes by user interaction |
 
 ## Slots
-`default`, `handle`
+| Name      | Scoped | Description                                                         |
+|-----------|--------|---------------------------------------------------------------------|
+| `default` |        | Content placed within the wrapping label to the right of the switch |
+| `handle`  |        | Content to place on the circular handle                             |
