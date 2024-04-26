@@ -9,7 +9,7 @@
   <div class="flex items-center space-x-2">
     <button
       :class="[$attrs.class, theme]"
-      :disabled="busy"
+      :disabled="$attrs.disabled || busy"
       type="button"
       @click="emit('submit')"
       ><slot />
