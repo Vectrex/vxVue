@@ -13,6 +13,7 @@ export default defineConfig({
       {
         text: 'Components',
         items: [
+          { text: 'Accordion', link: '/accordion' },
           { text: 'Form Switch', link: '/form-switch' },
           { text: 'Slider', link: '/slider' },
           { text: 'Submit Button', link: '/submit-button' },

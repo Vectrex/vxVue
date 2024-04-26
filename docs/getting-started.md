@@ -35,7 +35,7 @@ module.exports = {
 ```
 To use the few scoped styles along with your CSS add
 
-```javascript
+```js
 import 'vx-vue/vx-vue.css'
 ```
 to your main.js or index.js file.
