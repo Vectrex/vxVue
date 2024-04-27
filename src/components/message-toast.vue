@@ -36,15 +36,15 @@
           <div class="p-4">
             <div class="flex items-start">
               <div class="flex-shrink-0">
-                <slot name="icon"></slot>
+                <slot name="icon" />
               </div>
               <div class="flex-1 pt-0.5 ml-3 w-0">
-                <p class="font-bold">
-                  <slot name="title">{{ title }}</slot>
-                </p>
-                <p class="mt-1" v-for="line in lines">
-                  <slot>{{ line }}</slot>
-                </p>
+                <slot name="title"><div class="font-bold">{{ title }}</div></slot>
+                <slot>
+                  <p class="mt-1" v-for="line in lines">
+                    {{ line }}
+                  </p>
+                </slot>
               </div>
               <div class="flex flex-shrink-0 ml-4">
                 <button @click="emit('close')" class="inline-flex text-white bg-black bg-opacity-20 rounded-sm focus:ring-2 focus:outline-none hover:text-stone-200 focus:ring-stone-200">
