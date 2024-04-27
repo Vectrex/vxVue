@@ -232,7 +232,7 @@
       <div class="flex items-center space-x-2">
         <label for="form-switch">Form Switch</label>
         <form-switch id="form-switch" aria-label="sample-switch" v-model="form.switch" />
-        <span class="flex space-x-2"><form-switch id="form-switch-disabled" aria-label="sample-switch-disabled" disabled model-value="1"><span>a disabled switch</span></form-switch></span>
+        <span class="flex space-x-2"><form-switch id="form-switch-disabled" aria-label="sample-switch-disabled" disabled :model-value="true"><span>a disabled switch</span></form-switch></span>
       </div>
       <div>
         <label for="form-select">Form Select</label>

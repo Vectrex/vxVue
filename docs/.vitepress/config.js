@@ -17,6 +17,7 @@ export default defineConfig({
           { text: 'FormFileButton', link: '/form-file-button' },
           { text: 'FormSelect', link: '/form-select' },
           { text: 'FormSwitch', link: '/form-switch' },
+          { text: 'MessageToast', link: '/message-toast' },
           { text: 'PasswordInput', link: '/password-input' },
           { text: 'Slider', link: '/slider' },
           { text: 'SubmitButton', link: '/submit-button' },
