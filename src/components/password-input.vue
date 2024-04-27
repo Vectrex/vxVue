@@ -25,11 +25,11 @@
     <button
       class="flex absolute inset-y-0 right-0 items-center px-3 text-brand-700 hover:text-brand"
       aria-label="show-password-toggle"
+      :disabled="useAttrs()['disabled'] ?? false"
       @click.stop="show = !show"
     >
       <eye-slash-icon class="size-5" v-if="show" />
       <eye-icon class="size-5" v-else />
     </button>
-    <slot />
   </div>
 </template>
