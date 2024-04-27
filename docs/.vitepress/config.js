@@ -16,6 +16,7 @@ export default defineConfig({
           { text: 'Accordion', link: '/accordion' },
           { text: 'FormSelect', link: '/form-select' },
           { text: 'FormSwitch', link: '/form-switch' },
+          { text: 'PasswordInput', link: '/password-input' },
           { text: 'Slider', link: '/slider' },
           { text: 'SubmitButton', link: '/submit-button' },
         ]
