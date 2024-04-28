@@ -21,6 +21,7 @@ export default defineConfig({
           { text: 'PasswordInput', link: '/password-input' },
           { text: 'Slider', link: '/slider' },
           { text: 'SubmitButton', link: '/submit-button' },
+          { text: 'Tabs', link: '/tabs' },
         ]
       }
     ],
