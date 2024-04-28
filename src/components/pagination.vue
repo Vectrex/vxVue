@@ -88,7 +88,7 @@
           @click.prevent="prevPage"
           v-if="showNavButtons"
           href="#"
-          class="inline-flex items-center pr-1 text-sm font-medium text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300"
+          class="inline-flex items-center pr-1 text-sm font-medium text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300 !no-underline"
           :class="[{ 'cursor-default pointer-events-none': currentPage <=1 }, markerPositionClass]"
       >
         <chevron-left-icon class="size-5" />
@@ -102,7 +102,7 @@
           @click.prevent="page !== 'dots' ? emit('update:page', page) : null"
           :key="idx"
           :href="page !== 'dots' ? '#' : null"
-          class="inline-flex items-center px-4 text-sm font-medium"
+          class="inline-flex items-center px-4 text-sm font-medium !no-underline"
           :class="[{
           'border-vxvue-500 text-vxvue-700': page === currentPage,
           'border-transparent text-gray-500': page !== currentPage,
@@ -117,7 +117,7 @@
           @click.prevent="nextPage"
           v-if="showNavButtons"
           href="#"
-          class="inline-flex items-center pl-1 text-sm font-medium text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300"
+          class="inline-flex items-center pl-1 text-sm font-medium text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300 !no-underline"
           :class="[markerPositionClass, { 'cursor-default pointer-events-none': currentPage >= maxPage }]"
       >
         {{ nextText }}
