@@ -39,24 +39,27 @@
            :class="[
               activeTab === item ? 'border-vxvue-500 text-vxvue-600' : 'border-transparent text-gray-900 hover:text-gray-700 hover:border-gray-300',
               item.disabled ? 'cursor-not-allowed text-gray-400 hover:border-transparent' : '',
-              'group inline-flex items-center py-4 px-1 border-b-4 font-medium',
+              'group inline-flex items-center py-4 px-1 border-b-4 font-medium no-underline',
            ]"
            :aria-current="activeTab === item ? 'page' : undefined"
         >
           <!-- icon  -->
 
-          <slot name="icon" :tab="item"></slot>
+          <slot name="icon" :tab="item" />
 
           <span><slot :tab="item">{{ item.name }}</slot></span>
 
           <!-- badge -->
-          <span v-if="item.badge"
-            :class="[
-              activeTab === item ? 'bg-vxvue-50 text-vxvue-700' : 'bg-gray-200 text-gray-900',
-              item.disabled ? 'bg-gray-100 text-gray-400' : '',
-              'hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block'
-            ]"
-          >{{ item.badge }}</span>
+
+          <slot name="badge" :tab="item">
+            <span v-if="item.badge"
+              :class="[
+                activeTab === item ? 'bg-vxvue-50 text-vxvue-700' : 'bg-gray-200 text-gray-900',
+                item.disabled ? 'bg-gray-100 text-gray-400' : '',
+                'hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block'
+              ]"
+            >{{ item.badge }}</span>
+          </slot>
         </a>
       </nav>
     </div>
