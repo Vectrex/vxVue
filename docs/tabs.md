@@ -28,10 +28,24 @@ Tabs are defined by an array of objects. Each of these objects
 On small screens the tabs fall back to a select element.
 
 ## Default Component
-
+::: code-group
+```js
+const tabs = ref({
+    items: [
+      { name: 'Profile', badge: '!', icon: UserIcon },
+      { name: 'Tech' },
+      { name: 'Intelligence', disabled: true },
+      { name: 'Strategy' },
+      { name: 'Confidential', disabled: true, badge: '10', icon: ShieldExclamationIcon }
+    ],
+    activeIndex: 0
+})
+```
 ```html
 <tabs :items="tabs.items" v-model:active-index="tabs.activeIndex" />
 ```
+:::
+
 ::: info Result
 <tabs :items="tabs.items" v-model:active-index="tabs.activeIndex" />
 :::
@@ -39,7 +53,17 @@ On small screens the tabs fall back to a select element.
 ## Component Using Slots
 
 ```html
-    <tabs :items="tabs.items" v-model:active-index="tabs.activeIndex" />
+<tabs :items="tabs.items" v-model:active-index="tabs.activeIndex">
+    <template #icon="slotProps">
+        <component v-if="slotProps.tab.icon" :is="slotProps.tab.icon" class="size-5 mr-2" fill="currentColor" />
+    </template>
+    <template #default="slotProps">
+        <strong>{{ slotProps.tab.name }}</strong>
+    </template>
+    <template #badge="slotProps">
+        <span class="ml-2 text-sm" v-if="slotProps.tab.badge">[{{ slotProps.tab.badge }}]</span>
+    </template>
+</tabs>
 ```
 ::: info Result
 <tabs :items="tabs.items" v-model:active-index="tabs.activeIndex">
@@ -53,7 +77,6 @@ On small screens the tabs fall back to a select element.
         <span class="ml-2 text-sm" v-if="slotProps.tab.badge">[{{ slotProps.tab.badge }}]</span>
     </template>
 </tabs>
-
 :::
 
 ## Properties
