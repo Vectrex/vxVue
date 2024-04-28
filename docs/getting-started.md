@@ -7,6 +7,12 @@ VxVue provides a handful of reusable Vue components styled with Tailwind CSS. Al
 * Vue.js 3.4+
 * Tailwind CSS 3.4+
 
+## Installation
+Install vxVue by
+```shell
+npm install -D vx-vue
+```
+
 ## Setup
 The official Tailwind CSS forms plugin is used to provide basic styling of the form components using the class strategy which allows the styling of non-form elements consistently.
 An easy to configure color theming is applied. `vxvue` and `vxvue-alt` are used as the two colors scales. Since Tailwind won't observe classes in imported components tailwind.config.js should also list the node package in the content array.
