@@ -57,16 +57,16 @@
           <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
 
           <div class="inline-block overflow-hidden text-left align-bottom bg-white rounded shadow-xl transition-all transform sm:my-8 sm:w-full sm:max-w-sm sm:align-middle lg:max-w-lg">
-            <h3 class="py-4 pt-4 text-lg font-medium text-center sm:py-6" :class="headerClass" v-if="title">
-              <slot name="title" :title="title">{{ title }}</slot>
+            <h3 class="py-4 pt-4 text-lg font-medium text-center sm:py-6" :class="headerClass" v-if="title || $slots.title">
+              <slot name="title">{{ title }}</slot>
             </h3>
             <div class="px-4 pb-4 mt-4 sm:px-6 sm:pb-6 sm:mt-5">
               <div class="flex flex-row items-center">
                 <div class="flex-shrink-0">
-                  <slot name="icon"></slot>
+                  <slot name="icon" />
                 </div>
                 <p class="flex-grow text-center">
-                  <slot :message="message">{{ message }}</slot>
+                  <slot>{{ message }}</slot>
                 </p>
               </div>
               <div class="flex justify-center mt-5 space-x-2 sm:mt-6" ref="buttonsContainer">
