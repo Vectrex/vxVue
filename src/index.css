@@ -84,3 +84,19 @@
 @layer components {
     :focus-visible { @apply outline outline-2 outline-offset-0 outline-vxvue-alt/50 }
 }
+
+.appear-enter-from,
+.appear-leave-to
+{
+    @apply transform opacity-0 scale-95;
+}
+.appear-enter-to,
+.appear-leave-from {
+    @apply transform opacity-100 scale-100;
+}
+.appear-enter-active {
+    @apply transition ease-out duration-200;
+}
+.appear-leave-active {
+    @apply transition ease-out duration-150;
+}
