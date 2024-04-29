@@ -2,18 +2,20 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   title: "vxVue",
+  lang: "en-US",
   description: "vxVue documentation",
   themeConfig: {
+    // logo: '/logo.svg',
     nav: [
-      { text: 'Home', link: '/' }
+      { text: 'Home', link: '/' },
     ],
-
     sidebar: [
       { text: "Getting Started", link: '/getting-started' },
       {
         text: 'Components',
         items: [
           { text: 'Accordion', link: '/accordion' },
+          { text: 'Confirm', link: '/confirm' },
           { text: 'FormFileButton', link: '/form-file-button' },
           { text: 'FormSelect', link: '/form-select' },
           { text: 'FormSwitch', link: '/form-switch' },

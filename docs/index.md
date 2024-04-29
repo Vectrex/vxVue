@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: "vxVue"
+  name: vxVue
   tagline: a collection of simple Vue components, styled with Tailwind CSS
   actions:
     - theme: brand
