@@ -20,6 +20,7 @@ export default defineConfig({
           { text: 'FormSelect', link: '/form-select' },
           { text: 'FormSwitch', link: '/form-switch' },
           { text: 'MessageToast', link: '/message-toast' },
+          { text: 'Modal', link: '/modal' },
           { text: 'Pagination', link: '/pagination' },
           { text: 'PasswordInput', link: '/password-input' },
           { text: 'Slider', link: '/slider' },
