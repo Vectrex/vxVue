@@ -6,7 +6,6 @@
     const page = ref(1)
     const itemsPerPage = 10
     const paginatedItems = computed(() => items.slice((page.value - 1) * itemsPerPage, page.value * itemsPerPage))
-
 </script>
 
 # Pagination
