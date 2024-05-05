@@ -3,11 +3,14 @@
   import { onMounted, ref } from "vue"
   defineOptions({ inheritAttrs: false })
 
-  const props = defineProps({ branch: { type: Object, default: {} }})
-  const emit = defineEmits(['branch-selected', 'expand'])
+  const props = defineProps({
+    branch: { type: Object, default: {} },
+    modelValue: { type: Object, default: null }
+  })
+  const emit = defineEmits(['update:modelValue', 'expand'])
   const expanded = ref(false)
   onMounted(() => {
-      if (props.branch.current) {
+      if (props.branch === props.modelValue) {
         emit('expand', true)
       }
   })
@@ -15,23 +18,21 @@
 <template>
   <div :class="[!branch.branches || !branch.branches.length ? 'terminates' : '', $attrs['class']]">
     <div class="flex items-center pb-1">
-      <template v-if="branch.branches && branch.branches.length">
-        <input type="checkbox" :id="'branch-' + branch.id" @click="expanded = !expanded" :checked="expanded" class="hidden">
-        <label :for="'branch-' + branch.id" class="mr-2">
-          <component :is="expanded ? MinusIcon : PlusIcon" class="w-4 h-4 border" />
-        </label>
-      </template>
-      <strong v-if="branch.current">{{ branch.label }}</strong>
-      <a :href="branch.path" @click.prevent="emit('branch-selected', branch)" v-else>{{ branch.label }}</a>
+      <button @click="expanded = !expanded" class="mr-2" v-if="branch.branches && branch.branches.length">
+        <component :is="expanded ? MinusIcon : PlusIcon" class="size-4 rounded-sm text-white bg-vxvue" />
+      </button>
+      <strong v-if="branch === modelValue">{{ branch.label }}</strong>
+      <button @click="emit('update:modelValue', branch)" v-else>{{ branch.label }}</button>
     </div>
-    <ul v-if="branch.branches && branch.branches.length" v-show="expanded" class="ml-6">
+    <div v-if="branch.branches && branch.branches.length" v-show="expanded" class="ml-6">
       <simple-tree
           v-for="child in branch.branches"
+          :key="child.id || child.key || null"
           :branch="child"
-          :key="child.id"
-          @branch-selected="emit('branch-selected', $event)"
+          :model-value="modelValue"
+          @update:modelValue="emit('update:modelValue', $event)"
           @expand="expanded = $event; emit('expand', $event)"
       />
-    </ul>
+    </div>
   </div>
 </template>
