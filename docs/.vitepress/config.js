@@ -23,6 +23,7 @@ export default defineConfig({
           { text: 'Modal', link: '/modal' },
           { text: 'Pagination', link: '/pagination' },
           { text: 'PasswordInput', link: '/password-input' },
+          { text: 'SimpleTree', link: '/simple-tree' },
           { text: 'Slider', link: '/slider' },
           { text: 'Sortable', link: '/sortable' },
           { text: 'SubmitButton', link: '/submit-button' },
