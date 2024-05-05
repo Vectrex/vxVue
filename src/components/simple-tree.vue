@@ -19,7 +19,7 @@
   <div :class="[!branch.branches || !branch.branches.length ? 'terminates' : '', $attrs['class']]">
     <div class="flex items-center pb-1">
       <button @click="expanded = !expanded" class="mr-2" v-if="branch.branches && branch.branches.length">
-        <component :is="expanded ? MinusIcon : PlusIcon" class="size-4 rounded-sm text-white bg-vxvue" />
+        <component :is="expanded ? MinusIcon : PlusIcon" class="size-5 p-1 rounded-sm text-white bg-vxvue-700 hover:bg-vxvue" />
       </button>
       <strong v-if="branch === modelValue">{{ branch.label }}</strong>
       <button @click="emit('update:modelValue', branch)" v-else>{{ branch.label }}</button>
