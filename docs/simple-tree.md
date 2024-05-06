@@ -143,13 +143,28 @@ const selectedBranch = ref(findBranch(tree.value, 333))
 ```
 ```html
 <div>Selected branch: <em>{{ selectedBranch.label }}</em></div>
-<simple-tree :branch="tree" v-model="selectedBranch" />
+<simple-tree :branch="tree" v-model="selectedBranch"></simple-tree>
 ```
 :::
 
 ::: info Result
 <div>Selected branch: <em>{{ selectedBranch.label }}</em></div>
 <simple-tree :branch="tree" v-model="selectedBranch" />
+:::
+
+# Component Using Slots
+
+::: info Result
+<div>Selected branch: <em>{{ selectedBranch.label }}</em></div>
+<simple-tree :branch="tree" v-model="selectedBranch">
+<template #toggle="slotProps"><span class="inline-block w-4 text-center text-lg">{{ slotProps.expanded ? '-' : '+' }}</span></template>
+<template #label-selected="slotProps">
+    <span class="uppercase font-bold">{{ slotProps.branch.label }}</span>
+</template>
+<template #label="slotProps">
+    <em>{{ slotProps.branch.label }}</em>
+</template>
+</simple-tree>
 :::
 
 ## Properties
