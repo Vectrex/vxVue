@@ -19,10 +19,16 @@
   <div :class="[!branch.branches || !branch.branches.length ? 'terminates' : '', $attrs['class']]">
     <div class="flex items-center pb-1">
       <button @click="expanded = !expanded" class="mr-2" v-if="branch.branches && branch.branches.length">
-        <component :is="expanded ? MinusIcon : PlusIcon" class="size-5 p-1 rounded-sm text-white bg-vxvue-700 hover:bg-vxvue" />
+        <slot name="toggle" :branch="branch" :expanded="expanded">
+          <component :is="expanded ? MinusIcon : PlusIcon" class="size-5 p-1 rounded-sm text-white bg-vxvue-700 hover:bg-vxvue" />
+        </slot>
       </button>
-      <strong v-if="branch === modelValue">{{ branch.label }}</strong>
-      <button @click="emit('update:modelValue', branch)" v-else>{{ branch.label }}</button>
+      <slot name="label-selected" :branch="branch" v-if="branch === modelValue">
+          <strong>{{ branch.label }}</strong>
+      </slot>
+      <button @click="emit('update:modelValue', branch)" v-else>
+        <slot name="label" :branch="branch">{{ branch.label }}</slot>
+      </button>
     </div>
     <div v-if="branch.branches && branch.branches.length" v-show="expanded" class="ml-6">
       <simple-tree
@@ -32,7 +38,11 @@
           :model-value="modelValue"
           @update:modelValue="emit('update:modelValue', $event)"
           @expand="expanded = $event; emit('expand', $event)"
-      />
+      >
+        <template v-for="(_, name) in $slots" v-slot:[name]="slotData">
+          <slot :name="name" v-bind="slotData"/>
+        </template>
+      </simple-tree>
     </div>
   </div>
 </template>
