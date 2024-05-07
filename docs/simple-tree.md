@@ -154,6 +154,20 @@ const selectedBranch = ref(findBranch(tree.value, 333))
 
 # Component Using Slots
 
+```html
+<simple-tree :branch="tree" v-model="selectedBranch">
+    <template #toggle="slotProps">
+        <span class="inline-block w-4 text-center text-lg">{{ slotProps.expanded ? '-' : '+' }}</span>
+    </template>
+    <template #label-selected="slotProps">
+        <span class="uppercase font-bold">{{ slotProps.branch.label }}</span>
+    </template>
+    <template #label="slotProps">
+        <em>{{ slotProps.branch.label }}</em>
+    </template>
+</simple-tree>
+```
+
 ::: info Result
 <div>Selected branch: <em>{{ selectedBranch.label }}</em></div>
 <simple-tree :branch="tree" v-model="selectedBranch">
@@ -178,3 +192,10 @@ const selectedBranch = ref(findBranch(tree.value, 333))
 |---------------------|----------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
 | `update:modelValue` | `branch` - The branch selected by user interaction                                                       | Emitted when the label of a branch is clicked                                      |
 | `expand`            | `state` - Boolean indicating whether a subtree of the branch is expanded (`true`) or collapsed (`false`) | Emitted only when mounted to open up the tree to the branch passed as `modelValue` |
+
+## Slots
+| Name             | Scoped                                                                                                                   | Description                                                                                 |
+|------------------|--------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| `toggle`         | `branch` - the branch object<br />`expanded` - Boolean indicating whether the subtree is currently collapsed or expanded | Slot which contains the toggle of a branch with a subtree                                   |
+| `label`          | `branch` - the branch object                                                                                             | Slot which contains a selectable label of the branch                                        |
+| `label-selected` | `branch` - the branch object                                                                                             | Slot which contains the label of a currently selected (and therefore not selectable) branch |
