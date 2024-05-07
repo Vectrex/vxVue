@@ -58,7 +58,7 @@
         const inputDim = input.value.$el.getBoundingClientRect()
         const calDim = calendar.value.getBoundingClientRect()
         align.value = {
-          horiz: inputDim.left + calDim.width > window.innerWidth ? 'right-0' : 'left-0',
+          horiz: inputDim.right - calDim.width < 0 ? 'left-0' : 'right-0',
           vert: inputDim.bottom + calDim.height > window.innerHeight ? 'bottom-0 -translate-y-12' : 'top-0 translate-y-12'
         }
       })
@@ -75,7 +75,7 @@
     const now = date.getTime() === today.getTime()
     const invalid = (props.validFrom && props.validFrom > date) || (props.validUntil && props.validUntil < date)
     return [
-        'py-2 px-3 rounded-sm block text-center',
+        'py-2 rounded-sm block text-center',
       {
         'text-vxvue-700': !invalid && !padded && !now && !selected,
         'text-error': invalid && !padded,
@@ -103,7 +103,7 @@
         :locale="locale"
     ><slot /></date-input>
 
-    <div class="z-10 bg-white shadow-md min-w-80" v-bind="calendarProps" ref="calendar" :class="[align.horiz, align.vert]">
+    <div class="overflow-hidden z-10 bg-white rounded shadow-md min-w-72 sm:min-w-80" v-bind="calendarProps" ref="calendar" :class="[align.horiz, align.vert]">
       <template  v-if="panelShown === 'days'">
         <div class="flex items-center py-2 px-3 text-white bg-vxvue-700">
           <div class="flex justify-between w-1/2">

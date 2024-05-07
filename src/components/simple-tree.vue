@@ -20,7 +20,7 @@
     <div class="flex items-center pb-1">
       <button @click="expanded = !expanded" class="mr-2" v-if="branch.branches && branch.branches.length">
         <slot name="toggle" :branch="branch" :expanded="expanded">
-          <component :is="expanded ? MinusIcon : PlusIcon" class="size-5 p-1 rounded-sm text-white bg-vxvue-700 hover:bg-vxvue" />
+          <component :is="expanded ? MinusIcon : PlusIcon" class="p-1 text-white rounded-sm size-5 bg-vxvue-700 hover:bg-vxvue" />
         </slot>
       </button>
       <slot name="label-selected" :branch="branch" v-if="branch === modelValue">
