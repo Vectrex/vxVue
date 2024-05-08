@@ -9,7 +9,6 @@
         outputFormat: { type: String, default: 'YYYY-MM-DD' },
         inputFormat: { type: String, default: 'YYYY-MM-DD' },
         showButton: { type: Boolean, default: true },
-        locale: { type: String, default: 'default' },
         modelValue: Date
       }
   )

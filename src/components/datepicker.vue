@@ -40,7 +40,7 @@
     }
     return dates
   })
-  const localizedDayNames = computed(() => !props.startOfWeekIndex ? props.dayNames.slice() : props.dayNames.slice(1).concat(props.dayNames[0]))
+  const localizedDayNames = computed(() => !props.startOfWeekIndex ? props.dayNames : props.dayNames.slice(1).concat(props.dayNames[0]))
   watch(() => props.modelValue, v => {
     if (v) {
       selectedDate.value = new Date(v.getFullYear(), v.getMonth(), v.getDate())
@@ -100,7 +100,6 @@
         v-bind="$attrs"
         ref="input"
         class="w-full"
-        :locale="locale"
     ><slot /></date-input>
 
     <div class="overflow-hidden z-10 bg-white rounded shadow-md min-w-72 sm:min-w-80" v-bind="calendarProps" ref="calendar" :class="[align.horiz, align.vert]">
@@ -110,7 +109,7 @@
             <button @click.stop="setMonth(sheetDate.getMonth() - 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
               <chevron-left-icon class="size-6" />
             </button>
-            <span>{{ sheetDate.toLocaleString(locale, { month: 'long'}) }}</span>
+            <span>{{ sheetDate.toLocaleString(locale, { month: 'long' }) }}</span>
             <button @click.stop="setMonth(sheetDate.getMonth() + 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
               <chevron-right-icon class="size-6" />
             </button>
