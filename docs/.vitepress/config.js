@@ -16,6 +16,7 @@ export default defineConfig({
         items: [
           { text: 'Accordion', link: '/accordion' },
           { text: 'Confirm', link: '/confirm' },
+          { text: 'DateInput', link: '/date-input' },
           { text: 'Datepicker', link: '/datepicker' },
           { text: 'FormFileButton', link: '/form-file-button' },
           { text: 'FormSelect', link: '/form-select' },
