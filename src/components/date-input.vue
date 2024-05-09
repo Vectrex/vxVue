@@ -8,7 +8,7 @@
   const props = defineProps({
         outputFormat: { type: String, default: 'YYYY-MM-DD' },
         inputFormat: { type: String, default: 'YYYY-MM-DD' },
-        showButton: { type: Boolean, default: true },
+        showToggle: { type: Boolean, default: false },
         modelValue: Date
       }
   )
@@ -20,7 +20,7 @@
 <template>
   <div class="inline-block relative" :class="$attrs['class']">
     <div v-if="dateString">
-      <div class="block flex items-center w-full form-input bg-vxvue-50" :class="{ 'pr-10': showButton }">
+      <div class="block flex items-center w-full form-input bg-vxvue-50" :class="{ 'pr-10': showToggle }">
         <span class="text-vxvue-700">{{ dateString }}</span>
         <button @click="emit('update:modelValue', null)" class="inline-flex flex-shrink-0 justify-center items-center ml-2 rounded-full focus:text-white focus:outline-none size-4 text-vxvue hover:bg-vxvue-100 hover:text-vue-700 focus:bg-vxvue-700">
           <svg class="size-2" stroke="currentColor" fill="none" viewBox="0 0 8 8"><path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" /></svg>
@@ -30,14 +30,14 @@
     <input v-else
        type="text"
        class="block w-full form-input peer focus:border-vxvue"
-       :class="{ 'pr-10': showButton }"
+       :class="{ 'pr-10': showToggle }"
        v-model="inputString"
        @blur="emit('update:modelValue', parseDate(inputString, props.inputFormat).date?.value || null)"
        @input.prevent
        v-bind="inputAttrs"
     >
     <button
-      v-if="showButton"
+      v-if="showToggle"
       class="flex absolute inset-y-0 right-0 items-center px-2 text-vxvue-700 hover:text-vxvue"
       aria-label="datepicker-toggle"
       @click.stop="emit('toggle-datepicker')"
