@@ -7,10 +7,8 @@
   const props = defineProps({
     modelValue: { type: String, default: "" },
     search: { type: Function, required: true },
-    baseClass: { type: String, default: 'vxvue-autocomplete' },
     resultListClass: { type: String, default: 'result-list' },
     resultItemClass: { type: String, default: 'result-list-item' },
-    inputClass: { type: String, default: 'autocomplete-input' },
     getResultValue: { type: Function, default: result => result },
     autoSelect: Boolean
   })
