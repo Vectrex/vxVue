@@ -18,7 +18,7 @@
   const attrs = useAttrs()
   const uniqueId = (() => {
     let counter = 0
-    return (prefix)  => (prefix || "") + ++counter
+    return prefix  => (prefix || "") + ++counter
   })()
 
   const resultListId = uniqueId((attrs.id || 'autocomplete') + "-")
@@ -33,10 +33,9 @@
   const input = ref(null)
   const container = ref(null)
   const itemProps = computed(() =>
-    results.value.map((result, ndx) => ({
+    results.value.map((_, ndx) => ({
       id: (attrs.id || 'autocomplete') + '-item-' + ndx,
-      class: ['autocomplete-item', props.resultItemClass, { 'bg-vxvue-700 text-white': selectedIndex.value === ndx }],
-      'data-result-index': ndx,
+      class: [props.resultItemClass, { 'bg-vxvue-700 text-white': selectedIndex.value === ndx }],
       role: 'option',
       ...(selectedIndex.value === ndx ? { 'aria-selected': 'true' } : {})
     }))
@@ -56,7 +55,7 @@
   }))
   const listProps = computed(() => ({
       id: resultListId,
-      class: ['autocomplete-list absolute min-w-full transform z-10', props.resultListClass, position.value],
+      class: ['absolute min-w-full transform z-10', props.resultListClass, position.value],
       role: 'listbox'
   }))
 
@@ -184,20 +183,20 @@
     <span class="flex absolute inset-y-0 right-0 items-center pr-3 text-vxvue-700">
       <spinner class="size-5" v-if="loading" />
     </span>
-    <ul
+    <div
         v-if="results.length"
         ref="resultList"
         v-bind="listProps"
         @click="handleResultClick"
         @mousedown.prevent
     >
-      <template v-for="(result, index) in results">
-        <slot name="result" :result="result" :props="itemProps[index]">
-          <li :key="itemProps[index].id" v-bind="itemProps[index]">
-            {{ getResultValue(result) }}
-          </li>
-        </slot>
+      <template v-for="(result, ndx) in results">
+        <div :data-result-index="ndx">
+          <slot name="result" :result="result" :props="itemProps[ndx]">
+            <div :key="itemProps[ndx].id" v-bind="itemProps[ndx]">{{ getResultValue(result) }}</div>
+          </slot>
+        </div>
       </template>
-    </ul>
+    </div>
   </div>
 </template>
