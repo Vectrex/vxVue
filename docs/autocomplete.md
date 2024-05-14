@@ -130,16 +130,14 @@ const findObj = async query => {
 :::
 
 ## Properties
-| Name               | Type       | Default              | Description |
-|--------------------|------------|----------------------|-------------|
-| `modelValue`       | `String`   |                      |             |
-| `search`           | `Function` |                      |             |
-| `baseClass`        | `String`   | 'vxvue-autocomplete' |             |
-| `resultListClass`  | `String`   | 'result-list'        |             |
-| `resultItemClass`  | `String`   | 'result-list-item'   |             |
-| `inputClass`       | `String`   | 'autocomplete-input' |             |
-| `getResultValue`   | `Function` | result => result     |             |
-| `autoSelect`       | `Boolean`  |                      |             |
+| Name               | Type       | Default              | Description                                                                                       |
+|--------------------|------------|----------------------|---------------------------------------------------------------------------------------------------|
+| `modelValue`       | `String`   |                      | The text entered in the input element used for filtering items                                    |
+| `search`           | `Function` |                      | Function which determines which items match the modelValue criteria and are displayed in the list |
+| `resultListClass`  | `String`   | 'result-list'        | CSS class applied to the result list                                                              |
+| `resultItemClass`  | `String`   | 'result-list-item'   | CSS class applied to items in the result list                                                     |
+| `getResultValue`   | `Function` | result => result     | Returns the value of the input element when an item is selected                                   |
+| `autoSelect`       | `Boolean`  |                      | Automatically selects the first item of the result list, when list opens                          |
 
 ## Events
 | Name                | Arguments            | Description                                                             |
@@ -149,6 +147,6 @@ const findObj = async query => {
 | `submit`            | `pickedItem` Mixed   | fires when an item from the list is selected (by click or via keyboard) |
 
 ## Slots
-| Name     | Scoped | Description |
-|----------|--------|-------------|
-| `result` |        |             |
+| Name     | Scoped            | Description                                                                                                                      |
+|----------|-------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| `result` | `props`, `result` | `result` holds the data of the currently rendered item, `props` holds `id`, `class`, `role` and `aria-selected` attribute values |
