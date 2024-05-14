@@ -15,6 +15,7 @@ export default defineConfig({
         text: 'Components',
         items: [
           { text: 'Accordion', link: '/accordion' },
+          { text: 'Autocomplete', link: '/autocomplete' },
           { text: 'Confirm', link: '/confirm' },
           { text: 'DateInput', link: '/date-input' },
           { text: 'Datepicker', link: '/datepicker' },
