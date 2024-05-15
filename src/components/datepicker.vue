@@ -6,7 +6,7 @@
 
   defineOptions({ inheritAttrs: false })
   const props = defineProps({
-    modelValue: [Date, Boolean],
+    modelValue: Date,
     validFrom: Date,
     validUntil: Date,
     dayNames: { type: Array, default: (() => "S M T W T F S".split(" ")) },
@@ -95,6 +95,7 @@
     <date-input
         v-if="hasInput"
         :modelValue="selectedDate"
+        :show-toggle="true"
         @toggle-datepicker="expanded = !expanded"
         @update:modelValue="handleInput"
         v-bind="$attrs"
