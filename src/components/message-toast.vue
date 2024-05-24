@@ -9,18 +9,22 @@
     title: String,
     message: [String, Array],
     timeout: { type: Number, default: 5000 },
-    active: { type: Boolean, default: false }
+    active: { type: Boolean, default: false },
+    showTimeoutProgress: { type: Boolean, default: false }
   })
   const emit = defineEmits(['timeout', 'close'])
-  const activeTimeout = ref(null)
   const lines = computed(() => typeof props.message === 'string' ? [props.message] : props.message)
+  const progressWidth = ref(0)
+  let activeTimeout = null
   const startTimeout = () => {
-    window.clearTimeout(activeTimeout.value)
+    window.clearTimeout(activeTimeout)
+    progressWidth.value = 100
 
     // timeout 0 disables fadeout
 
     if (props.active && props.timeout) {
-      activeTimeout.value = window.setTimeout(() => { emit('timeout') }, props.timeout)
+      activeTimeout = window.setTimeout(() => { emit('timeout') }, props.timeout)
+      window.setTimeout(() => progressWidth.value = 0, 0)
     }
   }
 
@@ -54,6 +58,17 @@
               </div>
             </div>
           </div>
+          <div
+              v-if="showTimeoutProgress && timeout"
+              class="h-1 bg-vxvue-alt ease-linear transition-all"
+              :style="{
+                width: progressWidth +'%',
+                'transition-duration': timeout + 'ms',
+              }"
+              role="progressbar"
+              aria-hidden="false"
+              aria-label="notification timer"
+          />
         </div>
       </transition>
     </div>
