@@ -1,4 +1,7 @@
 ## [v1.0.0]
+- message toasts can display a progress bar when combined with timeouts
+
+## [v1.0.0]
 Plenty of minor updates and bug fixes.
 
 - form switch got a slot for the handle
