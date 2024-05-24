@@ -40,6 +40,8 @@ const toast = ref({
 
 ## Component That Reacts Both to Timeout And User Interaction
 Both the `timeout` and `close` listeners set the `active` attribute to false.
+
+In addition the timeout progress is visualized by a bar activated with `show-timeout-progress` to `true`.
 ::: code-group
 ```js
 const toast = ref({
@@ -54,13 +56,20 @@ const toast = ref({
     v-bind="toast"
     @close="toast.active = false"
     @timeout="toast.active = false"
+    :show-timeout-progress="true"
     class="!bg-success-100 !text-success-700"
 />
 ```
 :::
 ::: info Result
 <button @click="timeoutToast.active = true">Click Me</button>
-<message-toast v-bind="timeoutToast" @close="timeoutToast.active = false" @timeout="timeoutToast.active = false" class="!bg-success-100 !text-success-700" />
+<message-toast
+    v-bind="timeoutToast"
+    @close="timeoutToast.active = false"
+    @timeout="timeoutToast.active = false"
+    :show-timeout-progress="true"
+    class="!bg-success-100 !text-success-700"
+/>
 :::
 
 ## Component With Custom Slots
@@ -109,12 +118,13 @@ const toast = ref({
 :::
 
 ## Properties
-| Name       | Type                 | Default | Description                                                                                                       |
-|------------|----------------------|---------|-------------------------------------------------------------------------------------------------------------------|
-| `title`    | `String`             |         | Title of the toast                                                                                                |
-| `message`  | `String`, `String[]` |         | Text message of the toast; when an array of strings is submitted every array item is displayed in a separate line |
-| `active`   | `Boolean`            | `false` | When set to `true` the toast is displayed and the timeout starts to count                                         |
-| `timeout`  | `Number`             | `5000`  | Duration in milliseconds after which the timeout event fires                                                      |
+| Name                    | Type                 | Default | Description                                                                                                       |
+|-------------------------|----------------------|---------|-------------------------------------------------------------------------------------------------------------------|
+| `title`                 | `String`             |         | Title of the toast                                                                                                |
+| `message`               | `String`, `String[]` |         | Text message of the toast; when an array of strings is submitted every array item is displayed in a separate line |
+| `active`                | `Boolean`            | `false` | When set to `true` the toast is displayed and the timeout starts to count                                         |
+| `timeout`               | `Number`             | `5000`  | Duration in milliseconds after which the timeout event fires                                                      |
+| `show-timeout-progress` | `Boolean`            | `false` | when `true` a progress bar synced with the remaining timeout is displayed                                         |
 
 ## Events
 | Name      | Arguments | Description                                            |
