@@ -71,6 +71,8 @@ When the bound modelValue is an array a handle will be added for each array item
 | Name                | Arguments                                    | Description                                        |
 |---------------------|----------------------------------------------|----------------------------------------------------|
 | `update:modelValue` | `value` - can be a single number or an array | Emitted when handles are moved by user interaction |
+| `dragStart`         |                                              | Emitted when a handle is grabbed by mouse or touch |
+| `dragStop`          |                                              | Emitted when a handle is released                  |
 
 ## Keys 
 | Key            | Action                                                             |
