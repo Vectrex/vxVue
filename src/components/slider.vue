@@ -11,7 +11,7 @@
       return typeof v === 'number' || v.every(item => typeof item === 'number')
     }}
   })
-  const emit = defineEmits(['update:modelValue'])
+  const emit = defineEmits(['update:modelValue', 'dragStart', 'dragStop'])
   const attrs = useAttrs()
 
   const initPos = { x: null, y: null }
@@ -78,15 +78,31 @@
     e.currentTarget.focus()
     initBounds()
     dragging = true
-    /* @todo omit when triggered by touch event */
-    document.addEventListener('mousemove', drag)
-    document.addEventListener('mouseup', dragStop)
+    if (e.type === 'mousedown') {
+      document.addEventListener('mousemove', drag)
+      document.addEventListener('mouseup', dragStop)
+    }
+    else {
+      document.addEventListener('touchmove', drag)
+      document.addEventListener('touchend', dragStop)
+    }
+    emit('dragStart')
   }
-  const dragStop = () => {
+  const dragStop = e => {
     if (dragging) {
       dragging = false
-      document.removeEventListener('mousemove', drag)
-      document.removeEventListener('mouseup', dragStop)
+      if (e.type === 'mouseup') {
+        document.removeEventListener('mousemove', drag)
+        document.removeEventListener('mouseup', dragStop)
+      }
+      else {
+        document.removeEventListener('touchmove', drag)
+        document.removeEventListener('touchend', dragStop)
+      }
+
+      // ensure that no mousemove and therefore update:modelValue is triggered after a dragStop event
+
+      setTimeout(() => emit('dragStop'), 0)
     }
   }
   const handleKeydown = e => {
@@ -145,10 +161,10 @@
         v-on="!disabled ? {
           focus: () => thumbNdx = 0,
           keydown: handleKeydown,
-          mousedown: e => { thumbNdx = 0; dragStart(e) },
           touchstart: e => { thumbNdx = 0; dragStart(e) },
-          touchmove: drag,
-          touchend: dragStop
+          mousedown: e => { thumbNdx = 0; dragStart(e) },
+          touchend: dragStop,
+          mouseup: dragStop
         } : {}"
         v-bind="thumbAttrs"
     />
@@ -161,10 +177,10 @@
           v-on="!disabled ? {
             focus: () => thumbNdx = ndx,
             keydown: handleKeydown,
-            mousedown: e => { thumbNdx = ndx; dragStart(e) },
             touchstart: e => { thumbNdx = ndx; dragStart(e) },
-            touchmove: drag,
-            touchend: dragStop
+            mousedown: e => { thumbNdx = ndx; dragStart(e) },
+            touchend: dragStop,
+            mouseup: dragStop
           } : {}"
           v-bind="thumbAttrs"
       />
