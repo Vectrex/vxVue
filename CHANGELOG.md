@@ -1,4 +1,7 @@
-## [v1.0.0]
+## [v1.0.2]
+- slider emits `dragStart` and `dragStop` events
+
+## [v1.0.1]
 - message toasts can display a progress bar when combined with timeouts
 
 ## [v1.0.0]
