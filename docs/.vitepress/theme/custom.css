@@ -1,0 +1,6 @@
+:root {
+    --vp-nav-logo-height: 3rem;
+    --vp-c-brand-1: var(--vxvue-color-500);
+    --vp-c-brand-2: var(--vxvue-color-600);
+    --vp-c-brand-3: var(--vxvue-color-700);
+}

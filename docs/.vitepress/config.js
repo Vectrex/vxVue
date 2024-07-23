@@ -5,7 +5,8 @@ export default defineConfig({
   lang: "en-US",
   description: "vxVue documentation",
   themeConfig: {
-    // logo: '/logo.svg',
+    logo: { src: '/logo.svg', alt: 'vxVue Logo' },
+    siteTitle: false,
     nav: [
       { text: 'Home', link: '/' },
     ],
