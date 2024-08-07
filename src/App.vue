@@ -20,6 +20,7 @@
   import Accordion from "./components/accordion.vue";
   import AccordionPanel from "./components/accordion-panel.vue";
   import SubmitButton from "./components/submit-button.vue";
+  import Sizable from "./components/sizable.vue"
 
   const form = ref({
     pw: '',
@@ -137,6 +138,7 @@
 </script>
 
 <template>
+  <sizable />
   <div class="grid grid-cols-1 gap-4 px-4 pt-28 mx-auto md:pt-32 lg:grid-cols-2 2xl:grid-cols-3">
     <div class="p-4 space-y-2 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Accordion (activeIndex is an array)</h2>
