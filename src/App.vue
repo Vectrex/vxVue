@@ -138,7 +138,9 @@
 </script>
 
 <template>
-  <sizable />
+  <sizable class="w-1/2">
+    <img src="https://alpenfoto.com/files/splash/.cache/_DSC5020.webp@resize_1000_0.webp" alt="" class="w-full h-96">
+  </sizable>
   <div class="grid grid-cols-1 gap-4 px-4 pt-28 mx-auto md:pt-32 lg:grid-cols-2 2xl:grid-cols-3">
     <div class="p-4 space-y-2 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Accordion (activeIndex is an array)</h2>
