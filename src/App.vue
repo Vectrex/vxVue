@@ -138,9 +138,6 @@
 </script>
 
 <template>
-  <sizable class="w-1/2">
-    <img src="https://alpenfoto.com/files/splash/.cache/_DSC5020.webp@resize_1000_0.webp" alt="" class="w-full h-96">
-  </sizable>
   <div class="grid grid-cols-1 gap-4 px-4 pt-28 mx-auto md:pt-32 lg:grid-cols-2 2xl:grid-cols-3">
     <div class="p-4 space-y-2 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Accordion (activeIndex is an array)</h2>
@@ -331,6 +328,19 @@
           </span>
         </template>
       </tabs>
+    </div>
+
+    <div class="p-4 shadow-md">
+      <h2 class="mb-4 text-xl font-bold">Sizable vertical</h2>
+      <div class="flex flex-col w-full h-[500px]">
+        <sizable :vertical="true" class="flex-shrink-0 mb-6 h-1/2"><div class="h-full bg-emerald-500"></div></sizable>
+        <div class="w-full h-full flex-shrink-1 bg-amber-500"></div>
+      </div>
+    </div>
+
+    <div class="p-4 shadow-md">
+      <h2 class="mb-4 text-xl font-bold">Sizable horizontal</h2>
+      <sizable class="w-1/2 h-[500px] bg-[url('https://alpenfoto.com/files/splash/.cache/_DSC5020.webp@resize_1000_0.webp')] bg-cover" />
     </div>
   </div>
 
