@@ -20,6 +20,7 @@
   import Accordion from "./components/accordion.vue";
   import AccordionPanel from "./components/accordion-panel.vue";
   import SubmitButton from "./components/submit-button.vue";
+  import Sizable from "./components/sizable.vue"
 
   const form = ref({
     pw: '',
@@ -232,7 +233,7 @@
       <div class="flex items-center space-x-2">
         <label for="form-switch">Form Switch</label>
         <form-switch id="form-switch" aria-label="sample-switch" v-model="form.switch" />
-        <span class="flex space-x-2"><form-switch id="form-switch-disabled" aria-label="sample-switch-disabled" disabled model-value="1"><span>a disabled switch</span></form-switch></span>
+        <span class="flex space-x-2"><form-switch id="form-switch-disabled" aria-label="sample-switch-disabled" disabled :model-value="true"><span>a disabled switch</span></form-switch></span>
       </div>
       <div>
         <label for="form-select">Form Select</label>
@@ -327,6 +328,19 @@
           </span>
         </template>
       </tabs>
+    </div>
+
+    <div class="p-4 shadow-md">
+      <h2 class="mb-4 text-xl font-bold">Sizable vertical</h2>
+      <div class="flex flex-col w-full h-[500px]">
+        <sizable :vertical="true" class="flex-shrink-0 mb-6 h-1/2"><div class="h-full bg-emerald-500"></div></sizable>
+        <div class="w-full h-full flex-shrink-1 bg-amber-500"></div>
+      </div>
+    </div>
+
+    <div class="p-4 shadow-md">
+      <h2 class="mb-4 text-xl font-bold">Sizable horizontal</h2>
+      <sizable class="w-1/2 h-[500px] bg-[url('https://alpenfoto.com/files/splash/.cache/_DSC5020.webp@resize_1000_0.webp')] bg-cover" />
     </div>
   </div>
 

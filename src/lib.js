@@ -12,6 +12,7 @@ import Modal from "./components/modal.vue"
 import Pagination from './components/pagination.vue'
 import PasswordInput from './components/password-input.vue'
 import SimpleTree from "./components/simple-tree.vue"
+import Sizable from "./components/sizable.vue"
 import Slider from "./components/slider.vue"
 import Sortable from './components/sortable.vue'
 import Spinner from "./components/spinner.vue"
@@ -33,6 +34,7 @@ export {
     Pagination,
     PasswordInput,
     SimpleTree,
+    Sizable,
     Slider,
     Sortable,
     Spinner,
