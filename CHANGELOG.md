@@ -1,3 +1,9 @@
+## [v1.0.4]
+- fix: fast moving pointer won't reduce sizable to 0 width/height
+
+## [v1.0.3]
+- added sizable component
+
 ## [v1.0.2]
 - slider emits `dragStart` and `dragStop` events
 
