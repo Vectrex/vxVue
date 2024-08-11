@@ -21,10 +21,10 @@
       // limit dimensions to container
 
       if (!props.vertical) {
-        box.value.style.width = Math.min(containerSize.width - handleSize.width - (boxSize.x - containerSize.x), boxSize.width + pageX - startPos.x) + "px"
+        box.value.style.width = Math.min(containerSize.width - handleSize.width - (boxSize.x - containerSize.x), Math.max(0, boxSize.width + pageX - startPos.x)) + "px"
       }
       else {
-        box.value.style.height = Math.min (containerSize.height - handleSize.height - (boxSize.y - containerSize.y), boxSize.height + pageY - startPos.y) + "px"
+        box.value.style.height = Math.min (containerSize.height - handleSize.height - (boxSize.y - containerSize.y), Math.max(0, boxSize.height + pageY - startPos.y)) + "px"
       }
     }
   }
@@ -68,7 +68,7 @@
   <div class="relative" ref="box">
     <slot />
     <div
-      :class="['absolute flex', props.vertical ? 'inset-x-0 top-full justify-center py-2 cursor-ns-resize' : 'inset-y-0 left-full items-center px-2 cursor-ew-resize']"
+      :class="['absolute flex', props.vertical ? 'inset-x-0 top-full justify-center py-1 cursor-ns-resize' : 'inset-y-0 left-full items-center px-1 cursor-ew-resize']"
       v-on=" {
         touchstart: dragStart,
         mousedown: dragStart,
