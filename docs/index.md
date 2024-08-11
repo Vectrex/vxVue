@@ -10,7 +10,7 @@ hero:
       link: /getting-started
 
 features:
-  - title: 17 UI Components
+  - title: 18 UI Components
     details: Tailored towards simplicity and covering the most common requirements for your "usual" application
   - title: Tailwind Styled
     details: Incorporates easily with Tailwind projects, won't interfere with your custom CSS and is easily configured with a handful of CSS variables
