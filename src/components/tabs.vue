@@ -37,7 +37,7 @@
            href="#"
            @click.prevent="itemOnClick(item)"
            :class="[
-              activeTab === item ? 'border-vxvue-500 text-vxvue-600' : 'border-transparent text-gray-900 hover:text-gray-700 hover:border-gray-300',
+              activeTab === item ? 'border-vxvue text-vxvue-600' : 'border-transparent text-gray-900 hover:text-gray-700 hover:border-gray-300',
               item.disabled ? 'cursor-not-allowed text-gray-400 hover:border-transparent' : '',
               'group inline-flex items-center py-4 px-1 border-b-4 font-medium !no-underline',
            ]"
