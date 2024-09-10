@@ -28,7 +28,6 @@ In this example clicking outside the modal will close it.
     </template>
 </modal>
 ```
-:::
 ::: info Result
 <button @click="show = true">Click Me</button>
 <modal :show="show" @clicked-outside="show = false" container-class="mx-4 w-full lg:w-1/2 xl:w-1/4">
