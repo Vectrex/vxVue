@@ -1,3 +1,6 @@
+## [v1.0.5]
+- refactor: pagination uses button elements instead of anchor elements; minor CSS updates
+
 ## [v1.0.4]
 - fix: fast moving pointer won't reduce sizable to 0 width/height
 
