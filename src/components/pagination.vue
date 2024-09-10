@@ -23,7 +23,7 @@
   })
   const maxPage = ref(Math.ceil(props.total / props.perPage))
   const currentPage = ref(null)
-  const markerPositionClass = computed(() => (props.markerPosition === 'above' ? 'border-t-2 -mt-[2px]' : 'border-b-2 -mb-[2px]') + ' py-4')
+  const markerPositionClass = computed(() => (props.markerPosition === 'above' ? 'border-t-4 -mt-[4px]' : 'border-b-4 -mb-[4px]') + ' py-4')
   const pagesToShow = computed(() => {
     let pages = [1]
     if (props.showAllPages || maxPage.value <= 7) {
@@ -76,7 +76,7 @@
   watch(() => props.total, v => {
     maxPage.value = Math.ceil(props.total / props.perPage)
     if(currentPage.value > maxPage.value) {
-      emit('update:page', 1)
+      emit('update:page', maxPage.value)
     }
   })
 </script>
@@ -84,45 +84,48 @@
 <template>
   <nav class="flex justify-between items-center px-4 sm:px-0">
     <div class="flex flex-1 -mt-px w-0">
-      <a
-          @click.prevent="prevPage"
+      <button
+          @click="prevPage"
           v-if="showNavButtons"
-          href="#"
-          class="inline-flex items-center pr-1 text-sm font-medium text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300 !no-underline"
-          :class="[{ 'cursor-default pointer-events-none': currentPage <=1 }, markerPositionClass]"
+          :disabled="currentPage <= 1"
+          :class="[
+              currentPage <= 1 ? 'pointer-events-none text-gray-500' : 'text-vxvue-700',
+              'inline-flex items-center pr-1 text-sm border-transparent hover:text-vxvue'
+          ]"
       >
         <chevron-left-icon class="size-5" />
         {{ prevText }}
-      </a>
+      </button>
     </div>
     <div class="hidden md:flex md:-mt-px">
       <component
-          v-for="(page, idx) in pagesToShow"
-          :is="page !== 'dots' ? 'a' : 'span'"
-          @click.prevent="page !== 'dots' ? emit('update:page', page) : null"
-          :key="idx"
-          :href="page !== 'dots' ? '#' : null"
-          class="inline-flex items-center px-4 text-sm font-medium !no-underline"
-          :class="[{
-          'border-vxvue-500 text-vxvue-700': page === currentPage,
-          'border-transparent text-gray-500': page !== currentPage,
-          'hover:text-gray-700 hover:border-gray-300': page !== 'dots'
-        }, markerPositionClass]"
+          v-for="(page, ndx) in pagesToShow"
+          :is="page !== 'dots' ? 'button' : 'span'"
+          @click="page !== 'dots' ? emit('update:page', page) : null"
+          :key="ndx"
+          :class="[
+            { 'pointer-events-none': page === 'dots' },
+            page === currentPage ? 'border-vxvue text-vxvue font-bold' : 'border-transparent text-gray-500 hover:border-gray-300',
+            markerPositionClass,
+            'inline-flex items-center px-4 text-sm'
+          ]"
       >
-        {{ page !== 'dots' ? page : '...' }}
+        {{ page !== 'dots' ? page : '&hellip;' }}
       </component>
     </div>
     <div class="flex flex-1 justify-end -mt-px w-0">
-      <a
-          @click.prevent="nextPage"
+      <button
+          @click="nextPage"
           v-if="showNavButtons"
-          href="#"
-          class="inline-flex items-center pl-1 text-sm font-medium text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300 !no-underline"
-          :class="[markerPositionClass, { 'cursor-default pointer-events-none': currentPage >= maxPage }]"
+          :disabled="currentPage >= maxPage"
+          :class="[
+              currentPage >= maxPage ? 'pointer-events-none text-gray-500' : 'text-vxvue-700',
+              'inline-flex items-center pr-1 text-sm border-transparent hover:text-vxvue'
+          ]"
       >
         {{ nextText }}
         <chevron-right-icon class="size-5" />
-      </a>
+      </button>
     </div>
   </nav>
 </template>
