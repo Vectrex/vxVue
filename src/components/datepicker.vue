@@ -9,6 +9,7 @@
     modelValue: Date,
     validFrom: Date,
     validUntil: Date,
+    highlightTo: Date,
     dayNames: { type: Array, default: (() => "S M T W T F S".split(" ")) },
     locale: { type: String, default: 'default' },
     startOfWeekIndex: { type: Number, default: 0, validator: value => value === 0 || value === 1 },
@@ -74,6 +75,7 @@
     const selected = selectedDate.value && date.getTime() === selectedDate.value.getTime()
     const now = date.getTime() === today.getTime()
     const invalid = (props.validFrom && props.validFrom > date) || (props.validUntil && props.validUntil < date)
+    const highlight = props.highlightTo && selectedDate.value && (props.highlightTo < date && date < selectedDate.value) || (props.highlightTo > date && date > selectedDate.value)
     return [
         'py-2 rounded-sm block text-center',
       {
@@ -82,6 +84,7 @@
         'text-gray-400': padded && !now && !selected,
         'bg-gray-200': now && !selected,
         'bg-vxvue-700 text-white': selected,
+        'bg-vxvue-alt-700/20': highlight && !now && !selected,
         'hover:ring-2 hover:ring-vxvue': !invalid
       }
     ]
