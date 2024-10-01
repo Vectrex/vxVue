@@ -89,15 +89,16 @@ v-model="pickedDate"
 ## Properties
 Properties of the [dateInput](date-input) component can be declared and are passed on.
 
-| Name               | Type      | Default                                  | Description                                                                                                           |
-|--------------------|-----------|------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| `modelValue`       | `Date`    |                                          | The selected date                                                                                                     |
-| `validFrom`        | `Date`    |                                          | When set dates before this date can not be selected                                                                   |
-| `validUntil`       | `Date`    |                                          | When set dates after this date can not be selected                                                                    |
-| `dayNames`         | `Array`   | ['S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'] | An array with day names used for labelling the dates grid                                                             |
-| `locale`           | `String`  | 'default'                                | The locale used for rendering month names                                                                             |
-| `startOfWeekIndex` | `Number`  | 0                                        | Accepts 0 for Sunday and 1 for Monday                                                                                 |
-| `hasInput`         | `Boolean` | true                                     | When true a [date-input](date-input) component with a toggle is rendered; when false the datepicker is always visible |
+| Name               | Type      | Default                                  | Description                                                                                                                                |
+|--------------------|-----------|------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| `modelValue`       | `Date`    |                                          | The selected date                                                                                                                          |
+| `validFrom`        | `Date`    |                                          | When set dates before this date can not be selected                                                                                        |
+| `validUntil`       | `Date`    |                                          | When set dates after this date can not be selected                                                                                         |
+| `highlightTo`      | `Date`    |                                          | Day elements between this date and the selected date are differently colored; this allows to combine two datepickers to select date ranges |
+| `dayNames`         | `Array`   | ['S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'] | An array with day names used for labelling the dates grid                                                                                  |
+| `locale`           | `String`  | 'default'                                | The locale used for rendering month names                                                                                                  |
+| `startOfWeekIndex` | `Number`  | 0                                        | Accepts 0 for Sunday and 1 for Monday                                                                                                      |
+| `hasInput`         | `Boolean` | true                                     | When true a [date-input](date-input) component with a toggle is rendered; when false the datepicker is always visible                      |
 
 ## Events
 | Name                | Arguments           | Description                                                                                    |
