@@ -6,19 +6,21 @@
 
   defineOptions({ inheritAttrs: false })
   const props = defineProps({
-    modelValue: Date,
+    modelValue: { type: [Date, Array], default: null, validator: ((v, props) => v instanceof Date && props.maxNumberOfValues === 1 || v.every(item => item instanceof Date || item === null) && v.length <= props.maxNumberOfValues) },
+    maxNumberOfValues: { type: Number, default: 1 },
     validFrom: Date,
     validUntil: Date,
     dayNames: { type: Array, default: (() => "S M T W T F S".split(" ")) },
+    highlightRange: Boolean,
     locale: { type: String, default: 'default' },
     startOfWeekIndex: { type: Number, default: 0, validator: value => value === 0 || value === 1 },
-    hasInput: { type: Boolean, default: true }
+    hasInput: { type: Boolean, default: true, validator: (v, props) => v === false || !Array.isArray(props.modelValue) },
   })
   const emit = defineEmits(['update:modelValue', 'month-change', 'year-change'])
   const today = (() => { let d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate())})()
 
   const sheetDate = ref(new Date(today.getFullYear(), today.getMonth(), 1))
-  const selectedDate = ref(null)
+  const selectedDate = ref([])
   const expanded = ref(!props.hasInput)
   const panelShown = ref('days')
   const panelYear = ref(0)
@@ -43,14 +45,23 @@
   const localizedDayNames = computed(() => !props.startOfWeekIndex ? props.dayNames : props.dayNames.slice(1).concat(props.dayNames[0]))
   watch(() => props.modelValue, v => {
     if (v) {
-      selectedDate.value = new Date(v.getFullYear(), v.getMonth(), v.getDate())
-      sheetDate.value = new Date(selectedDate.value.getTime())
+      if (Array.isArray(v)) {
+        const f = [], s = selectedDate.value
+        v.forEach(item => { if(item) f.push(new Date(item.getFullYear(), item.getMonth(), item.getDate())) })
+        if (f.length !== s.length || ![...new Set([...f, ...s])].every(i => f.filter(j => j.getDate() === i.getDate()).length === s.filter(j => j.getDate() === i.getDate()).length)) {
+          selectedDate.value = f
+          sheetDate.value = new Date(f[0].getFullYear(), f[0].getMonth(), 1)
+        }
+      }
+      else {
+        selectedDate.value = [new Date(v.getFullYear(), v.getMonth(), v.getDate())]
+        sheetDate.value = new Date(v.getFullYear(), v.getMonth(), 1)
+      }
     }
     else {
-      selectedDate.value = null
-      sheetDate.value = new Date(today.getTime())
+      selectedDate.value = []
+      sheetDate.value = new Date(today.getDate(), today.getMonth(), 1)
     }
-    sheetDate.value.setDate(1)
   }, { immediate: true })
   watch(expanded, v => {
     if (v && props.hasInput) {
@@ -67,13 +78,27 @@
   onClickOutside(calendar, () => { expanded.value = false; panelShown.value = 'days' }, { ignore: [toggleButton] })
   const setMonth = month => { sheetDate.value = new Date(sheetDate.value.getFullYear(), month, 1); emit("month-change", sheetDate.value) }
   const setYear = year => { sheetDate.value = new Date(year, sheetDate.value.getMonth(), 1); emit("year-change", sheetDate.value) }
-  const selectDate = day => { expanded.value = !props.hasInput; selectedDate.value = day; emit('update:modelValue', day) }
   const handleInput = date => { selectedDate.value = date; emit('update:modelValue', date) }
+  const selectDate = day => {
+    expanded.value = !props.hasInput
+
+    // toggle
+
+    let ndx = selectedDate.value.findIndex(item => item?.getDate() === day.getDate())
+    if (ndx !== -1) {
+      selectedDate.value.splice(ndx, 1)
+    }
+    else if (selectedDate.value.length < props.maxNumberOfValues) {
+      selectedDate.value.push(day)
+    }
+    emit('update:modelValue', selectedDate.value)
+  }
   const daysButtonClass = date => {
     const padded = date.getMonth() !== sheetDate.value.getMonth()
-    const selected = selectedDate.value && date.getTime() === selectedDate.value.getTime()
+    const selected = selectedDate.value.find(item => item?.getTime() === date.getTime())
     const now = date.getTime() === today.getTime()
     const invalid = (props.validFrom && props.validFrom > date) || (props.validUntil && props.validUntil < date)
+    const highlight = props.highlightRange && date > Math.min(...selectedDate.value) && date < Math.max(...selectedDate.value)
     return [
         'py-2 rounded-sm block text-center',
       {
@@ -82,7 +107,8 @@
         'text-gray-400': padded && !now && !selected,
         'bg-gray-200': now && !selected,
         'bg-vxvue-700 text-white': selected,
-        'hover:ring-2 hover:ring-vxvue': !invalid
+        'hover:ring-2 hover:ring-vxvue': !invalid,
+        'bg-vxvue-alt-700/20': highlight && !now && !selected,
       }
     ]
   }
@@ -94,7 +120,7 @@
 
     <date-input
         v-if="hasInput"
-        :modelValue="selectedDate"
+        :modelValue="selectedDate[0]"
         :show-toggle="true"
         @toggle-datepicker="expanded = !expanded"
         @update:modelValue="handleInput"

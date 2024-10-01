@@ -2,6 +2,8 @@
     import Datepicker from "../src/components/datepicker.vue"
     import { ref } from "vue"
     const pickedDate = ref(null)
+    const dateRange = ref([new Date('2024-09-15'), new Date('2024-09-25')])
+    const dateRangeLarge = ref([])
     const from = (() => {
         let date = new Date(), d = date.getDate()
         date.setDate(d - 4)
@@ -83,6 +85,32 @@ output-format="MM/DD/YYYY"
 <datepicker
 v-model="pickedDate"
 :has-input="false"
+/>
+:::
+
+## Dual component
+
+```html
+<datepicker
+    v-model="dateRange"
+    :has-input="false"
+    :max-number-of-values="2"
+/>
+```
+::: info Result
+<datepicker
+v-model="dateRange"
+:has-input="false"
+:max-number-of-values="2"
+:highlight-range="true"
+/>
+:::
+
+::: info Result
+<datepicker
+v-model="dateRangeLarge"
+:has-input="false"
+:max-number-of-values="10"
 />
 :::
 
