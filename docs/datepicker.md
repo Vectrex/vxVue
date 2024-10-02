@@ -1,9 +1,6 @@
 <script setup>
     import Datepicker from "../src/components/datepicker.vue"
     import { ref } from "vue"
-    const pickedDate = ref(null)
-    const dateRange = ref([new Date('2024-09-15'), new Date('2024-09-25')])
-    const dateRangeLarge = ref([])
     const from = (() => {
         let date = new Date(), d = date.getDate()
         date.setDate(d - 4)
@@ -14,6 +11,9 @@
         date.setDate(d + 3)
         return date
     })()
+    const pickedDate = ref(null)
+    const dateRange = ref([from, to])
+    const dateRangeLarge = ref([])
 </script>
 
 # Datepicker
@@ -88,44 +88,59 @@ v-model="pickedDate"
 />
 :::
 
-## Dual component
+## Component Allowing More Than a Single Value
+
+Two values and highlighting the range between them.
 
 ```html
 <datepicker
     v-model="dateRange"
-    :has-input="false"
     :max-number-of-values="2"
+    :highlight-range="true"
 />
 ```
 ::: info Result
 <datepicker
 v-model="dateRange"
-:has-input="false"
 :max-number-of-values="2"
 :highlight-range="true"
 />
+<pre>{{ dateRange }}</pre>
 :::
 
+Ten values which can be toggled randomly.
+
+```html
+<datepicker
+    v-model="dateRangeLarge"
+    :max-number-of-values="10"
+    :shown-month="new Date('2024-06-05')"
+/>
+```
 ::: info Result
 <datepicker
 v-model="dateRangeLarge"
-:has-input="false"
 :max-number-of-values="10"
+:shown-month="new Date('2024-06-05')"
 />
+<pre>{{ dateRangeLarge }}</pre>
 :::
 
 ## Properties
 Properties of the [dateInput](date-input) component can be declared and are passed on.
 
-| Name               | Type      | Default                                  | Description                                                                                                           |
-|--------------------|-----------|------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| `modelValue`       | `Date`    |                                          | The selected date                                                                                                     |
-| `validFrom`        | `Date`    |                                          | When set dates before this date can not be selected                                                                   |
-| `validUntil`       | `Date`    |                                          | When set dates after this date can not be selected                                                                    |
-| `dayNames`         | `Array`   | ['S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'] | An array with day names used for labelling the dates grid                                                             |
-| `locale`           | `String`  | 'default'                                | The locale used for rendering month names                                                                             |
-| `startOfWeekIndex` | `Number`  | 0                                        | Accepts 0 for Sunday and 1 for Monday                                                                                 |
-| `hasInput`         | `Boolean` | true                                     | When true a [date-input](date-input) component with a toggle is rendered; when false the datepicker is always visible |
+| Name                | Type      | Default                                  | Description                                                                                                                                                             |
+|---------------------|-----------|------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `modelValue`        | `Date`    |                                          | The selected date                                                                                                                                                       |
+| `shownMonth`        | `Date`    |                                          | The month displayed when opening the datepicker; defaults to the current month when not set                                                                             |
+| `maxNumberOfValues` | `Number`  | 1                                        | Determines how many dates you can pick; values greater than one `hasInput` will be ignored, no date input will be provided and picked dates can be "toggled" on and off |
+| `validFrom`         | `Date`    |                                          | When set dates before this date can not be selected                                                                                                                     |
+| `validUntil`        | `Date`    |                                          | When set dates after this date can not be selected                                                                                                                      |
+| `highlightRange`    | `Boolean` |                                          | With `maxNumberOfValues`greater than one this will highlight all date cells between the highest and lowest date value                                                   |
+| `dayNames`          | `Array`   | ['S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'] | An array with day names used for labelling the dates grid                                                                                                               |
+| `locale`            | `String`  | 'default'                                | The locale used for rendering month names                                                                                                                               |
+| `startOfWeekIndex`  | `Number`  | 0                                        | Accepts 0 for Sunday and 1 for Monday                                                                                                                                   |
+| `hasInput`          | `Boolean` | true                                     | When true a [date-input](date-input) component with a toggle is rendered; when false the datepicker is always visible                                                   |
 
 ## Events
 | Name                | Arguments           | Description                                                                                    |
