@@ -1,3 +1,7 @@
+## [v1.0.6]
+- datepicker component allows the selection of multiple dates
+- datepicker component adds additional props for better customizability and integration within other components
+
 ## [v1.0.5]
 - refactor: pagination uses button elements instead of anchor elements; minor CSS updates
 
