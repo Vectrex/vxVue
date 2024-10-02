@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   title: "vxVue",
+  base: '/vxVue/',
   lang: "en-US",
   description: "vxVue documentation",
   themeConfig: {
