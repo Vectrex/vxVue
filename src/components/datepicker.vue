@@ -7,6 +7,7 @@
   defineOptions({ inheritAttrs: false })
   const props = defineProps({
     modelValue: { type: [Date, Array], default: null, validator: ((v, props) => v instanceof Date && props.maxNumberOfValues === 1 || v.every(item => item instanceof Date || item === null) && v.length <= props.maxNumberOfValues) },
+    shownMonth: Date,
     maxNumberOfValues: { type: Number, default: 1 },
     validFrom: Date,
     validUntil: Date,
@@ -14,21 +15,22 @@
     highlightRange: Boolean,
     locale: { type: String, default: 'default' },
     startOfWeekIndex: { type: Number, default: 0, validator: value => value === 0 || value === 1 },
-    hasInput: { type: Boolean, default: true, validator: (v, props) => v === false || !Array.isArray(props.modelValue) },
+    hasInput: { type: Boolean, default: true },
   })
   const emit = defineEmits(['update:modelValue', 'month-change', 'year-change'])
-  const today = (() => { let d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate())})()
+  const today = (() => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate())})()
 
-  const sheetDate = ref(new Date(today.getFullYear(), today.getMonth(), 1))
+  const sheetDate = ref(null)
   const selectedDate = ref([])
-  const expanded = ref(!props.hasInput)
+  const expanded = ref(false)
   const panelShown = ref('days')
   const panelYear = ref(0)
   const align = ref({ horiz: 'left-0', vert: 'top-0' })
   const input = ref(null)
   const calendar = ref(null)
   const toggleButton = ref(null)
-  const calendarProps = computed(() => props.hasInput ? { class: ['absolute', expanded.value ? 'block' : 'hidden'] } : {})
+  const allowToggle = computed(() => props.hasInput && props.maxNumberOfValues === 1)
+  const calendarProps = computed(() => allowToggle.value ? { class: ['absolute', expanded.value ? 'block' : 'hidden'] } : {})
   const days = computed(() => {
     const
       dates = [],
@@ -48,9 +50,10 @@
       if (Array.isArray(v)) {
         const f = [], s = selectedDate.value
         v.forEach(item => { if(item) f.push(new Date(item.getFullYear(), item.getMonth(), item.getDate())) })
-        if (f.length !== s.length || ![...new Set([...f, ...s])].every(i => f.filter(j => j.getDate() === i.getDate()).length === s.filter(j => j.getDate() === i.getDate()).length)) {
+        if (f.length !== s.length || ![...new Set([...f, ...s])].every(i => f.filter(j => j.getTime() === i.getTime()).length === s.filter(j => j.getTime() === i.getTime()).length)) {
           selectedDate.value = f
-          sheetDate.value = new Date(f[0].getFullYear(), f[0].getMonth(), 1)
+          sheetDate.value = new Date((f[0] || today).getTime())
+          sheetDate.value.setDate(1)
         }
       }
       else {
@@ -60,11 +63,15 @@
     }
     else {
       selectedDate.value = []
-      sheetDate.value = new Date(today.getDate(), today.getMonth(), 1)
+      sheetDate.value = new Date(today.getFullYear(), today.getMonth(), 1)
     }
   }, { immediate: true })
+  watch (() => props.shownMonth, v => {
+    sheetDate.value = new Date((v || today).getTime())
+    sheetDate.value.setDate(1)
+  }, { immediate: true })
   watch(expanded, v => {
-    if (v && props.hasInput) {
+    if (v && allowToggle.value) {
       nextTick(() => {
         const inputDim = input.value.$el.getBoundingClientRect()
         const calDim = calendar.value.getBoundingClientRect()
@@ -78,39 +85,49 @@
   onClickOutside(calendar, () => { expanded.value = false; panelShown.value = 'days' }, { ignore: [toggleButton] })
   const setMonth = month => { sheetDate.value = new Date(sheetDate.value.getFullYear(), month, 1); emit("month-change", sheetDate.value) }
   const setYear = year => { sheetDate.value = new Date(year, sheetDate.value.getMonth(), 1); emit("year-change", sheetDate.value) }
-  const handleInput = date => { selectedDate.value = date; emit('update:modelValue', date) }
+  const handleInput = date => emit('update:modelValue', date)
   const selectDate = day => {
-    expanded.value = !props.hasInput
+    expanded.value = false
 
-    // toggle
+    if(props.maxNumberOfValues === 1) {
+      emit('update:modelValue', day)
+    }
+    else {
+      const picked = selectedDate.value
 
-    let ndx = selectedDate.value.findIndex(item => item?.getDate() === day.getDate())
-    if (ndx !== -1) {
-      selectedDate.value.splice(ndx, 1)
+      // toggle
+
+      let ndx = picked.findIndex(item => item.getTime() === day.getTime())
+      if (ndx !== -1) {
+        picked.splice(ndx, 1)
+      }
+
+      // append
+
+      else if (picked.length < props.maxNumberOfValues) {
+        picked.push(day)
+      }
+      emit('update:modelValue', picked)
     }
-    else if (selectedDate.value.length < props.maxNumberOfValues) {
-      selectedDate.value.push(day)
-    }
-    emit('update:modelValue', selectedDate.value)
   }
+  const isSelected = date => selectedDate.value.find(item => item?.getTime() === date.getTime())
   const daysButtonClass = date => {
     const padded = date.getMonth() !== sheetDate.value.getMonth()
-    const selected = selectedDate.value.find(item => item?.getTime() === date.getTime())
+    const selected = isSelected(date)
     const now = date.getTime() === today.getTime()
     const invalid = (props.validFrom && props.validFrom > date) || (props.validUntil && props.validUntil < date)
+    const disabled = !selected && props.maxNumberOfValues > 1 && selectedDate.value.length === props.maxNumberOfValues
     const highlight = props.highlightRange && date > Math.min(...selectedDate.value) && date < Math.max(...selectedDate.value)
-    return [
-        'py-2 rounded-sm block text-center',
-      {
+    return {
+        'cursor-not-allowed': invalid || disabled,
         'text-vxvue-700': !invalid && !padded && !now && !selected,
         'text-error': invalid && !padded,
         'text-gray-400': padded && !now && !selected,
-        'bg-gray-200': now && !selected,
+        'bg-vxvue-alt-300 font-bold': now && !selected,
         'bg-vxvue-700 text-white': selected,
         'hover:ring-2 hover:ring-vxvue': !invalid,
-        'bg-vxvue-alt-700/20': highlight && !now && !selected,
+        'bg-vxvue-100/50': highlight && !now && !selected,
       }
-    ]
   }
   onMounted(() => toggleButton.value = input.value?.$refs.toggleButton)
 </script>
@@ -119,7 +136,7 @@
   <div :class="['relative', $attrs['class']]">
 
     <date-input
-        v-if="hasInput"
+        v-if="allowToggle"
         :modelValue="selectedDate[0]"
         :show-toggle="true"
         @toggle-datepicker="expanded = !expanded"
@@ -157,9 +174,9 @@
 
           <button
               v-for="day in days"
-              :class="daysButtonClass(day)"
-              :disabled="(validFrom && validFrom > day) || (validUntil && validUntil < day)"
-              @click.stop="(validFrom && validFrom > day) || (validUntil && validUntil < day) ? null : selectDate(day)"
+              :class="['py-2 rounded-sm block text-center', daysButtonClass(day)]"
+              :disabled="(validFrom && validFrom > day) || (validUntil && validUntil < day) || maxNumberOfValues > 1 && selectedDate.length === maxNumberOfValues && !isSelected(day)"
+              @click.stop="selectDate(day)"
           >{{ day.getDate() }}</button>
         </div>
       </template>

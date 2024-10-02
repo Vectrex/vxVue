@@ -60,7 +60,7 @@
           </div>
           <div
               v-if="showTimeoutProgress && timeout"
-              class="h-1 bg-vxvue-alt ease-linear transition-all"
+              class="h-1 transition-all ease-linear bg-vxvue-alt"
               :style="{
                 width: progressWidth +'%',
                 'transition-duration': timeout + 'ms',
