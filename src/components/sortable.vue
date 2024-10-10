@@ -19,7 +19,7 @@
     offset: { type: Number, default: null },
     count: { type: Number, default: null },
     sortProp: { type: String },
-    sortDirection: { type: String, validator: val => !val || ['asc', 'desc'].indexOf(val) !== -1 },
+    sortDirection: { type: String, validator: val => !val || ['asc', 'desc'].includes(val) },
     keyProperty: { type: String, default: 'key' }
   })
   const emit = defineEmits(['before-sort', 'after-sort'])

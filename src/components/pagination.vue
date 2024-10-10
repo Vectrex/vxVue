@@ -6,20 +6,12 @@
   const props = defineProps({
    page: { type: Number, default: 1 },
    total: { type: Number, default: 1 },
-   perPage: {
-     type: Number, default: 20, validator(v) {
-       return v >= 1
-     }
-   },
+   perPage: { type: Number, default: 20, validator: v => v >= 1 },
    showNavButtons: { type: Boolean, default: true },
    prevText: { type: String, default: 'Previous' },
    nextText: { type: String, default: 'Next' },
    showAllPages: { type: Boolean, default: false },
-   markerPosition: {
-     type: String, default: 'above', validator(v) {
-       return ['above', 'below'].indexOf(v) !== -1
-     }
-   }
+   markerPosition: { type: String, default: 'above', validator: v => ['above', 'below'].includes(v) }
   })
   const maxPage = ref(Math.ceil(props.total / props.perPage))
   const currentPage = ref(null)

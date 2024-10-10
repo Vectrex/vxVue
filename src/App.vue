@@ -125,7 +125,7 @@
   const paginatedItems = computed(() => items.slice((paginationData.value.currentPage - 1) * paginationData.value.entriesPerPage, paginationData.value.currentPage * paginationData.value.entriesPerPage))
   const findItem = async query => {
     await new Promise(resolve => setTimeout(resolve, 500));
-    return items.filter(item => item.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+    return items.filter(item => item.toLowerCase().includes(query.toLowerCase()))
   }
   const doConfirm = () => {
     confirmDialog.value.open("General Brewster", "Shall we turn on Skynet?").then(() => {
