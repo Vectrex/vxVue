@@ -9,7 +9,7 @@
     },
     headerClass: {
       type: String,
-      default: "text-vxvue-alt-900 bg-vxvue-alt-400"
+      default: "text-vxvue-alt-900 bg-vxvue-alt-300"
     },
     buttonClass: {
       type: String,
