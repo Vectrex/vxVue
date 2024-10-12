@@ -37,9 +37,12 @@
            href="#"
            @click.prevent="itemOnClick(item)"
            :class="[
-              activeTab === item ? 'border-vxvue text-vxvue-600' : 'border-transparent text-gray-900 hover:text-gray-700 hover:border-gray-300',
-              item.disabled ? 'cursor-not-allowed text-gray-400 hover:border-transparent' : '',
-              'group inline-flex items-center py-4 px-1 border-b-4 font-medium !no-underline',
+               'group inline-flex items-center py-4 px-1 border-b-4 font-medium !no-underline border-transparent',
+              {
+                'border-vxvue text-vxvue' : activeTab === item ,
+                'cursor-not-allowed text-gray-400': item.disabled,
+                'text-gray-900 hover:text-vxvue-600 hover:border-vxvue-600': activeTab !== item && !item.disabled
+              },
            ]"
            :aria-current="activeTab === item ? 'page' : undefined"
         >
@@ -54,9 +57,12 @@
           <slot name="badge" :tab="item">
             <span v-if="item.badge"
               :class="[
-                activeTab === item ? 'bg-vxvue-50 text-vxvue-700' : 'bg-gray-200 text-gray-900',
-                item.disabled ? 'bg-gray-100 text-gray-400' : '',
-                'hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block'
+                'hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block text-current',
+                {
+                  'bg-gray-100': item.disabled,
+                  'bg-vxvue-50': activeTab === item,
+                  'bg-gray-200': activeTab !== item && !item.disabled
+                }
               ]"
             >{{ item.badge }}</span>
           </slot>
