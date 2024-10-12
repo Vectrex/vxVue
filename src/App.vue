@@ -333,7 +333,7 @@
     <div class="p-4 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Sizable vertical</h2>
       <div class="flex flex-col w-full h-[500px]">
-        <sizable :vertical="true" class="flex-shrink-0 mb-6 h-1/2"><div class="h-full bg-emerald-500"></div></sizable>
+        <sizable :vertical="true" class="flex-shrink-0 mb-3.5 h-1/2"><div class="h-full bg-emerald-500"></div></sizable>
         <div class="w-full h-full bg-amber-500 flex-shrink-1"></div>
       </div>
     </div>

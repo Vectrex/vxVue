@@ -65,7 +65,7 @@
 
 <template>
   <table :class="$attrs.class || 'w-full divide-y divide-y-slate-900 table-fixed'">
-    <thead class="text-white bg-vxvue-800">
+    <thead class="text-white bg-vxvue-700">
       <tr>
         <th
             scope="col"

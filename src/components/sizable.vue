@@ -78,7 +78,7 @@
       ref="handle"
     >
       <slot name="handle">
-        <div :class="['rounded-full bg-vxvue-400', props.vertical ? 'h-1.5 w-8' : 'h-8 w-1.5']"></div>
+        <div :class="['rounded-full bg-vxvue', props.vertical ? 'h-1.5 w-8' : 'h-8 w-1.5']"></div>
       </slot>
     </div>
   </div>
