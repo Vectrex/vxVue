@@ -63,11 +63,14 @@ A table which can be sorted by clicking the column headers. The component requir
 | `sortDescFunction` |          | `Function` | Replaces the default sort function for descending sorts         |
 | `cssClass`         |          | `String`   | Defines extra classes applied to the `th` elements              |
 
-Row objects should provide a property which can be used as `key` attribute in the list rendering.
+*Row* objects should provide a property which can be used as `key` attribute in the list rendering. Apart from matching column `prop` properties each row object can have a `cssClass` property.
 
 As default a `key` property is assumed but can be declared otherwise with the `key-property` attribute of the component.
 
 ## Default Component
+
+A most basic example passing only `columns` and `rows` properties.
+
 ::: code-group
 ```js
     const cols = [
