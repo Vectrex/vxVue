@@ -20,7 +20,9 @@
     count: { type: Number, default: null },
     sortProp: { type: String },
     sortDirection: { type: String, validator: val => !val || ['asc', 'desc'].includes(val) },
-    keyProperty: { type: String, default: 'key' }
+    keyProperty: { type: String, default: 'key' },
+    headerClass: { type: String, default: 'text-white bg-vxvue-700 [&_*[data-active]]:bg-vxvue-alt-800' },
+    bodyClass: { type: String, default: '[&>*:nth-child(even)]:bg-vxvue-50 [&>*:nth-child(even)_*[data-active]]:bg-vxvue-alt-100 [&>*:nth-child(odd)_*[data-active]]:bg-vxvue-alt-50' }
   })
   const emit = defineEmits(['before-sort', 'after-sort'])
 
@@ -65,14 +67,15 @@
 
 <template>
   <table :class="$attrs.class || 'w-full divide-y divide-y-slate-900 table-fixed'">
-    <thead class="text-white bg-vxvue-700">
+    <thead :class="headerClass">
       <tr>
         <th
             scope="col"
-            class="py-3 px-6 text-left"
             v-for="column in columns"
+            :data-active="sortBy === column.prop ? 'active' : null"
             :class="[
-                      { 'cursor-pointer': column.sortable, 'active': sortBy === column.prop },
+                      'py-3 px-6 text-left',
+                      { 'cursor-pointer': column.sortable },
                       column.cssClass
                   ]"
             @click="column.sortable ? clickSort(column.prop) : null"
@@ -89,27 +92,12 @@
         </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody :class="bodyClass">
       <tr v-for="row in sortedRows" :key="row[keyProperty]" :class="row.cssClass">
-        <td v-for="column in columns" class="overflow-hidden py-3 px-6 whitespace-nowrap text-ellipsis" :class="{ 'active': sortBy === column.prop }">
+        <td v-for="column in columns" class="overflow-hidden py-3 px-6 whitespace-nowrap text-ellipsis" :data-active="sortBy === column.prop ? 'active' : null">
           <slot :name="column.prop" :row="row">{{ row[column.prop] }}</slot>
         </td>
       </tr>
     </tbody>
   </table>
 </template>
-
-<style scoped>
-  tbody tr:nth-of-type(2n) {
-    @apply bg-vxvue-50;
-  }
-  tbody tr:nth-of-type(2n + 1) td.active {
-    @apply bg-vxvue-alt-50;
-  }
-  tbody tr:nth-of-type(2n) td.active {
-    @apply bg-vxvue-alt-100;
-  }
-  thead th.active {
-      @apply bg-vxvue-alt-800;
-  }
-</style>
