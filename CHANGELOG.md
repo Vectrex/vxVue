@@ -1,3 +1,7 @@
+## [v1.1.0]
+- improved palette consistency with various components
+- sortable component adds additional properties to allow custom CSS for thead and tbody elements; potentially breaks previous CSS customizations
+
 ## [v1.0.6]
 - datepicker component allows the selection of multiple dates
 - datepicker component adds additional props for better customizability and integration within other components
