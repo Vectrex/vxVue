@@ -218,17 +218,58 @@ Slots are exposed for both table headers and table cells.4
 </sortable>
 :::
 
+## Component With Custom Tailwind CSS for Header and Body 
+
+The `body-class` and `header-class` properties allow for a customized appearance.
+
+::: code-group
+```js
+    const cols = [
+        { label: 'Name', prop: 'name', sortable: true },
+        { label: 'Role', prop: 'role', sortable: true },
+        { label: 'Born in', prop: 'yob', sortable: true }
+    ]
+    const rows = ref([
+        { key: 1, name: 'Linda', role: 'Sarah', yob: 1956 },
+        { key: 2, name: 'Robert', role: 'T1000', yob: 1958 },
+        { key: 3, name: 'Arnold', role: 'T800', yob: 1947 },
+        { key: 4, name: 'Edward', role: 'John', yob: 1977 },
+        { key: 5, name: 'Michael', role: 'Kyle', yob: 1956 },
+        { key: 6, name: 'Joe', role: 'Miles', yob: 1947 },
+        { key: 7, name: 'Kristanna', role: 'T-X', yob: 1979 },
+        { key: 8, name: 'Gabriel', role: 'REV-9', yob: 1982 },
+        { key: 9, name: 'Mackenzie', role: 'Grace', yob: 1987 },
+    ])
+```
+```html
+    <sortable
+    :rows="rows"
+    :columns="cols"
+    header-class="text-green-700 [&_*[data-active]]:!text-red-700"
+    body-class="w-full [&>*:nth-child(even)]:!bg-blue-50 [&_*[data-active]]:font-bold"
+/>
+```
+:::
+
+::: info Result
+<sortable :rows="rows" :columns="cols" header-class="text-green-700 [&_*[data-active]]:!text-red-700" body-class="[&>*:nth-child(even)]:!bg-blue-50 [&_*[data-active]]:font-bold" />
+:::
+
+
 
 ## Properties
-| Name            | Type       | Default | Description                                                                                                 |
-|-----------------|------------|---------|-------------------------------------------------------------------------------------------------------------|
-| `columns`       | `Object[]` |         | **required**; defines the table columns; every object requires at least the `label` and the `prop` property |
-| `rows`          | `Object[]` |         | **required**; holds the row data                                                                            |
-| `offset`        | `Number`   | null    | Starting index at which the sorted rows are displayed                                                       |
-| `count`         | `Number`   | null    | Number of rows which are displayed                                                                          |
-| `sortProp`      | `String`   |         | Determines whether a "previous" and "next" button will be provided                                          |
-| `sortDirection` | `String`   |         | If set the allowed values are `asc` and `desc`                                                              |
-| `keyProperty`   | `String`   | "key"   | property in rows which is assigned to the `:key` attribute when filling the table                           |
+| Name            | Type       | Default                                                                                                                                        | Description                                                                                                 |
+|-----------------|------------|------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| `columns`       | `Object[]` |                                                                                                                                                | **required**; defines the table columns; every object requires at least the `label` and the `prop` property |
+| `rows`          | `Object[]` |                                                                                                                                                | **required**; holds the row data                                                                            |
+| `offset`        | `Number`   | null                                                                                                                                           | Starting index at which the sorted rows are displayed                                                       |
+| `count`         | `Number`   | null                                                                                                                                           | Number of rows which are displayed                                                                          |
+| `sortProp`      | `String`   |                                                                                                                                                | Determines whether a "previous" and "next" button will be provided                                          |
+| `sortDirection` | `String`   |                                                                                                                                                | If set the allowed values are `asc` and `desc`                                                              |
+| `keyProperty`   | `String`   | "key"                                                                                                                                          | property in rows which is assigned to the `:key` attribute when filling the table                           |
+| `headerClass`   | `String`   | "text-white bg-vxvue-700 [&_*[data-active]]:bg-vxvue-alt-800"                                                                                  | class string applied to the `thead` element of the table                                                    |
+| `bodyClass`     | `String`   | "[&>*:nth-child(even)]:bg-vxvue-50 [&>*:nth-child(even)_*[data-active]]:bg-vxvue-alt-100 [&>*:nth-child(odd)_*[data-active]]:bg-vxvue-alt-50"  | class string applied to the `tbody` element of the table                                                    |
+
 
 ## Events
 | Name          | Arguments                                      | Description                                                           |
