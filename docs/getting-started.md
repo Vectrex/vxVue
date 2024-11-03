@@ -33,7 +33,13 @@ module.exports = {
                 },
                 'vxvue-alt': {
                     ...                
-                }
+                },
+                'success': {
+                    ...
+                },
+                'error': {
+                    ...
+                },
             }
         }
     }
@@ -46,4 +52,25 @@ import 'vx-vue/vx-vue.css'
 ```
 to your main.js or index.js file.
 
-The components use an extra color palette.
+The components then use the extra color palettes. In particular the following shades are used:
+```
+*-vxvue
+*-vxvue-50
+*-vxvue-100
+*-vxvue-600
+*-vxvue-700
+
+*-vxvue-alt
+*-vxvue-alt-50
+*-vxvue-alt-100
+*-vxvue-alt-300
+*-vxvue-alt-800
+*-vxvue-alt-900
+
+*-error
+*-error-50
+*-error-600
+
+*-success
+*-success-700
+```
