@@ -14,6 +14,15 @@
 <date-input v-model="pickedDate" />
 :::
 
+The disabled default component
+
+```html
+<date-input v-model="pickedDate" :disabled="true"  />
+```
+::: info Result
+<date-input v-model="pickedDate" :disabled="true" />
+:::
+
 ## Component Using Input and Output Format
 For the `input-format`
 - D/d represents a single or double digit day
@@ -36,6 +45,9 @@ For the `output-format`[`useDateFormat`](https://vueuse.org/shared/useDateFormat
 :::
 
 ## Properties
+
+Attributes are passed on the wrapped input element with the exception of the `class` attribute and a `disabled` attribute will not only disable the input element itself but also the button for emptying the modelValue.
+
 | Name           | Type      | Default      | Description                                                                  |
 |----------------|-----------|--------------|------------------------------------------------------------------------------|
 | `modelValue`   | `Date`    |              | The date displayed after applying the output format                          |

@@ -11,7 +11,7 @@
         date.setDate(d + 3)
         return date
     })()
-    const pickedDate = ref(null)
+    const pickedDate = ref(new Date())
     const dateRange = ref([from, to])
     const dateRangeLarge = ref([])
 </script>
@@ -26,6 +26,15 @@ A date picker component which allows the selection of a single date. Wraps a [da
 ```
 ::: info Result
 <datepicker v-model="pickedDate" />
+:::
+
+The disabled default component
+
+```html
+<datepicker v-model="pickedDate" :disabled="true"  />
+```
+::: info Result
+<datepicker v-model="pickedDate" :disabled="true" />
 :::
 
 ## Customized Component
@@ -127,7 +136,7 @@ v-model="dateRangeLarge"
 :::
 
 ## Properties
-Properties of the [dateInput](date-input) component can be declared and are passed on.
+Properties of the [dateInput](date-input) component and standard attributes (like `disabled`) component can be declared and are passed on.
 
 | Name                | Type      | Default                                  | Description                                                                                                                                                             |
 |---------------------|-----------|------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
