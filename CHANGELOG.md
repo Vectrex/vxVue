@@ -1,3 +1,6 @@
+## [v1.1.1]
+- date-input component now honors a `disabled` attribute more thoroughly by also disabling the button elements of the component
+
 ## [v1.1.0]
 - improved palette consistency with various components
 - sortable component adds additional properties to allow custom CSS for thead and tbody elements; potentially breaks previous CSS customizations
