@@ -28,17 +28,17 @@
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
-    "@heroicons/vue": "^2.1.5",
+    "@heroicons/vue": "^2.2.0",
     "@tailwindcss/forms": "^0.5.9",
-    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitejs/plugin-vue": "^5.2.1",
     "@vue/test-utils": "^2.4.6",
-    "@vueuse/core": "^11.2.0",
-    "happy-dom": "^15.11.0",
+    "@vueuse/core": "^12.0.0",
+    "happy-dom": "^15.11.7",
     "rustywind": "^0.23.1",
-    "tailwindcss": "^3.4.14",
-    "vite": "^5.4.10",
-    "vitest": "^2.1.4",
-    "vue": "^3.5.12",
+    "tailwindcss": "^3.4.15",
+    "vite": "^6.0.1",
+    "vitest": "^2.1.6",
+    "vue": "^3.5.13",
     "vitepress": "^1.5.0"
   }
 }
