@@ -21,6 +21,7 @@
   import AccordionPanel from "./components/accordion-panel.vue";
   import SubmitButton from "./components/submit-button.vue";
   import Sizable from "./components/sizable.vue"
+  import LabelledInput from "./components/LabelledInput.vue";
 
   const form = ref({
     pw: '',
@@ -33,7 +34,8 @@
     datepicker: null,
     slider: 0,
     sliderPair: [10, 30],
-    sliderVertical: [10, 15]
+    sliderVertical: [10, 15],
+    input: ''
   })
   const tabs = ref({
     items: [
@@ -203,6 +205,9 @@
     </div>
     <div class="p-4 space-y-2 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Form Elements</h2>
+      <div>
+        <labelled-input v-model="form.input" label="Enter some text" />
+      </div>
       <div class="grid grid-cols-4 gap-4">
         <div class="col-span-3 space-y-2">
           <div>

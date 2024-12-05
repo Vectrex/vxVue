@@ -35,9 +35,9 @@
     "@vueuse/core": "^12.0.0",
     "happy-dom": "^15.11.7",
     "rustywind": "^0.23.1",
-    "tailwindcss": "^3.4.15",
-    "vite": "^6.0.1",
-    "vitest": "^2.1.6",
+    "tailwindcss": "^3.4.16",
+    "vite": "^6.0.2",
+    "vitest": "^2.1.8",
     "vue": "^3.5.13",
     "vitepress": "^1.5.0"
   }
