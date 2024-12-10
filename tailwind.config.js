@@ -1,4 +1,5 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
+import { fontFamily } from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
 
 export default {
     content: [
@@ -9,7 +10,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...fontFamily.sans],
             },
             colors: {
                 'vxvue': {
@@ -98,6 +99,6 @@ export default {
         }
     },
     plugins: [
-        require('@tailwindcss/forms')({strategy: 'class'})
+        forms
     ],
 }

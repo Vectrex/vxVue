@@ -16,29 +16,41 @@
   },
   "version": "1.1.1",
   "license": "MIT",
-  "homepage": "https://vxweb.net/vxvue/index.html",
+  "homepage": "https://vectrex.github.io/vxVue",
   "repository": "https://github.com/Vectrex/vxVue",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest --dom",
+    "test": "vitest",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
-  "devDependencies": {
-    "@heroicons/vue": "^2.2.0",
-    "@tailwindcss/forms": "^0.5.9",
-    "@vitejs/plugin-vue": "^5.2.1",
-    "@vue/test-utils": "^2.4.6",
+  "dependencies": {
+    "vue": "^3.5.13",
     "@vueuse/core": "^12.0.0",
+    "@heroicons/vue": "^2.2.0",
+    "tailwindcss": "^3.4.16",
+    "@tailwindcss/forms": "^0.5.9"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
     "happy-dom": "^15.11.7",
     "rustywind": "^0.23.1",
-    "tailwindcss": "^3.4.16",
-    "vite": "^6.0.2",
+    "vite": "^6.0.3",
+    "vitepress": "^1.5.0",
     "vitest": "^2.1.8",
-    "vue": "^3.5.13",
-    "vitepress": "^1.5.0"
+    "@vue/test-utils": "^2.4.6",
+    "eslint": "^9.14.0",
+    "eslint-plugin-vue": "^9.30.0",
+    "@eslint/js": "^9.14.0",
+    "@vitest/eslint-plugin": "1.1.10",
+    "@vue/eslint-config-prettier": "^10.1.0",
+    "jsdom": "^25.0.1",
+    "prettier": "^3.3.3",
+    "vite-plugin-vue-devtools": "^7.6.5"
   }
 }
