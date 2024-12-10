@@ -21,7 +21,7 @@
   import AccordionPanel from "./components/accordion-panel.vue";
   import SubmitButton from "./components/submit-button.vue";
   import Sizable from "./components/sizable.vue"
-  import LabelledInput from "./components/LabelledInput.vue";
+  import LabelledInput from "./components/labelled-input.vue";
 
   const form = ref({
     pw: '',
