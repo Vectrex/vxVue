@@ -4,7 +4,7 @@
   const props = defineProps({
     buttons: {
       type: [Object, Array],
-      default: { label: 'Ok' },
+      default: () => ({ label: 'Ok' }),
       validator: p => (Array.isArray(p) && p.length <= 2 && p.filter(v => v['label'] !== 'undefined' && v['value'] !== 'undefined').length === p.length) || (p.label !== undefined && p.value !== undefined)
     },
     headerClass: {
@@ -49,32 +49,37 @@
 </script>
 
 <template>
-  <div class="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm" aria-hidden="true" v-if="show" />
+  <div v-if="show" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs" aria-hidden="true" />
   <transition name="appear">
-    <div class="overflow-y-auto fixed inset-0 z-50" v-if="show">
+    <div v-if="show" class="overflow-y-auto fixed inset-0 z-50">
       <div class="flex justify-center items-center min-h-screen text-center sm:block sm:p-0">
         <div v-if="show">
           <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
 
-          <div class="inline-block overflow-hidden text-left align-bottom bg-white rounded shadow-xl transition-all transform sm:my-8 sm:w-full sm:max-w-sm sm:align-middle lg:max-w-lg">
-            <h3 class="py-4 pt-4 text-lg font-medium text-center sm:py-6" :class="headerClass" v-if="title || $slots.title">
-              <slot name="title">{{ title }}</slot>
+          <div class="inline-block overflow-hidden text-left align-bottom bg-white rounded-sm shadow-xl transition-all transform sm:my-8 sm:w-full sm:max-w-sm sm:align-middle lg:max-w-lg">
+            <h3 v-if="title || $slots.title" class="py-4 pt-4 text-lg font-medium text-center sm:py-6" :class="headerClass">
+              <slot name="title">
+                {{ title }}
+              </slot>
             </h3>
             <div class="px-4 pb-4 mt-4 sm:px-6 sm:pb-6 sm:mt-5">
               <div class="flex flex-row items-center">
-                <div class="flex-shrink-0">
+                <div class="shrink-0">
                   <slot name="icon" />
                 </div>
-                <p class="flex-grow text-center">
+                <p class="grow text-center">
                   <slot>{{ message }}</slot>
                 </p>
               </div>
-              <div class="flex justify-center mt-5 space-x-2 sm:mt-6" ref="buttonsContainer">
+              <div ref="buttonsContainer" class="flex justify-center mt-5 space-x-2 sm:mt-6">
                 <button
-                    v-for="(button, ndx) in buttonArray"
-                    :class="[buttonClass, button['class']]"
-                    @click.prevent="handleClick(button, ndx)"
-                >{{ button.label }}</button>
+                  v-for="(button, ndx) in buttonArray"
+                  :key="button.label"
+                  :class="[buttonClass, button['class']]"
+                  @click.prevent="handleClick(button, ndx)"
+                >
+                  {{ button.label }}
+                </button>
               </div>
             </div>
           </div>

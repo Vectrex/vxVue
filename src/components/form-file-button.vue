@@ -1,7 +1,7 @@
 <script setup>
   const emit = defineEmits(['update:modelValue', 'form-data'])
   const props = defineProps({
-    modelValue: { type: Array },
+    modelValue: { type: Array, default: () => [] },
     accept: { type: String, default: "*" },
     multiple: { type: Boolean, default: false },
     name: { type: String, default: "file" },
@@ -28,15 +28,15 @@
 </script>
 
 <template>
-    <label :for="id">
-      <slot>Upload</slot>
-      <input
-          type="file"
-          :id="id"
-          :multiple="multiple"
-          :accept="accept"
-          @change="fileChanged"
-          class="hidden"
-      />
-    </label>
+  <label :for="id">
+    <slot>Upload</slot>
+    <input
+      :id="id"
+      type="file"
+      :multiple="multiple"
+      :accept="accept"
+      class="hidden"
+      @change="fileChanged"
+    >
+  </label>
 </template>

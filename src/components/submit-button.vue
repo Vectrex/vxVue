@@ -1,7 +1,11 @@
 <script setup>
   import Spinner from "./spinner.vue"
   defineOptions({ inheritAttrs: false })
-  const props = defineProps({ busy: Boolean, spinnerClass: String, theme: String })
+  const props = defineProps({
+    busy: Boolean,
+    spinnerClass: { type: String, default: null },
+    theme: { type: String, default: null },
+  })
   const emit = defineEmits(['submit'])
 </script>
 
@@ -12,16 +16,18 @@
       :disabled="$attrs.disabled || busy"
       type="button"
       @click="emit('submit')"
-      ><slot />
+    >
+      <slot />
     </button>
     <spinner
       v-if="busy"
-      :class="spinnerClass || ['size-5', { error: 'text-error', success: 'text-success', default: 'text-vxvue'}[theme || 'default']]"
+      :class="spinnerClass || ['size-5', { error: 'text-error', success: 'text-success', default: 'text-vxvue' }[theme || 'default']]"
     />
   </div>
 </template>
 
 <style scoped>
+  @reference '../index.css'
   button.success {
     @apply bg-success text-white hover:bg-success-700 focus:ring-success
   }

@@ -1,13 +1,12 @@
 <script setup>
 import { computed, onBeforeUpdate, ref, useSlots } from "vue"
 
-  const props = defineProps({ activeIndex: [Number, Array] })
+  const props = defineProps({ activeIndex: { type: [Number, Array], default: null }})
   const emit = defineEmits(['update:activeIndex'])
   const slots = useSlots()
   const refs = ref([])
   const setRef = comp => refs.value.push(comp)
   const tabs = computed(() => {
-    refs.value = []
     return slots.default().reduce((t, child) => {
         if ((child.type.__name || child.type.name) === 'accordion-panel') {
           t.push(child)
@@ -54,13 +53,13 @@ import { computed, onBeforeUpdate, ref, useSlots } from "vue"
 
 <template>
   <component
-      v-for="(tab, ndx) in tabs"
-      :key="ndx"
-      :is="tab"
-      :show="Array.isArray(activeIndex) ? activeIndex?.includes(ndx) : activeIndex === ndx"
-      @select="setIndex(ndx)"
-      @keydown="focusNext(ndx)"
-      @keyup="focusPrevious(ndx)"
-      :ref="setRef"
+    :is="tab"
+    v-for="(tab, ndx) in tabs"
+    :key="ndx"
+    :ref="setRef"
+    :show="Array.isArray(activeIndex) ? activeIndex?.includes(ndx) : activeIndex === ndx"
+    @select="setIndex(ndx)"
+    @keydown="focusNext(ndx)"
+    @keyup="focusPrevious(ndx)"
   />
 </template>

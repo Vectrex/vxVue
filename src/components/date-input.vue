@@ -25,29 +25,30 @@
         <span class="text-vxvue-700">{{ dateString }}</span>
         <button
           v-if="!inputAttrs.disabled"
+          class="inline-flex shrink-0 justify-center items-center ml-2 rounded-full focus:text-white focus:outline-hidden size-4 text-vxvue hover:bg-vxvue-100 hover:text-vue-700 focus:bg-vxvue-700"
           @click="emit('update:modelValue', null)"
-          class="inline-flex flex-shrink-0 justify-center items-center ml-2 rounded-full focus:text-white focus:outline-none size-4 text-vxvue hover:bg-vxvue-100 hover:text-vue-700 focus:bg-vxvue-700"
         >
           <x-mark-icon class="size-4" />
         </button>
       </div>
     </div>
-    <input v-else
-       type="text"
-       class="block w-full form-input peer focus:border-vxvue"
-       :class="{ 'pr-10': showToggle }"
-       v-model="inputString"
-       @blur="emit('update:modelValue', parseDate(inputString, props.inputFormat).date?.value || null)"
-       @input.prevent
-       v-bind="inputAttrs"
+    <input
+      v-else
+      v-model="inputString"
+      type="text"
+      class="block w-full form-input peer focus:border-vxvue"
+      :class="{ 'pr-10': showToggle }"
+      v-bind="inputAttrs"
+      @blur="emit('update:modelValue', parseDate(inputString, props.inputFormat).date?.value || null)"
+      @input.prevent
     >
     <button
       v-if="showToggle"
+      ref="toggleButton"
       :class="['flex absolute inset-y-0 right-0 items-center px-2 text-vxvue-700', inputAttrs.disabled ? 'cursor-not-allowed' : 'hover:text-vxvue']"
       :disabled="inputAttrs.disabled"
-      @click.stop="emit('toggle-datepicker')"
-      ref="toggleButton"
       aria-label="datepicker-toggle"
+      @click.stop="emit('toggle-datepicker')"
     >
       <calendar-icon class="size-6" />
     </button>

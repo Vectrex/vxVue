@@ -3,7 +3,7 @@
   import { onClickOutside } from "@vueuse/core"
   import { computed, onUpdated, ref, useAttrs } from "vue"
 
-  const emit = defineEmits(['update:modelValue', 'blur', 'submit'])
+  const emit = defineEmits(['update:modelValue', 'blur-sm', 'submit'])
   const props = defineProps({
     modelValue: { type: String, default: "" },
     search: { type: Function, required: true },
@@ -103,7 +103,7 @@
   const handleFocus = e => updateResults(e.target.value)
   const handleBlur = () => {
     hideResults()
-    emit('blur')
+    emit('blur-sm')
   }
   const handleUp = () => {
     const listLen = results.value.length
@@ -163,35 +163,38 @@
 </script>
 
 <template>
-  <div class="inline-block relative" :class="$attrs['class']" ref="container">
+  <div ref="container" class="inline-block relative" :class="$attrs['class']">
     <input
-        ref="input"
-        class="block pr-10 w-full form-input focus:border-vxvue"
-        :value="modelValue"
-        v-bind="inputProps"
-        @input="handleInput($event.target.value)"
-        @keydown.enter="handleEnter"
-        @keydown.esc="handleEsc"
-        @keydown.tab="selectResult"
-        @keydown.up.prevent="handleUp"
-        @keydown.down.prevent="handleDown"
-        @focus="handleFocus"
-        @blur="handleBlur"
-    />
+      ref="input"
+      class="block pr-10 w-full form-input focus:border-vxvue"
+      :value="modelValue"
+      v-bind="inputProps"
+      @input="handleInput($event.target.value)"
+      @keydown.enter="handleEnter"
+      @keydown.esc="handleEsc"
+      @keydown.tab="selectResult"
+      @keydown.up.prevent="handleUp"
+      @keydown.down.prevent="handleDown"
+      @focus="handleFocus"
+      @blur="handleBlur"
+    >
     <span class="flex absolute inset-y-0 right-0 items-center pr-3 text-vxvue-700">
-      <spinner class="size-5" v-if="loading" />
+      <spinner v-if="loading" class="size-5" />
     </span>
     <div
-        v-if="results.length"
-        ref="resultList"
-        v-bind="listProps"
-        @click="handleResultClick"
-        @mousedown.prevent
+      v-if="results.length"
+      ref="resultList"
+      v-bind="listProps"
+      @click="handleResultClick"
+      @mousedown.prevent
     >
       <template v-for="(result, ndx) in results">
+        <!-- eslint-disable-next-line vue/require-v-for-key -->
         <div :data-result-index="ndx">
           <slot name="result" :result="result" :props="itemProps[ndx]">
-            <div :key="itemProps[ndx].id" v-bind="itemProps[ndx]">{{ getResultValue(result) }}</div>
+            <div :key="itemProps[ndx].id" v-bind="itemProps[ndx]">
+              {{ getResultValue(result) }}
+            </div>
           </slot>
         </div>
       </template>

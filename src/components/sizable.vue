@@ -65,9 +65,10 @@
 </script>
 
 <template>
-  <div class="relative" ref="box">
+  <div ref="box" class="relative">
     <slot />
     <div
+      ref="handle"
       :class="['absolute flex', props.vertical ? 'inset-x-0 top-full justify-center py-1 cursor-ns-resize' : 'inset-y-0 left-full items-center px-1 cursor-ew-resize']"
       v-on=" {
         touchstart: dragStart,
@@ -75,10 +76,9 @@
         touchend: dragStop,
         mouseup: dragStop
       }"
-      ref="handle"
     >
       <slot name="handle">
-        <div :class="['rounded-full bg-vxvue', props.vertical ? 'h-1.5 w-8' : 'h-8 w-1.5']"></div>
+        <div :class="['rounded-full bg-vxvue', props.vertical ? 'h-1.5 w-8' : 'h-8 w-1.5']" />
       </slot>
     </div>
   </div>

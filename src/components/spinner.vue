@@ -6,8 +6,29 @@
   const dashLen = computed(() => props.radius * Math.PI / 1.5) // 120°
 </script>
 <template>
-  <svg class="animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" :viewBox="'0 0 ' + viewBox + ' ' + viewBox" role="progressbar">
-    <circle class="opacity-35" :cx="center" :cy="center" :r="radius" stroke="currentColor" :stroke-width="strokeWidth" />
-    <circle :cx="center" :cy="center" :r="radius" stroke="currentColor" :stroke-width="strokeWidth" :stroke-dasharray="dashLen + ' ' + radius * 100" stroke-linecap="round" />
+  <svg
+    class="animate-spin"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    :viewBox="'0 0 ' + viewBox + ' ' + viewBox"
+    role="progressbar"
+  >
+    <circle
+      class="opacity-35"
+      :cx="center"
+      :cy="center"
+      :r="radius"
+      stroke="currentColor"
+      :stroke-width="strokeWidth"
+    />
+    <circle
+      :cx="center"
+      :cy="center"
+      :r="radius"
+      stroke="currentColor"
+      :stroke-width="strokeWidth"
+      :stroke-dasharray="dashLen + ' ' + radius * 100"
+      stroke-linecap="round"
+    />
   </svg>
 </template>

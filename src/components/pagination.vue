@@ -77,13 +77,13 @@
   <nav class="flex justify-between items-center px-4 sm:px-0">
     <div class="flex flex-1 -mt-px w-0">
       <button
-          @click="prevPage"
-          v-if="showNavButtons"
-          :disabled="currentPage <= 1"
-          :class="[
-              currentPage <= 1 ? 'pointer-events-none text-gray-500' : 'text-vxvue-700',
-              'inline-flex items-center pr-1 text-sm border-transparent hover:text-vxvue'
-          ]"
+        v-if="showNavButtons"
+        :disabled="currentPage <= 1"
+        :class="[
+          currentPage <= 1 ? 'pointer-events-none text-gray-500' : 'text-vxvue-700',
+          'inline-flex items-center pr-1 text-sm border-transparent hover:text-vxvue'
+        ]"
+        @click="prevPage"
       >
         <chevron-left-icon class="size-5" />
         {{ prevText }}
@@ -91,29 +91,29 @@
     </div>
     <div class="hidden md:flex md:-mt-px">
       <component
-          v-for="(page, ndx) in pagesToShow"
-          :is="page !== 'dots' ? 'button' : 'span'"
-          @click="page !== 'dots' ? emit('update:page', page) : null"
-          :key="ndx"
-          :class="[
-            { 'pointer-events-none': page === 'dots' },
-            page === currentPage ? 'border-vxvue text-vxvue font-bold' : 'border-transparent text-gray-500 hover:border-gray-300',
-            markerPositionClass,
-            'inline-flex items-center px-4 text-sm'
-          ]"
+        :is="page !== 'dots' ? 'button' : 'span'"
+        v-for="(p, ndx) in pagesToShow"
+        :key="ndx"
+        :class="[
+          { 'pointer-events-none': p === 'dots' },
+          p === currentPage ? 'border-vxvue text-vxvue font-bold' : 'border-transparent text-gray-500 hover:border-gray-300',
+          markerPositionClass,
+          'inline-flex items-center px-4 text-sm'
+        ]"
+        @click="p !== 'dots' ? emit('update:page', p) : null"
       >
-        {{ page !== 'dots' ? page : '&hellip;' }}
+        {{ p !== 'dots' ? p : '&hellip;' }}
       </component>
     </div>
     <div class="flex flex-1 justify-end -mt-px w-0">
       <button
-          @click="nextPage"
-          v-if="showNavButtons"
-          :disabled="currentPage >= maxPage"
-          :class="[
-              currentPage >= maxPage ? 'pointer-events-none text-gray-500' : 'text-vxvue-700',
-              'inline-flex items-center pr-1 text-sm border-transparent hover:text-vxvue'
-          ]"
+        v-if="showNavButtons"
+        :disabled="currentPage >= maxPage"
+        :class="[
+          currentPage >= maxPage ? 'pointer-events-none text-gray-500' : 'text-vxvue-700',
+          'inline-flex items-center pr-1 text-sm border-transparent hover:text-vxvue'
+        ]"
+        @click="nextPage"
       >
         {{ nextText }}
         <chevron-right-icon class="size-5" />

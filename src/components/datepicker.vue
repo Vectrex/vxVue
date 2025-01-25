@@ -134,66 +134,80 @@
 
 <template>
   <div :class="['relative', $attrs['class']]">
-
     <date-input
-        v-if="allowToggle"
-        :modelValue="selectedDate[0]"
-        :show-toggle="true"
-        @toggle-datepicker="expanded = !expanded"
-        @update:modelValue="handleInput"
-        v-bind="$attrs"
-        ref="input"
-        class="w-full"
-    ><slot /></date-input>
+      v-if="allowToggle"
+      v-bind="$attrs"
+      ref="input"
+      :model-value="selectedDate[0]"
+      :show-toggle="true"
+      class="w-full"
+      @toggle-datepicker="expanded = !expanded"
+      @update:model-value="handleInput"
+    >
+      <slot />
+    </date-input>
 
-    <div class="overflow-hidden z-10 bg-white rounded shadow-md min-w-72 sm:min-w-80" v-bind="calendarProps" ref="calendar" :class="[align.horiz, align.vert]">
-      <template  v-if="panelShown === 'days'">
+    <div v-bind="calendarProps" ref="calendar" class="overflow-hidden z-10 bg-white rounded-sm shadow-md min-w-72 sm:min-w-80" :class="[align.horiz, align.vert]">
+      <template v-if="panelShown === 'days'">
         <div class="flex items-center py-2 px-3 text-white bg-vxvue-700">
           <div class="flex justify-between w-1/2">
-            <button @click.stop="setMonth(sheetDate.getMonth() - 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
+            <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setMonth(sheetDate.getMonth() - 1)">
               <chevron-left-icon class="size-6" />
             </button>
             <span>{{ sheetDate.toLocaleString(locale, { month: 'long' }) }}</span>
-            <button @click.stop="setMonth(sheetDate.getMonth() + 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
+            <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setMonth(sheetDate.getMonth() + 1)">
               <chevron-right-icon class="size-6" />
             </button>
           </div>
           <div class="flex justify-between w-1/2">
-            <button @click.stop="setYear(sheetDate.getFullYear() - 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
+            <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setYear(sheetDate.getFullYear() - 1)">
               <chevron-left-icon class="size-6" />
             </button>
-            <button class="text-vxvue-100 hover:text-vxvue-50" @click="panelShown = 'years'; panelYear = sheetDate.getFullYear()">{{ sheetDate.getFullYear() }}</button>
-            <button @click.stop="setYear(sheetDate.getFullYear() + 1)" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
+            <button class="text-vxvue-100 hover:text-vxvue-50" @click="panelShown = 'years'; panelYear = sheetDate.getFullYear()">
+              {{ sheetDate.getFullYear() }}
+            </button>
+            <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setYear(sheetDate.getFullYear() + 1)">
               <chevron-right-icon class="size-6" />
             </button>
           </div>
         </div>
 
         <div class="grid grid-cols-7 gap-0.5 p-0.5">
-          <div v-for="(weekday, ndx) in localizedDayNames" class="py-2 text-center bg-gray-200" :key="ndx">{{ weekday }}</div>
+          <div v-for="(weekday, ndx) in localizedDayNames" :key="ndx" class="py-2 text-center bg-gray-200">
+            {{ weekday }}
+          </div>
 
           <button
-              v-for="day in days"
-              :class="['py-2 rounded-sm block text-center', daysButtonClass(day)]"
-              :disabled="(validFrom && validFrom > day) || (validUntil && validUntil < day) || maxNumberOfValues > 1 && selectedDate.length === maxNumberOfValues && !isSelected(day)"
-              @click.stop="selectDate(day)"
-          >{{ day.getDate() }}</button>
+            v-for="day in days"
+            :key="day"
+            :class="['py-2 rounded-xs block text-center', daysButtonClass(day)]"
+            :disabled="(validFrom && validFrom > day) || (validUntil && validUntil < day) || maxNumberOfValues > 1 && selectedDate.length === maxNumberOfValues && !isSelected(day)"
+            @click.stop="selectDate(day)"
+          >
+            {{ day.getDate() }}
+          </button>
         </div>
       </template>
       <template v-if="panelShown === 'years'">
         <div class="flex justify-between items-center py-2 px-3 text-white bg-vxvue-700">
-          <button @click.stop="panelYear -= 10" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
+          <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="panelYear -= 10">
             <chevron-left-icon class="size-6" />
           </button>
           <span>{{ panelYear }} - {{ panelYear + 9 }}</span>
-          <button @click.stop="panelYear += 10" class="flex-shrink-0 text-vxvue-100 hover:text-vxvue-50">
+          <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="panelYear += 10">
             <chevron-right-icon class="size-6" />
           </button>
         </div>
 
         <div class="grid grid-cols-2 gap-0.5 p-0.5">
-          <div v-for="n in 10" class="text-center hover:ring-2 text-vxvue-700 hover:ring-vxvue">
-            <button class="py-2 px-3" @click.stop="setYear(panelYear + n - 1); panelShown = 'days'">{{ panelYear + n - 1 }}</button>
+          <div
+            v-for="n in 10"
+            :key="n"
+            class="text-center hover:ring-2 text-vxvue-700 hover:ring-vxvue"
+          >
+            <button class="py-2 px-3" @click.stop="setYear(panelYear + n - 1); panelShown = 'days'">
+              {{ panelYear + n - 1 }}
+            </button>
           </div>
         </div>
       </template>

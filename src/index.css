@@ -1,8 +1,88 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
 
-:root {
+@theme {
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+
+  --color-vxvue-50: rgb(var(--vxvue-color-50));
+  --color-vxvue-100: rgb(var(--vxvue-color-100));
+  --color-vxvue-200: rgb(var(--vxvue-color-200));
+  --color-vxvue-300: rgb(var(--vxvue-color-300));
+  --color-vxvue-400: rgb(var(--vxvue-color-400));
+  --color-vxvue-500: rgb(var(--vxvue-color-500));
+  --color-vxvue-600: rgb(var(--vxvue-color-600));
+  --color-vxvue-700: rgb(var(--vxvue-color-700));
+  --color-vxvue-800: rgb(var(--vxvue-color-800));
+  --color-vxvue-900: rgb(var(--vxvue-color-900));
+  --color-vxvue: rgb(var(--vxvue-color));
+
+  --color-vxvue-alt-50: rgb(var(--vxvue-highlight-50));
+  --color-vxvue-alt-100: rgb(var(--vxvue-highlight-100));
+  --color-vxvue-alt-200: rgb(var(--vxvue-highlight-200));
+  --color-vxvue-alt-300: rgb(var(--vxvue-highlight-300));
+  --color-vxvue-alt-400: rgb(var(--vxvue-highlight-400));
+  --color-vxvue-alt-500: rgb(var(--vxvue-highlight-500));
+  --color-vxvue-alt-600: rgb(var(--vxvue-highlight-600));
+  --color-vxvue-alt-700: rgb(var(--vxvue-highlight-700));
+  --color-vxvue-alt-800: rgb(var(--vxvue-highlight-800));
+  --color-vxvue-alt-900: rgb(var(--vxvue-highlight-900));
+  --color-vxvue-alt: rgb(var(--vxvue-highlight));
+
+  --color-success-50: rgb(var(--success-color-50));
+  --color-success-100: rgb(var(--success-color-100));
+  --color-success-200: rgb(var(--success-color-200));
+  --color-success-300: rgb(var(--success-color-300));
+  --color-success-400: rgb(var(--success-color-400));
+  --color-success-500: rgb(var(--success-color-500));
+  --color-success-600: rgb(var(--success-color-600));
+  --color-success-700: rgb(var(--success-color-700));
+  --color-success-800: rgb(var(--success-color-800));
+  --color-success-900: rgb(var(--success-color-900));
+  --color-success-950: rgb(var(--success-color-950));
+  --color-success: rgb(var(--success-color));
+
+  --color-error-50: rgb(var(--error-color-50));
+  --color-error-100: rgb(var(--error-color-100));
+  --color-error-200: rgb(var(--error-color-200));
+  --color-error-300: rgb(var(--error-color-300));
+  --color-error-400: rgb(var(--error-color-400));
+  --color-error-500: rgb(var(--error-color-500));
+  --color-error-600: rgb(var(--error-color-600));
+  --color-error-700: rgb(var(--error-color-700));
+  --color-error-800: rgb(var(--error-color-800));
+  --color-error-900: rgb(var(--error-color-900));
+  --color-error-950: rgb(var(--error-color-950));
+  --color-error: rgb(var(--error-color));
+
+  --color-warn-50: rgb(var(--warn-color-50));
+  --color-warn-100: rgb(var(--warn-color-100));
+  --color-warn-200: rgb(var(--warn-color-200));
+  --color-warn-300: rgb(var(--warn-color-300));
+  --color-warn-400: rgb(var(--warn-color-400));
+  --color-warn-500: rgb(var(--warn-color-500));
+  --color-warn-600: rgb(var(--warn-color-600));
+  --color-warn-700: rgb(var(--warn-color-700));
+  --color-warn-800: rgb(var(--warn-color-800));
+  --color-warn-900: rgb(var(--warn-color-900));
+  --color-warn-950: rgb(var(--warn-color-950));
+  --color-warn: rgb(var(--warn-color));
+
+  --color-info-50: rgb(var(--info-color-50));
+  --color-info-100: rgb(var(--info-color-100));
+  --color-info-200: rgb(var(--info-color-200));
+  --color-info-300: rgb(var(--info-color-300));
+  --color-info-400: rgb(var(--info-color-400));
+  --color-info-500: rgb(var(--info-color-500));
+  --color-info-600: rgb(var(--info-color-600));
+  --color-info-700: rgb(var(--info-color-700));
+  --color-info-800: rgb(var(--info-color-800));
+  --color-info-900: rgb(var(--info-color-900));
+  --color-info-950: rgb(var(--info-color-950));
+  --color-info: rgb(var(--info-color));
+}
+
+@layer utilities {
+  :root {
     --vxvue-color: 0 137 204;
     --vxvue-color-50: 179 230 255;
     --vxvue-color-100: 112 208 255;
@@ -79,6 +159,7 @@
     --info-color-800: 8 103 197;
     --info-color-900: 13 89 155;
     --info-color-950: 14 53 93;
+  }
 }
 
 @layer components {

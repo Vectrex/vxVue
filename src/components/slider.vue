@@ -7,7 +7,7 @@
     max: { type: Number, default: 100 },
     vertical: Boolean,
     disabled: Boolean,
-    modelValue: { type: [Number, Array], validator(v) {
+    modelValue: { type: [Number, Array], default: null, validator(v) {
       return typeof v === 'number' || v.every(item => typeof item === 'number')
     }}
   })
@@ -38,7 +38,7 @@
     class:
         (props.vertical ? 'left-0 -translate-x-1.5 translate-y-2.5' : 'top-0 -translate-x-2.5 -translate-y-1.5') +
         ' touch-none absolute size-5 rounded-full border-2 bg-white transition-colors duration-200 ' +
-        (!props.disabled ? ' focus:ring-4 focus:outline-none border-vxvue cursor-grab hover:bg-vxvue focus:ring-vxvue/50' : '')
+        (!props.disabled ? ' focus:ring-4 focus:outline-hidden border-vxvue cursor-grab hover:bg-vxvue focus:ring-vxvue/50' : '')
     ,
     tabindex: 0
   })
@@ -136,8 +136,8 @@
 
 <template>
   <div
-    :class="['relative  bg-slate-300', vertical ? 'h-full w-2 rounded-t-full rounded-b-full' : 'w-full h-2 rounded-r-full rounded-l-full']"
     ref="track"
+    :class="['relative  bg-slate-300', vertical ? 'h-full w-2 rounded-t-full rounded-b-full' : 'w-full h-2 rounded-r-full rounded-l-full']"
     role="slider"
     aria-label="slider-thumb"
     :aria-valuemin="min"
@@ -149,40 +149,41 @@
     } : {}"
   >
     <div
-        v-if="!disabled"
-        :class="['absolute bg-vxvue', vertical ? 'w-full rounded-t-full rounded-b-full' : 'h-full rounded-r-full rounded-l-full']"
-        :style="selectedTrackStyle"
+      v-if="!disabled"
+      :class="['absolute bg-vxvue', vertical ? 'w-full rounded-t-full rounded-b-full' : 'h-full rounded-r-full rounded-l-full']"
+      :style="selectedTrackStyle"
     />
     <button
-        v-if="!modelValue.length"
-        :id="attrs['id']"
-        :style="vertical ? { bottom: thumbPos + '%' } : { left: thumbPos + '%' }"
-        aria-label="slider-thumb"
+      v-if="!modelValue.length"
+      :id="attrs['id']"
+      :style="vertical ? { bottom: thumbPos + '%' } : { left: thumbPos + '%' }"
+      aria-label="slider-thumb"
+      v-bind="thumbAttrs"
+      v-on="!disabled ? {
+        focus: () => thumbNdx = 0,
+        keydown: handleKeydown,
+        touchstart: e => { thumbNdx = 0; dragStart(e) },
+        mousedown: e => { thumbNdx = 0; dragStart(e) },
+        touchend: dragStop,
+        mouseup: dragStop
+      } : {}"
+    />
+    <template v-else>
+      <!-- eslint-disable-next-line vue/require-v-for-key -->
+      <button
+        v-for="(_, ndx) in modelValue"
+        :id="!ndx ? attrs['id'] : null"
+        :style="vertical ? { bottom: thumbPos[ndx] + '%' } : { left: thumbPos[ndx] + '%' }"
+        :aria-label="'slider-thumb-' + (ndx + 1)"
+        v-bind="thumbAttrs"
         v-on="!disabled ? {
-          focus: () => thumbNdx = 0,
+          focus: () => thumbNdx = ndx,
           keydown: handleKeydown,
-          touchstart: e => { thumbNdx = 0; dragStart(e) },
-          mousedown: e => { thumbNdx = 0; dragStart(e) },
+          touchstart: e => { thumbNdx = ndx; dragStart(e) },
+          mousedown: e => { thumbNdx = ndx; dragStart(e) },
           touchend: dragStop,
           mouseup: dragStop
         } : {}"
-        v-bind="thumbAttrs"
-    />
-    <template v-else>
-      <button
-          v-for="(_, ndx) in modelValue"
-          :id="!ndx ? attrs['id'] : null"
-          :style="vertical ? { bottom: thumbPos[ndx] + '%' } : { left: thumbPos[ndx] + '%' }"
-          :aria-label="'slider-thumb-' + (ndx + 1)"
-          v-on="!disabled ? {
-            focus: () => thumbNdx = ndx,
-            keydown: handleKeydown,
-            touchstart: e => { thumbNdx = ndx; dragStart(e) },
-            mousedown: e => { thumbNdx = ndx; dragStart(e) },
-            touchend: dragStop,
-            mouseup: dragStop
-          } : {}"
-          v-bind="thumbAttrs"
       />
     </template>
   </div>

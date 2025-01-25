@@ -15,11 +15,11 @@
 </script>
 
 <template>
-  <div class="fixed inset-0 z-[9998] bg-white/50 backdrop-blur-sm" aria-hidden="true" v-if="show" />
+  <div v-if="show" class="fixed inset-0 z-9998 bg-white/50 backdrop-blur-xs" aria-hidden="true" />
   <transition name="appear">
-    <div class="fixed inset-0 z-[9999]" v-if="show">
+    <div v-if="show" class="fixed inset-0 z-9999">
       <div class="flex justify-center items-center h-screen">
-        <div :class="['overflow-hidden relative max-w-full bg-white rounded ring-1 ring-black ring-opacity-10 shadow-xl transition-all transform xl:max-w-screen-xl', containerClass]" ref="container">
+        <div ref="container" :class="['overflow-hidden relative max-w-full bg-white rounded-sm ring-1 ring-black/10 shadow-xl transition-all transform xl:max-w-(--breakpoint-xl)', containerClass]">
           <div :class="headerClass">
             <slot name="title" />
           </div>

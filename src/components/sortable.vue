@@ -18,8 +18,8 @@
     rows: { type: Array, required: true },
     offset: { type: Number, default: null },
     count: { type: Number, default: null },
-    sortProp: { type: String },
-    sortDirection: { type: String, validator: val => !val || ['asc', 'desc'].includes(val) },
+    sortProp: { type: String, default: null },
+    sortDirection: { type: String, default: null, validator: val => !val || ['asc', 'desc'].includes(val) },
     keyProperty: { type: String, default: 'key' },
     headerClass: { type: String, default: 'text-white bg-vxvue-700 [&_*[data-active]]:bg-vxvue-alt-800' },
     bodyClass: { type: String, default: '[&>*:nth-child(even)]:bg-vxvue-50 [&>*:nth-child(even)_*[data-active]]:bg-vxvue-alt-100 [&>*:nth-child(odd)_*[data-active]]:bg-vxvue-alt-50' }
@@ -70,22 +70,24 @@
     <thead :class="headerClass">
       <tr>
         <th
-            scope="col"
-            v-for="column in columns"
-            :data-active="sortBy === column.prop ? 'active' : null"
-            :class="[
-                      'py-3 px-6 text-left',
-                      { 'cursor-pointer': column.sortable },
-                      column.cssClass
-                  ]"
-            @click="column.sortable ? clickSort(column.prop) : null"
+          v-for="column in columns"
+          :key="column.prop"
+          scope="col"
+          :data-active="sortBy === column.prop ? 'active' : null"
+          :class="[
+            'py-3 px-6 text-left',
+            { 'cursor-pointer': column.sortable },
+            column.cssClass
+          ]"
+          @click="column.sortable ? clickSort(column.prop) : null"
         >
           <slot :name="column.prop + '-header'" :column="column" :sort-dir="sortDir" :sort-prop="sortBy">
-            <div class="flex items-center space-x-1"><span>{{ column.label }}</span>
+            <div class="flex items-center space-x-1">
+              <span>{{ column.label }}</span>
               <component
-                  :is="sortBy !== column.prop ? ChevronUpDownIcon : (sortDir === 'asc' ? ChevronDownIcon : ChevronUpIcon)"
-                  v-if="column.sortable"
-                  class="size-4"
+                :is="sortBy !== column.prop ? ChevronUpDownIcon : (sortDir === 'asc' ? ChevronDownIcon : ChevronUpIcon)"
+                v-if="column.sortable"
+                class="size-4"
               />
             </div>
           </slot>
@@ -93,9 +95,20 @@
       </tr>
     </thead>
     <tbody :class="bodyClass">
-      <tr v-for="row in sortedRows" :key="row[keyProperty]" :class="row.cssClass">
-        <td v-for="column in columns" class="overflow-hidden py-3 px-6 whitespace-nowrap text-ellipsis" :data-active="sortBy === column.prop ? 'active' : null">
-          <slot :name="column.prop" :row="row">{{ row[column.prop] }}</slot>
+      <tr
+        v-for="row in sortedRows"
+        :key="row[keyProperty]"
+        :class="row.cssClass"
+      >
+        <td
+          v-for="column in columns"
+          :key="column.prop"
+          :data-active="sortBy === column.prop ? 'active' : null"
+          class="overflow-hidden py-3 px-6 whitespace-nowrap text-ellipsis"
+        >
+          <slot :name="column.prop" :row="row">
+            {{ row[column.prop] }}
+          </slot>
         </td>
       </tr>
     </tbody>
