@@ -23,7 +23,6 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "lint": "eslint . --fix",
     "format": "prettier --write src/",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
