@@ -1,3 +1,6 @@
+## [v1.2.1]
+- updated Vite config to keep `style.css` as CSS file name
+
 ## [v1.2.0]
 - updated to Tailwind CSS 4.x
 - message toast component exposes a property to control the transition animation
