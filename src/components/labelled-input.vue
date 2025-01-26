@@ -31,11 +31,11 @@
 </template>
 
 <style scoped>
-@reference '../index.css'
-.floating-label {
-  @apply absolute px-2 left-1 top-2 scale-90 text-sm z-10 origin-[0] bg-white -translate-y-4 transform-gpu duration-200
-  peer-focus:text-blue-600 peer-focus:top-2 peer-focus:scale-90 peer-focus:-translate-y-4
-  peer-placeholder-shown:top-1/2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2
-}
+  @import '../index.css' reference;
 
+  .floating-label {
+    @apply absolute px-2 left-1 top-2 scale-90 text-sm z-10 origin-[0] bg-white -translate-y-4 transform-gpu duration-200
+    peer-focus:text-blue-600 peer-focus:top-2 peer-focus:scale-90 peer-focus:-translate-y-4
+    peer-placeholder-shown:top-1/2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2
+  }
 </style>

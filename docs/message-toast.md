@@ -118,13 +118,14 @@ const toast = ref({
 :::
 
 ## Properties
-| Name                    | Type                 | Default | Description                                                                                                       |
-|-------------------------|----------------------|---------|-------------------------------------------------------------------------------------------------------------------|
-| `title`                 | `String`             |         | Title of the toast                                                                                                |
-| `message`               | `String`, `String[]` |         | Text message of the toast; when an array of strings is submitted every array item is displayed in a separate line |
-| `active`                | `Boolean`            | `false` | When set to `true` the toast is displayed and the timeout starts to count                                         |
-| `timeout`               | `Number`             | `5000`  | Duration in milliseconds after which the timeout event fires                                                      |
-| `show-timeout-progress` | `Boolean`            | `false` | when `true` a progress bar synced with the remaining timeout is displayed                                         |
+| Name                    | Type                 | Default     | Description                                                                                                       |
+|-------------------------|----------------------|-------------|-------------------------------------------------------------------------------------------------------------------|
+| `title`                 | `String`             |             | Title of the toast                                                                                                |
+| `message`               | `String`, `String[]` |             | Text message of the toast; when an array of strings is submitted every array item is displayed in a separate line |
+| `active`                | `Boolean`            | `false`     | When set to `true` the toast is displayed and the timeout starts to count                                         |
+| `timeout`               | `Number`             | `5000`      | Duration in milliseconds after which the timeout event fires                                                      |
+| `show-timeout-progress` | `Boolean`            | `false`     | when `true` a progress bar synced with the remaining timeout is displayed                                         |
+| `transition`            | `String`             | `vert-fade` | Name of the transition used when displaying the component                                                         |
 
 ## Events
 | Name      | Arguments | Description                                            |

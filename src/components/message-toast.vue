@@ -10,6 +10,7 @@
     message: { type: [String, Array], default: null },
     timeout: { type: Number, default: 5000 },
     active: { type: Boolean, default: false },
+    transition: { type: String, default: 'vert-fade' },
     showTimeoutProgress: { type: Boolean, default: false }
   })
   const emit = defineEmits(['timeout', 'close'])
@@ -35,7 +36,7 @@
 <template>
   <div aria-live="assertive" class="flex fixed inset-0 z-50 items-start py-6 px-4 pointer-events-none sm:p-6">
     <div class="flex flex-col items-center space-y-4 w-full">
-      <transition name="messagetoast-fade">
+      <transition :name="transition">
         <div v-if="active" class="overflow-hidden w-full max-w-sm rounded-md ring-1 ring-black/5 shadow-lg pointer-events-auto" :class="$attrs['class']">
           <div class="p-4">
             <div class="flex items-start">
@@ -79,16 +80,3 @@
     </div>
   </div>
 </template>
-
-<style scoped>
-  @reference '../index.css'
-  .messagetoast-fade-enter-from, .messagetoast-fade-leave-to {
-    @apply opacity-0 transform-gpu -translate-y-10;
-  }
-  .messagetoast-fade-enter-to, .messagetoast-fade-leave-from {
-    @apply opacity-100 translate-y-0;
-  }
-  .messagetoast-fade-enter-active, .messagetoast-fade-leave-active {
-    @apply transition-all duration-300;
-  }
-</style>
