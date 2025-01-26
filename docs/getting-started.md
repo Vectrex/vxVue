@@ -4,8 +4,8 @@
 VxVue provides a handful of reusable Vue components styled with Tailwind CSS. All components are geared towards simplicity leaving room for customizations, extensions or adaptations.
 
 ## Requirements
-* Vue.js 3.4+
-* Tailwind CSS 3.4+
+* Vue.js 3.5+
+* Tailwind CSS 4.x+
 
 ## Installation
 Install vxVue by
