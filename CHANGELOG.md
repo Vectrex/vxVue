@@ -1,3 +1,7 @@
+## [v1.2.0]
+- updated to Tailwind CSS 4.x
+- message toast component exposes a property to control the transition animation
+ 
 ## [v1.1.1]
 - date-input component now honors a `disabled` attribute more thoroughly by also disabling the button elements of the component
 
