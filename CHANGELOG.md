@@ -1,3 +1,8 @@
+## [v1.3.0]
+- added two directives:
+`v-focus` focuses an element upon mount
+`v-floating-label` adds a floating label to a element (preferably input and textarea elements)
+
 ## [v1.2.1]
 - updated Vite config to keep `style.css` as CSS file name
 

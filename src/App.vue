@@ -1,4 +1,9 @@
 <script setup>
+  import { XMarkIcon, UserIcon, ShieldExclamationIcon } from "@heroicons/vue/24/solid"
+  import Accordion from "./components/accordion.vue"
+  import AccordionPanel from "./components/accordion-panel.vue"
+  import SubmitButton from "./components/submit-button.vue"
+  import Sizable from "./components/sizable.vue"
   import PasswordInput from "./components/password-input.vue"
   import FormSelect from "./components/form-select.vue"
   import Autocomplete from "./components/autocomplete.vue"
@@ -14,14 +19,8 @@
   import DateInput from "./components/date-input.vue"
   import Datepicker from "./components/datepicker.vue"
   import Slider from "./components/slider.vue"
-  import { XMarkIcon, UserIcon, ShieldExclamationIcon } from "@heroicons/vue/24/solid"
-
+  import vFloatingLabel from "./directives/floatingLabel"
   import { computed, ref } from "vue"
-  import Accordion from "./components/accordion.vue";
-  import AccordionPanel from "./components/accordion-panel.vue";
-  import SubmitButton from "./components/submit-button.vue";
-  import Sizable from "./components/sizable.vue"
-  import LabelledInput from "./components/labelled-input.vue";
 
   const form = ref({
     pw: '',
@@ -227,7 +226,13 @@
         Form Elements
       </h2>
       <div>
-        <labelled-input v-model="form.input" label="Enter some text" />
+        <input v-model="form.input" v-floating-label="{ label: 'A floating label' }" class="w-full">
+      </div>
+      <div>
+        <input v-model="form.input" v-floating-label="{ invalid: true }" placeholder="The placeholder becomes a label, plus this indicates invalid" class="w-full">
+      </div>
+      <div>
+        <textarea v-model="form.input" v-floating-label placeholder="Works with textareas, too" class="w-full" />
       </div>
       <div class="grid grid-cols-4 gap-4">
         <div class="col-span-3 space-y-2">
