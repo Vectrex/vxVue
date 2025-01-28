@@ -162,10 +162,6 @@
   }
 }
 
-@layer components {
-    :focus-visible { @apply outline outline-2 outline-offset-0 outline-vxvue-alt/50 }
-}
-
 .appear-enter-from,
 .appear-leave-to
 {

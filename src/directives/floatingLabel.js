@@ -1,19 +1,19 @@
 const floatingLabel = {
-    mounted: (el, binding, vnode) => {
-        const id = vnode.ctx.uid
+    mounted: (el, binding) => {
+        const id = Math.random().toString(36).substring(2)
         const div = document.createElement('div')
         div.classList.add('relative')
 
         const label = document.createElement('label')
-        label.classList.add(...(
-            'absolute px-2 left-1 top-2 scale-90 text-sm z-10 origin-[0] bg-white -translate-y-4 transform-gpu duration-200 ' +
-            'peer-focus:text-blue-600 peer-focus:top-2 peer-focus:scale-90 peer-focus:-translate-y-4 ' +
-            'peer-placeholder-shown:top-1/2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2').split(' '),
-            binding.value.invalid ? 'text-error': null,
+        label.classList.add(
+            'absolute', 'px-2', 'left-1', 'top-2', 'scale-90', 'text-sm', 'z-10', 'origin-[0]', 'bg-white', '-translate-y-4', 'transform-gpu', 'duration-200',
+            'peer-focus:text-blue-600', 'peer-focus:top-2', 'peer-focus:scale-90', 'peer-focus:-translate-y-full',
+            'peer-placeholder-shown:top-1/2', 'peer-placeholder-shown:scale-100', 'peer-placeholder-shown:-translate-y-1/2',
+            binding.value?.invalid ? 'text-error': null,
             el.getAttribute('required') ? 'required' : null
         )
         label.setAttribute('for', el.getAttribute('id') || (id + '-element'))
-        label.innerHTML = binding.value.label || (id + '-label')
+        label.innerHTML = binding.value?.label || el.getAttribute('placeholder') || (id + '-label')
 
         el.classList.add('peer')
         el.setAttribute('placeholder', ' ')
