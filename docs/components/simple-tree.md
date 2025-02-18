@@ -1,5 +1,5 @@
 <script setup>
-    import SimpleTree from "../src/components/simple-tree.vue"
+    import SimpleTree from "../../src/components/simple-tree.vue"
     import { computed, ref } from "vue"
 
     const tree = ref({

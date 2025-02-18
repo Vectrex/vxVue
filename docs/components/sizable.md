@@ -1,5 +1,5 @@
 <script setup>
-    import Sizable from "../src/components/sizable.vue"
+    import Sizable from "../../src/components/sizable.vue"
     import { EllipsisVerticalIcon } from "@heroicons/vue/24/solid"
 </script>
 

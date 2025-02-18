@@ -1,5 +1,5 @@
 <script setup>
-    import Slider from "../src/components/slider.vue"
+    import Slider from "../../src/components/slider.vue"
     import { ref } from "vue"
     const slider0 = ref(30)
     const slider1 = ref(10)

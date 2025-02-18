@@ -1,5 +1,5 @@
 <script setup>
-    import DateInput from "../src/components/date-input.vue"
+    import DateInput from "../../src/components/date-input.vue"
     import { ref } from "vue"
     const pickedDate = ref(null)
 </script>
@@ -53,7 +53,7 @@ Attributes are passed on the wrapped input element with the exception of the `cl
 | `modelValue`   | `Date`    |              | The date displayed after applying the output format                          |
 | `inputFormat`  | `String`  | 'YYYY-MM-DD' | The required input format of a string to be interpreted as a date            |
 | `outputFormat` | `String`  | 'YYYY-MM-DD' | The output format of an accepted date                                        |
-| `showToggle`   | `Boolean` | false        | When true a toggle is shown which allows a [datepicker](datepicker) behavior |
+| `showToggle`   | `Boolean` | false        | When true a toggle is shown which allows a [datepicker](datepicker.md) behavior |
 
 ## Events
 | Name                | Arguments                       | Description                                                                                           |

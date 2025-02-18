@@ -16,25 +16,35 @@ export default defineConfig({
       {
         text: 'Components',
         items: [
-          { text: 'Accordion', link: '/accordion' },
-          { text: 'Autocomplete', link: '/autocomplete' },
-          { text: 'Confirm', link: '/confirm' },
-          { text: 'DateInput', link: '/date-input' },
-          { text: 'Datepicker', link: '/datepicker' },
-          { text: 'FormFileButton', link: '/form-file-button' },
-          { text: 'FormSelect', link: '/form-select' },
-          { text: 'FormSwitch', link: '/form-switch' },
-          { text: 'MessageToast', link: '/message-toast' },
-          { text: 'Modal', link: '/modal' },
-          { text: 'Pagination', link: '/pagination' },
-          { text: 'PasswordInput', link: '/password-input' },
-          { text: 'SimpleTree', link: '/simple-tree' },
-          { text: 'Sizable', link: '/sizable' },
-          { text: 'Slider', link: '/slider' },
-          { text: 'Sortable', link: '/sortable' },
-          { text: 'SubmitButton', link: '/submit-button' },
-          { text: 'Tabs', link: '/tabs' },
+          { text: 'Accordion', link: '/components/accordion' },
+          { text: 'Autocomplete', link: '/components/autocomplete' },
+          { text: 'Confirm', link: '/components/confirm' },
+          { text: 'DateInput', link: '/components/date-input' },
+          { text: 'Datepicker', link: '/components/datepicker' },
+          { text: 'FormFileButton', link: '/components/form-file-button' },
+          { text: 'FormSelect', link: '/components/form-select' },
+          { text: 'FormSwitch', link: '/components/form-switch' },
+          { text: 'MessageToast', link: '/components/message-toast' },
+          { text: 'Modal', link: '/components/modal' },
+          { text: 'Pagination', link: '/components/pagination' },
+          { text: 'PasswordInput', link: '/components/password-input' },
+          { text: 'SimpleTree', link: '/components/simple-tree' },
+          { text: 'Sizable', link: '/components/sizable' },
+          { text: 'Slider', link: '/components/slider' },
+          { text: 'Sortable', link: '/components/sortable' },
+          { text: 'SubmitButton', link: '/components/submit-button' },
+          { text: 'Tabs', link: '/components/tabs' },
         ]
+      },
+      {
+        text: 'Directives',
+        /*
+        items: [
+          { text: 'v-focus', link: '/directives/focus' },
+          { text: 'v-floating-label', link: '/directives/floating-label' },
+        ]
+
+         */
       }
     ],
     socialLinks: [

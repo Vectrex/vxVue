@@ -1,5 +1,5 @@
 <script setup>
-    import Tabs from "../src/components/tabs.vue"
+    import Tabs from "../../src/components/tabs.vue"
     import { UserIcon, ShieldExclamationIcon } from "@heroicons/vue/24/solid"
     import { ref } from "vue"
 

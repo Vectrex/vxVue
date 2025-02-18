@@ -1,5 +1,5 @@
 <script setup>
-    import Sortable from "../src/components/sortable.vue"
+    import Sortable from "../../src/components/sortable.vue"
     import { computed, ref } from "vue"
     const cols = [
       { label: 'Name', prop: 'name', sortable: true },
@@ -100,7 +100,7 @@ A most basic example passing only `columns` and `rows` properties.
 :::
 
 ## Component using offset and count
-Useful in combination with a [pagination](/pagination) component. The _Role_ column has sorting disabled.
+Useful in combination with a [pagination](pagination.md) component. The _Role_ column has sorting disabled.
 
 ::: code-group
 ```js

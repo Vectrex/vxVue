@@ -1,5 +1,5 @@
 <script setup>
-    import Confirm from "../src/components/confirm.vue"
+    import Confirm from "../../src/components/confirm.vue"
     import { ref } from "vue"
 
     const confirmDialog = ref(null) 

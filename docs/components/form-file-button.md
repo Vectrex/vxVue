@@ -1,5 +1,5 @@
 <script setup>
-    import FormFileButton from "../src/components/form-file-button.vue"
+    import FormFileButton from "../../src/components/form-file-button.vue"
     import { ref } from "vue"
 
     const files = ref([])

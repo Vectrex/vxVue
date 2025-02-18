@@ -1,5 +1,5 @@
 <script setup>
-    import MessageToast from "../src/components/message-toast.vue"
+    import MessageToast from "../../src/components/message-toast.vue"
     import { ref } from "vue"
     const defaultToast = ref({ message: '', active: false, title: 'You need to click!' })
     const timeoutToast = ref({ message: 'The default timeout is 5 seconds.', active: false, title: 'You can click or wait!' })

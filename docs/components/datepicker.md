@@ -1,5 +1,5 @@
 <script setup>
-    import Datepicker from "../src/components/datepicker.vue"
+    import Datepicker from "../../src/components/datepicker.vue"
     import { ref } from "vue"
     const from = (() => {
         let date = new Date(), d = date.getDate()
@@ -18,7 +18,7 @@
 
 # Datepicker
 
-A date picker component which allows the selection of a single date. Wraps a [date-input](/date-input) component (unless the `has-input` property is set to `false`)
+A date picker component which allows the selection of a single date. Wraps a [date-input](date-input.md) component (unless the `has-input` property is set to `false`)
 
 ## Default Component
 ```html
@@ -63,7 +63,7 @@ v-model="pickedDate"
 :::
 
 ## Date Format and Localization
-The `input-format` and `output-format` properties are passed on the [`date-input`](date-input) component and interpreted there.
+The `input-format` and `output-format` properties are passed on the [`date-input`](date-input.md) component and interpreted there.
 
 ```html
 <datepicker
@@ -136,7 +136,7 @@ v-model="dateRangeLarge"
 :::
 
 ## Properties
-Properties of the [dateInput](date-input) component and standard attributes (like `disabled`) component can be declared and are passed on.
+Properties of the [dateInput](date-input.md) component and standard attributes (like `disabled`) component can be declared and are passed on.
 
 | Name                | Type      | Default                                  | Description                                                                                                                                                             |
 |---------------------|-----------|------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -149,7 +149,7 @@ Properties of the [dateInput](date-input) component and standard attributes (lik
 | `dayNames`          | `Array`   | ['S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'] | An array with day names used for labelling the dates grid                                                                                                               |
 | `locale`            | `String`  | 'default'                                | The locale used for rendering month names                                                                                                                               |
 | `startOfWeekIndex`  | `Number`  | 0                                        | Accepts 0 for Sunday and 1 for Monday                                                                                                                                   |
-| `hasInput`          | `Boolean` | true                                     | When true a [date-input](date-input) component with a toggle is rendered; when false the datepicker is always visible                                                   |
+| `hasInput`          | `Boolean` | true                                     | When true a [date-input](date-input.md) component with a toggle is rendered; when false the datepicker is always visible                                                |
 
 ## Events
 | Name                | Arguments           | Description                                                                                    |
