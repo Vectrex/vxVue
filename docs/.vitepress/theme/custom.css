@@ -1,4 +1,5 @@
 @import '../../../src/index.css';
+
 :root {
     --vp-nav-logo-height: 3rem;
     --vp-c-brand-1: rgb(var(--vxvue-color));
@@ -6,3 +7,8 @@
     --vp-c-brand-3: rgb(var(--vxvue-color-700));
 }
 
+@layer utilities {
+    .required {
+        @apply font-bold after:content-['*'];
+    }
+}

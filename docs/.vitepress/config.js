@@ -38,13 +38,10 @@ export default defineConfig({
       },
       {
         text: 'Directives',
-        /*
         items: [
           { text: 'v-focus', link: '/directives/focus' },
           { text: 'v-floating-label', link: '/directives/floating-label' },
         ]
-
-         */
       }
     ],
     socialLinks: [
