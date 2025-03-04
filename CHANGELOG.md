@@ -1,7 +1,12 @@
+## [v1.3.1]
+- improved `v-floating-label`:
+  - will only attach to elements which can have a placeholder attribute (certain `input` types and `textarea`s)
+  - provides `updated` and `beforeUnmount` hooks to ensure reactive behavior and remove generated elements
+
 ## [v1.3.0]
 - added two directives:
-`v-focus` focuses an element upon mount
-`v-floating-label` adds a floating label to a element (preferably input and textarea elements)
+  - `v-focus` focuses an element upon mount
+  - `v-floating-label` adds a floating label to a element (preferably input and textarea elements)
 
 ## [v1.2.1]
 - updated Vite config to keep `style.css` as CSS file name
