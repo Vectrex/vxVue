@@ -5,7 +5,8 @@
 # v-floating-label
 
 This directive uses either the `placeholder` attribute or the `label` property of directive binding.
-The binding value will also observe an `invalid` property of the binding and a `required` attribute. 
+The binding value will also observe an `invalid` property of the binding and a `required` attribute. It can only be attached to
+`input` element types which allow a `placeholder` (i.e. type is `text`, `search`, `email`, `password` ,`url` or `tel`) attribute or `textarea`s or a component wrapping such an element. In this case no `label` element must be a child element of this component.
 
 ## Examples
 
