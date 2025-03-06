@@ -260,7 +260,7 @@
           />
         </div>
       </div>
-      <div><label for="password-input">Password Input</label><password-input id="password-input" v-model="form.pw" class="w-full" /></div>
+      <password-input v-model="form.pw" v-floating-label placeholder="Enter a password" class="w-full" />
       <div>
         <label for="autocomplete">Autocomplete</label><autocomplete
           id="autocomplete"
