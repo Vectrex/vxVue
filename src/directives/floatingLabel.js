@@ -34,7 +34,7 @@ const floatingLabel = {
     },
     updated: (el, binding) => {
         const label = el.parentNode.querySelector('label')
-        const placeholder = el.getAttribute('placeholder').trim()
+        const placeholder = el.getAttribute('placeholder')?.trim()
         label.innerHTML = binding.value?.label || placeholder || label.innerHTML
         if (placeholder) el.setAttribute('placeholder', ' ')
         if (binding.value?.invalid) {

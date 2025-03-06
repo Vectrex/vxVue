@@ -1,3 +1,6 @@
+## [v1.3.2]
+- Bugfix when updating an element with `v-floating-label` directive
+
 ## [v1.3.1]
 - improved `v-floating-label`:
   - will only attach to elements which can have a placeholder attribute (certain `input` types and `textarea`s)
