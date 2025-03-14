@@ -1,5 +1,5 @@
 <script setup>
-    import PasswordInput from "../../src/components/password-input.vue"
+    import PasswordInput from "../../src/components/PasswordInput.vue"
     import { ref } from "vue"
 
     const password = ref('')

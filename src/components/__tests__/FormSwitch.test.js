@@ -1,5 +1,5 @@
 import  { mount } from "@vue/test-utils";
-import FormSwitch from "../form-switch.vue";
+import FormSwitch from "../FormSwitch.vue";
 import { describe, expect, test } from "vitest";
 
 describe("FormSwitch", () => {

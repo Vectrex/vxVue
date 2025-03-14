@@ -1,5 +1,5 @@
 <script setup>
-    import FormSwitch from "../../src/components/form-switch.vue"
+    import FormSwitch from "../../src/components/FormSwitch.vue"
     import { XMarkIcon } from "@heroicons/vue/24/solid"
     import { ref } from "vue"
     const state = ref(false)

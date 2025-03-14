@@ -1,5 +1,5 @@
 <script setup>
-    import SubmitButton from "../../src/components/submit-button.vue"
+    import SubmitButton from "../../src/components/SubmitButton.vue"
     import { ref } from "vue"
     const busy = ref(false)
     const doSubmit = () => { busy.value = true; setTimeout(() => busy.value = false, 3000) }

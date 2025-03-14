@@ -1,5 +1,5 @@
 <script setup>
-  import Spinner from "./spinner.vue"
+  import Spinner from "./Spinner.vue"
   import { onClickOutside } from "@vueuse/core"
   import { computed, onUpdated, ref, useAttrs } from "vue"
 

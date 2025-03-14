@@ -1,5 +1,5 @@
 <script setup>
-    import Datepicker from "../../src/components/datepicker.vue"
+    import Datepicker from "../../src/components/Datepicker.vue"
     import { ref } from "vue"
     const from = (() => {
         let date = new Date(), d = date.getDate()

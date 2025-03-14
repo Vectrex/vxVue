@@ -1,5 +1,5 @@
 <script setup>
-    import FormSelect from "../../src/components/form-select.vue"
+    import FormSelect from "../../src/components/FormSelect.vue"
     import { ref } from "vue"
     const options = []
     const selection1 = ref(null)

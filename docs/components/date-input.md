@@ -1,5 +1,5 @@
 <script setup>
-    import DateInput from "../../src/components/date-input.vue"
+    import DateInput from "../../src/components/DateInput.vue"
     import { ref } from "vue"
     const pickedDate = ref(null)
 </script>

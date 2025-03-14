@@ -1,5 +1,5 @@
 <script setup>
-    import Sortable from "../../src/components/sortable.vue"
+    import Sortable from "../../src/components/Sortable.vue"
     import { computed, ref } from "vue"
     const cols = [
       { label: 'Name', prop: 'name', sortable: true },

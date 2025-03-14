@@ -1,24 +1,24 @@
 <script setup>
   import { XMarkIcon, UserIcon, ShieldExclamationIcon } from "@heroicons/vue/24/solid"
-  import Accordion from "./components/accordion.vue"
-  import AccordionPanel from "./components/accordion-panel.vue"
-  import SubmitButton from "./components/submit-button.vue"
-  import Sizable from "./components/sizable.vue"
-  import PasswordInput from "./components/password-input.vue"
-  import FormSelect from "./components/form-select.vue"
-  import Autocomplete from "./components/autocomplete.vue"
-  import FormSwitch  from "./components/form-switch.vue"
-  import Tabs from "./components/tabs.vue"
-  import Sortable from "./components/sortable.vue"
-  import FormFileButton from "./components/form-file-button.vue"
-  import MessageToast from "./components/message-toast.vue"
-  import Confirm from "./components/confirm.vue"
-  import Pagination from "./components/pagination.vue"
-  import Modal from "./components/modal.vue"
-  import SimpleTree from "./components/simple-tree.vue"
-  import DateInput from "./components/date-input.vue"
-  import Datepicker from "./components/datepicker.vue"
-  import Slider from "./components/slider.vue"
+  import Accordion from "./components/Accordion.vue"
+  import AccordionPanel from "./components/AccordionPanel.vue"
+  import SubmitButton from "./components/SubmitButton.vue"
+  import Sizable from "./components/Sizable.vue"
+  import PasswordInput from "./components/PasswordInput.vue"
+  import FormSelect from "./components/FormSelect.vue"
+  import Autocomplete from "./components/Autocomplete.vue"
+  import FormSwitch  from "./components/FormSwitch.vue"
+  import Tabs from "./components/Tabs.vue"
+  import Sortable from "./components/Sortable.vue"
+  import FormFileButton from "./components/FormFileButton.vue"
+  import MessageToast from "./components/MessageToast.vue"
+  import Confirm from "./components/Confirm.vue"
+  import Pagination from "./components/Pagination.vue"
+  import Modal from "./components/Modal.vue"
+  import SimpleTree from "./components/SimpleTree.vue"
+  import DateInput from "./components/DateInput.vue"
+  import Datepicker from "./components/Datepicker.vue"
+  import Slider from "./components/Slider.vue"
   import vFloatingLabel from "./directives/floatingLabel"
   import { computed, ref } from "vue"
 
@@ -344,7 +344,7 @@
       </h2>
       <div class="overflow-hidden rounded-lg border-b border-gray-200 shadow-sm">
         <div class="overflow-x-auto">
-          <sortable
+          <Sortable
             :rows="sortable.rows"
             :columns="sortable.cols"
           />
@@ -413,13 +413,13 @@
       <h2 class="mb-4 text-xl font-bold">
         Tabs
       </h2>
-      <tabs v-model:active-index="tabs.activeIndex" :items="tabs.items">
+      <Tabs v-model:active-index="tabs.activeIndex" :items="tabs.items">
         <template #icon="slotProps">
           <span v-if="slotProps.tab.icon" class="mr-2 -ml-0.5 size-5">
             <component :is="slotProps.tab.icon" class="w-5 h-5" fill="currentColor" />
           </span>
         </template>
-      </tabs>
+      </Tabs>
     </div>
 
     <div class="p-4 shadow-md">
@@ -461,7 +461,7 @@
     </template>
   </message-toast>
 
-  <modal :show="modal.show" container-class="mx-4 w-full lg:w-1/2 xl:w-1/4" @clicked-outside="modal.show = false">
+  <Modal :show="modal.show" container-class="mx-4 w-full lg:w-1/2 xl:w-1/4" @clicked-outside="modal.show = false">
     <template #title>
       <div class="flex fixed justify-between items-center px-4 w-full h-16 bg-vxvue-500">
         <span class="text-xl font-bold text-white">A Modal</span>
@@ -473,7 +473,7 @@
         Something of importance might be said here.
       </div>
     </template>
-  </modal>
+  </Modal>
 
   <teleport to="body">
     <confirm

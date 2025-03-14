@@ -6,14 +6,13 @@ import { computed, onBeforeUpdate, ref, useSlots } from "vue"
   const slots = useSlots()
   const refs = ref([])
   const setRef = comp => refs.value.push(comp)
-  const tabs = computed(() => {
-    return slots.default().reduce((t, child) => {
-        if ((child.type.__name || child.type.name) === 'accordion-panel') {
+  const tabs = computed(() => slots.default().reduce((t, child) => {
+        if ((child.type.__name || child.type.name) === 'AccordionPanel') {
           t.push(child)
         }
         return t
     }, [])
-  })
+  )
   const setIndex = ndx => {
     if(Array.isArray(props.activeIndex)) {
       let currentNdx = [].concat(props.activeIndex)

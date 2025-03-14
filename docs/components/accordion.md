@@ -1,6 +1,6 @@
 <script setup>
-    import Accordion from "../../src/components/accordion.vue"
-    import AccordionPanel from "../../src/components/accordion-panel.vue"
+    import Accordion from "../../src/components/Accordion.vue"
+    import AccordionPanel from "../../src/components/AccordionPanel.vue"
     import { ref } from "vue"
 
     const accordionIndex = ref({ multiple: [1], single: 0 })

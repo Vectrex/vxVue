@@ -1,5 +1,5 @@
 <script setup>
-  import FormSelect from "./form-select.vue"
+  import FormSelect from "./FormSelect.vue"
   import { computed, ref, watch } from "vue"
 
   const props = defineProps({
