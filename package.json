@@ -42,11 +42,11 @@
     "eslint": "^9.22.0",
     "eslint-plugin-vue": "^9.33.0",
     "@eslint/js": "^9.22.0",
-    "@vitest/eslint-plugin": "^1.1.37",
-    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitest/eslint-plugin": "^1.1.38",
+    "@vitejs/plugin-vue": "^5.2.3",
     "vite-plugin-vue-devtools": "^7.7.2",
     "vitepress": "^1.6.3",
-    "vitest": "^3.0.8",
+    "vitest": "^3.0.9",
     "prettier": "^3.5.3",
     "rustywind": "^0.24.0"
   }
