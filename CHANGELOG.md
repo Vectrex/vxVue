@@ -1,3 +1,7 @@
+## [v1.3.3]
+- Transitions for `modal`, `message-toast`, `confirm` components are now wrapped up in a custom `vx-vue-transition` component
+- The `message-toast` component no longer exposes a `transition` property
+
 ## [v1.3.2]
 - Bugfix when updating an element with `v-floating-label` directive
 
