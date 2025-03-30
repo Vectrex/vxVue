@@ -1,4 +1,5 @@
 <script setup>
+  import VxVueTransition from './VxVueTransition.vue'
   import { ref, computed, nextTick } from "vue"
 
   const props = defineProps({
@@ -50,7 +51,7 @@
 
 <template>
   <div v-if="show" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs" aria-hidden="true" />
-  <transition name="appear">
+  <vx-vue-transition name="appear">
     <div v-if="show" class="overflow-y-auto fixed inset-0 z-50">
       <div class="flex justify-center items-center min-h-screen text-center sm:block sm:p-0">
         <div v-if="show">
@@ -86,5 +87,5 @@
         </div>
       </div>
     </div>
-  </transition>
+  </vx-vue-transition>
 </template>

@@ -1,5 +1,6 @@
 <script setup>
   import { XMarkIcon } from '@heroicons/vue/24/solid'
+  import VxVueTransition from './VxVueTransition.vue'
   import { computed, onMounted, ref, watch } from 'vue'
 
   defineOptions({
@@ -10,7 +11,6 @@
     message: { type: [String, Array], default: null },
     timeout: { type: Number, default: 5000 },
     active: { type: Boolean, default: false },
-    transition: { type: String, default: 'vert-fade' },
     showTimeoutProgress: { type: Boolean, default: false }
   })
   const emit = defineEmits(['timeout', 'close'])
@@ -36,7 +36,7 @@
 <template>
   <div aria-live="assertive" class="flex fixed inset-0 z-50 items-start py-6 px-4 pointer-events-none sm:p-6">
     <div class="flex flex-col items-center space-y-4 w-full">
-      <transition :name="transition">
+      <vx-vue-transition name="vert-fade">
         <div v-if="active" class="overflow-hidden w-full max-w-sm rounded-md ring-1 ring-black/5 shadow-lg pointer-events-auto" :class="$attrs['class']">
           <div class="p-4">
             <div class="flex items-start">
@@ -76,7 +76,7 @@
             aria-label="notification timer"
           />
         </div>
-      </transition>
+      </vx-vue-transition>
     </div>
   </div>
 </template>

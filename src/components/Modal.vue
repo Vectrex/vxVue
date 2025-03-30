@@ -1,4 +1,5 @@
 <script setup>
+  import VxVueTransition from './VxVueTransition.vue'
   import { onClickOutside } from "@vueuse/core"
   import { ref } from "vue"
 
@@ -16,7 +17,7 @@
 
 <template>
   <div v-if="show" class="fixed inset-0 z-9998 bg-white/50 backdrop-blur-xs" aria-hidden="true" />
-  <transition name="appear">
+  <vx-vue-transition name="appear">
     <div v-if="show" class="fixed inset-0 z-9999">
       <div class="flex justify-center items-center h-screen">
         <div ref="container" :class="['overflow-hidden relative max-w-full bg-white rounded-sm ring-1 ring-black/10 shadow-xl transition-all transform xl:max-w-(--breakpoint-xl)', containerClass]">
@@ -29,5 +30,5 @@
         </div>
       </div>
     </div>
-  </transition>
+  </vx-vue-transition>
 </template>
