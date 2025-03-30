@@ -17,7 +17,10 @@
   "version": "1.3.4",
   "license": "MIT",
   "homepage": "https://vectrex.github.io/vxVue",
-  "repository": "https://github.com/Vectrex/vxVue",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vectrex/vxVue.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
