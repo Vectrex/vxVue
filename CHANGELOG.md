@@ -1,3 +1,6 @@
+## [v1.3.4]
+- The `v-floating-label` throws no longer an error when applied to an element or component which provides an element with a placeholder; instead the directive is ignored
+
 ## [v1.3.3]
 - Transitions for `modal`, `message-toast`, `confirm` components are now wrapped up in a custom `vx-vue-transition` component
 - The `message-toast` component no longer exposes a `transition` property
