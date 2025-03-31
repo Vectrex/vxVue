@@ -229,6 +229,9 @@
         <input v-model="form.input" v-floating-label="{ label: 'A floating label' }" class="w-full">
       </div>
       <div>
+        <datepicker v-model="form.datepicker" placeholder="A floating label with a datepicker" v-floating-label />
+      </div>
+      <div>
         <input v-model="form.input" v-floating-label="{ invalid: true }" placeholder="The placeholder becomes a label, plus this indicates invalid" class="w-full">
       </div>
       <div>

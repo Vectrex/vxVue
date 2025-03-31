@@ -20,7 +20,7 @@
 </script>
 <template>
   <div class="inline-block relative" :class="$attrs['class']">
-    <div v-if="dateString">
+    <div v-show="dateString">
       <div class="block flex items-center w-full form-input bg-vxvue-50" :class="{ 'pr-10': showToggle }">
         <span class="text-vxvue-700">{{ dateString }}</span>
         <button
@@ -32,16 +32,17 @@
         </button>
       </div>
     </div>
-    <input
-      v-else
-      v-model="inputString"
-      type="text"
-      class="block w-full form-input peer focus:border-vxvue"
-      :class="{ 'pr-10': showToggle }"
-      v-bind="inputAttrs"
-      @blur="emit('update:modelValue', parseDate(inputString, props.inputFormat).date?.value || null)"
-      @input.prevent
-    >
+    <div v-show="!dateString">
+      <input
+        v-model="inputString"
+        type="text"
+        class="block w-full form-input peer focus:border-vxvue"
+        :class="{ 'pr-10': showToggle }"
+        v-bind="inputAttrs"
+        @blur="emit('update:modelValue', parseDate(inputString, props.inputFormat).date?.value || null)"
+        @input.prevent
+      >
+    </div>
     <button
       v-if="showToggle"
       ref="toggleButton"
