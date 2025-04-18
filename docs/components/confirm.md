@@ -129,11 +129,11 @@ const doAlert = () => alertDialog.value.open().then(() => {}).catch(() => {})
 | `headerClass` | `String`         |                 | A string determining the CSS classes for the title                                                                                                                          |
 
 ## Slots
-| Name      | Scoped | Description                                                                 |
-|-----------|--------|-----------------------------------------------------------------------------|
-| `default` |        | The container holding the message                                           |
-| `title`   |        | The title line                                                              |
-| `icon`    |        | An additional slot which allows the display of an icon along with the title |
+| Name      | Scoped                                                              | Description                                                                 |
+|-----------|---------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `default` | `message` - the message string passed to the component when opening | The container holding the message                                           |
+| `title`   | `title` - the title string passed to the component when opening     | The title line                                                              |
+| `icon`    |                                                                     | An additional slot which allows the display of an icon along with the title |
 
 ## Exposes
 | Method  | Arguments                          | Description                                                                       |

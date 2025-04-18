@@ -1,3 +1,6 @@
+## [v1.3.5]
+- The `confirm` component got slot properties for the `header` and `default` slot
+
 ## [v1.3.4]
 - The `v-floating-label` throws no longer an error when applied to an element or component which provides an element with a placeholder; instead the directive is ignored
 

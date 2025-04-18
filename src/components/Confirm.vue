@@ -59,7 +59,7 @@
 
           <div class="inline-block overflow-hidden text-left align-bottom bg-white rounded-sm shadow-xl transition-all transform sm:my-8 sm:w-full sm:max-w-sm sm:align-middle lg:max-w-lg">
             <h3 v-if="title || $slots.title" class="py-4 pt-4 text-lg font-medium text-center sm:py-6" :class="headerClass">
-              <slot name="title">
+              <slot name="title" :title="title">
                 {{ title }}
               </slot>
             </h3>
@@ -69,7 +69,9 @@
                   <slot name="icon" />
                 </div>
                 <p class="grow text-center">
-                  <slot>{{ message }}</slot>
+                  <slot :message="message">
+                    {{ message }}
+                  </slot>
                 </p>
               </div>
               <div ref="buttonsContainer" class="flex justify-center mt-5 space-x-2 sm:mt-6">
