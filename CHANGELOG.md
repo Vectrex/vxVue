@@ -1,3 +1,6 @@
+## [v1.3.6]
+- The `modal` component got a more robust layout and a better default class for the container element
+
 ## [v1.3.5]
 - The `confirm` component got slot properties for the `header` and `default` slot
 
