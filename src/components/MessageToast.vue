@@ -34,7 +34,7 @@
 </script>
 
 <template>
-  <div aria-live="assertive" class="flex fixed inset-0 z-50 items-start py-6 px-4 pointer-events-none sm:p-6">
+  <div aria-live="assertive" class="flex fixed inset-0 z-[var(--zIndex-toast)] items-start py-6 px-4 pointer-events-none sm:p-6">
     <div class="flex flex-col items-center space-y-4 w-full">
       <vx-vue-transition name="vert-fade">
         <div v-if="active" class="overflow-hidden w-full max-w-sm rounded-md ring-1 ring-black/5 shadow-lg pointer-events-auto" :class="$attrs['class']">

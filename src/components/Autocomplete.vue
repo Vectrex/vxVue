@@ -53,7 +53,7 @@
   }))
   const listProps = computed(() => ({
       id: resultListId,
-      class: ['absolute min-w-full transform z-10', props.resultListClass, position.value],
+      class: ['absolute min-w-full transform z-[var(--zIndex-dropdown)]', props.resultListClass, position.value],
       role: 'listbox'
   }))
 

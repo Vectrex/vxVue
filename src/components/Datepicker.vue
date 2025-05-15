@@ -147,7 +147,7 @@
       <slot />
     </date-input>
 
-    <div v-bind="calendarProps" ref="calendar" class="overflow-hidden z-10 bg-white rounded-sm shadow-md min-w-72 sm:min-w-80" :class="[align.horiz, align.vert]">
+    <div v-bind="calendarProps" ref="calendar" class="overflow-hidden z-[var(--zIndex-dropdown)] bg-white rounded-sm shadow-md min-w-72 sm:min-w-80" :class="[align.horiz, align.vert]">
       <template v-if="panelShown === 'days'">
         <div class="flex items-center py-2 px-3 text-white bg-vxvue-700">
           <div class="flex justify-between w-1/2">

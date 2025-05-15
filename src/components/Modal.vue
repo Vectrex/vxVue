@@ -21,11 +21,11 @@ onClickOutside(container, () => emit("clicked-outside"));
 <template>
   <div
     v-if="show"
-    class="fixed inset-0 z-9998 bg-white/50 backdrop-blur-xs"
+    class="fixed inset-0 z-[calc(var(--zIndex-modal)-1)] bg-white/50 backdrop-blur-xs"
     aria-hidden="true"
   />
   <vx-vue-transition name="appear">
-    <div v-if="show" class="fixed inset-0 z-9999">
+    <div v-if="show" class="fixed inset-0 z-[var(--zIndex-modal)]">
       <div class="flex justify-center items-center h-screen">
         <div
           ref="container"

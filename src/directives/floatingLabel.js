@@ -10,10 +10,11 @@ const floatingLabel = {
 
             const id = Math.random().toString(36).substring(2)
             const div = document.createElement('div')
-            div.classList.add('relative')
+            div.classList.add('relative', 'isolate')
+
             const label = document.createElement('label')
             label.classList.add(
-                ...'absolute px-2 left-1 top-2 scale-90 text-sm z-10 origin-[0] bg-white -translate-y-4 transform-gpu duration-200'.split(' '),
+                ...'absolute px-2 left-1 top-2 scale-90 text-sm z-[var(--zIndex-label)] origin-[0] bg-white -translate-y-4 transform-gpu duration-200'.split(' '),
                 ...'peer-focus:top-2 peer-focus:scale-90 peer-focus:-translate-y-full'.split(' '),
                 ...'peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2'.split(' '),
                 el.nodeName === 'TEXTAREA' ? 'peer-placeholder-shown:top-4' : 'peer-placeholder-shown:top-1/2'

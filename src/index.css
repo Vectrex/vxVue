@@ -159,5 +159,11 @@
     --info-color-800: 8 103 197;
     --info-color-900: 13 89 155;
     --info-color-950: 14 53 93;
+
+    --zIndex-confirm: 1000;
+    --zIndex-toast: 900;
+    --zIndex-dropdown: 800;
+    --zIndex-label: 100;
+    --zIndex-modal: 600;
   }
 }
