@@ -59,3 +59,12 @@ Style them in your projects main CSS file with
     --color-vxvue-alt: -...;
 ```
 
+Stacking of absolutely or fixed positioned elements use the following CSS variables to determine their position in the z-index stack:
+
+```
+--zIndex-confirm: 1000;
+--zIndex-toast: 900;
+--zIndex-dropdown: 800;
+--zIndex-label: 100;
+--zIndex-modal: 600;
+```

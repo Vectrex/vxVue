@@ -1,3 +1,6 @@
+## [v1.3.7]
+- Absolutely or fixed positioned components (`modal`, `message-toast`, `confirm`, `datepicker`, `autocomplete`) and label created with `v-floating-label` directive use CSS vars to determine their stacked position and can therefore be configured
+
 ## [v1.3.6]
 - The `modal` component got a more robust layout and a better default class for the container element
 
