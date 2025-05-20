@@ -1,3 +1,7 @@
+## [v1.3.8]
+- bug fixes with `simple-tree` component
+- Refactored components to use `defineModel()` instead of `modelValue` prop/event
+
 ## [v1.3.7]
 - Absolutely or fixed positioned components (`modal`, `message-toast`, `confirm`, `datepicker`, `autocomplete`) and label created with `v-floating-label` directive use CSS vars to determine their stacked position and can therefore be configured
 

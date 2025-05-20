@@ -801,7 +801,7 @@ const clearFormData = () =>
 
     <div class="p-4 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Simple Tree</h2>
-      <simple-tree :branch="tree" @branch-selected="form.branch = $event" />
+      <simple-tree :branch="tree" v-model="form.branch" />
     </div>
 
     <div class="p-4 shadow-md">
