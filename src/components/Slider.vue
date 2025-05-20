@@ -6,12 +6,15 @@
     min: { type: Number, default: 0 },
     max: { type: Number, default: 100 },
     vertical: Boolean,
-    disabled: Boolean,
-    modelValue: { type: [Number, Array], default: null, validator(v) {
-      return typeof v === 'number' || v.every(item => typeof item === 'number')
-    }}
+    disabled: Boolean
   })
-  const emit = defineEmits(['update:modelValue', 'dragStart', 'dragStop'])
+  const model = defineModel({
+    type: [Number, Array],
+    default: null,
+    validator(v) {
+      return typeof v === 'number' || v.every(item => typeof item === 'number')
+    }})
+  const emit = defineEmits(['dragStart', 'dragStop'])
   const attrs = useAttrs()
 
   const initPos = { x: null, y: null }
@@ -21,13 +24,13 @@
   const thumbNdx = ref(0)
   const thumbPos = computed(() => {
     const max = props.max, min = props.min
-    if (props.modelValue instanceof Array) {
-      return props.modelValue.map(v => (Math.max(Math.min(v, max), min) - min) * 100 / (max - min))
+    if (model.value instanceof Array) {
+      return model.value.map(v => (Math.max(Math.min(v, max), min) - min) * 100 / (max - min))
     }
-    return (Math.max(Math.min(props.modelValue, max), min) - min) * 100 / (max - min)
+    return (Math.max(Math.min(model.value, max), min) - min) * 100 / (max - min)
   })
   const selectedTrackStyle = computed(() => {
-    if (props.modelValue instanceof Array) {
+    if (model.value instanceof Array) {
       const offset = Math.min(...thumbPos.value) + '%'
       const length = Math.max(...thumbPos.value) - Math.min(...thumbPos.value) + '%'
       return props.vertical ? { bottom:  offset, height:  length } : { left: offset, width: length }
@@ -45,13 +48,11 @@
   const updateModel = v => {
     let newValue = parseFloat(v.toFixed(10))
     newValue = Math.min(props.max, (Math.max(props.min, newValue)))
-    if(props.modelValue instanceof Array) {
-      let vals = [...props.modelValue]
-      vals[thumbNdx.value] = newValue
-      emit('update:modelValue', vals)
+    if(model.value instanceof Array) {
+      model.value[thumbNdx.value] = newValue
     }
     else {
-      emit('update:modelValue', newValue)
+      model.value = newValue
     }
   }
   const setValue = e => {
@@ -100,7 +101,7 @@
         document.removeEventListener('touchend', dragStop)
       }
 
-      // ensure that no mousemove and therefore update:modelValue is triggered after a dragStop event
+      // ensure that no mousemove and therefore modelValue update is triggered after a dragStop event
 
       setTimeout(() => emit('dragStop'), 0)
     }
@@ -109,7 +110,7 @@
     if(e.keyCode >= 33 && e.keyCode <= 40) {
       e.preventDefault()
     }
-    const v = props.modelValue[thumbNdx.value] ?? props.modelValue
+    const v = model.value[thumbNdx.value] ?? model.value
 
     switch (e.keyCode) {
       case 37:
@@ -141,9 +142,9 @@
     role="slider"
     aria-label="slider-thumb"
     :aria-valuemin="min"
-    :aria-valuemax="props.max"
-    :aria-valuenow="modelValue[0] ?? modelValue"
-    :aria-valuetext="modelValue"
+    :aria-valuemax="max"
+    :aria-valuenow="model[0] ?? model"
+    :aria-valuetext="model"
     v-on="!disabled ? {
       click: handleBarClick
     } : {}"
@@ -154,7 +155,7 @@
       :style="selectedTrackStyle"
     />
     <button
-      v-if="!modelValue.length"
+      v-if="!model.length"
       :id="attrs['id']"
       :style="vertical ? { bottom: thumbPos + '%' } : { left: thumbPos + '%' }"
       aria-label="slider-thumb"
@@ -171,7 +172,7 @@
     <template v-else>
       <!-- eslint-disable-next-line vue/require-v-for-key -->
       <button
-        v-for="(_, ndx) in modelValue"
+        v-for="(_, ndx) in model"
         :id="!ndx ? attrs['id'] : null"
         :style="vertical ? { bottom: thumbPos[ndx] + '%' } : { left: thumbPos[ndx] + '%' }"
         :aria-label="'slider-thumb-' + (ndx + 1)"
