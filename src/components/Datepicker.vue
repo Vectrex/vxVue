@@ -5,8 +5,8 @@
   import { ref, computed, watch, nextTick, onMounted } from "vue"
 
   defineOptions({ inheritAttrs: false })
+
   const props = defineProps({
-    modelValue: { type: [Date, Array], default: null, validator: ((v, props) => v instanceof Date && props.maxNumberOfValues === 1 || v.every(item => item instanceof Date || item === null) && v.length <= props.maxNumberOfValues) },
     shownMonth: Date,
     maxNumberOfValues: { type: Number, default: 1 },
     validFrom: Date,
@@ -17,7 +17,12 @@
     startOfWeekIndex: { type: Number, default: 0, validator: value => value === 0 || value === 1 },
     hasInput: { type: Boolean, default: true },
   })
-  const emit = defineEmits(['update:modelValue', 'month-change', 'year-change'])
+  const model = defineModel({
+    type: [Date, Array],
+    default: null,
+    validator: ((v, props) => v instanceof Date && props.maxNumberOfValues === 1 || v.every(item => item instanceof Date || item === null) && v.length <= props.maxNumberOfValues)
+  })
+  const emit = defineEmits(['month-change', 'year-change'])
   const today = (() => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate())})()
 
   const sheetDate = ref(null)
@@ -45,7 +50,7 @@
     return dates
   })
   const localizedDayNames = computed(() => !props.startOfWeekIndex ? props.dayNames : props.dayNames.slice(1).concat(props.dayNames[0]))
-  watch(() => props.modelValue, v => {
+  watch(model, v => {
     if (v) {
       if (Array.isArray(v)) {
         const f = [], s = selectedDate.value
@@ -85,12 +90,12 @@
   onClickOutside(calendar, () => { expanded.value = false; panelShown.value = 'days' }, { ignore: [toggleButton] })
   const setMonth = month => { sheetDate.value = new Date(sheetDate.value.getFullYear(), month, 1); emit("month-change", sheetDate.value) }
   const setYear = year => { sheetDate.value = new Date(year, sheetDate.value.getMonth(), 1); emit("year-change", sheetDate.value) }
-  const handleInput = date => emit('update:modelValue', date)
+  const handleInput = date => model.value = date
   const selectDate = day => {
     expanded.value = false
 
     if(props.maxNumberOfValues === 1) {
-      emit('update:modelValue', day)
+      model.value = day
     }
     else {
       const picked = selectedDate.value
@@ -107,7 +112,7 @@
       else if (picked.length < props.maxNumberOfValues) {
         picked.push(day)
       }
-      emit('update:modelValue', picked)
+      model.value = picked
     }
   }
   const isSelected = date => selectedDate.value.find(item => item?.getTime() === date.getTime())

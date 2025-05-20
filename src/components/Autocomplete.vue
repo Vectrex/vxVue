@@ -1,18 +1,18 @@
 <script setup>
-  import Spinner from "./Spinner.vue"
-  import { onClickOutside } from "@vueuse/core"
-  import { computed, onUpdated, ref, useAttrs } from "vue"
+  import Spinner from './Spinner.vue'
+  import { onClickOutside } from '@vueuse/core'
+  import { computed, onUpdated, ref, useAttrs } from 'vue'
 
-  const emit = defineEmits(['update:modelValue', 'blur-sm', 'submit'])
+  defineOptions({ inheritAttrs: false })
+  const emit = defineEmits(['blur-sm', 'submit'])
   const props = defineProps({
-    modelValue: { type: String, default: "" },
     search: { type: Function, required: true },
     resultListClass: { type: String, default: 'result-list' },
     resultItemClass: { type: String, default: 'result-list-item' },
     getResultValue: { type: Function, default: result => result },
     autoSelect: Boolean
   })
-  defineOptions({ inheritAttrs: false })
+  const model = defineModel({ type: String, default: '' })
   const attrs = useAttrs()
   const uniqueId = (() => {
     let counter = 0
@@ -94,12 +94,15 @@
   const selectResult = () => {
     const selectedResult = results.value[selectedIndex.value]
     if (selectedResult) {
-      emit('update:modelValue', props.getResultValue(selectedResult))
+      model.value = props.getResultValue(selectedResult)
     }
     hideResults()
     return selectedResult
   }
-  const handleInput  = v => { emit('update:modelValue', v); updateResults(v) }
+  const handleInput  = v => {
+    model.value = v
+    updateResults(v)
+  }
   const handleFocus = e => updateResults(e.target.value)
   const handleBlur = () => {
     hideResults()
@@ -118,7 +121,7 @@
   }
   const handleEsc = () => {
     hideResults()
-    emit('update:modelValue', '')
+    model.value = ''
   }
   const handleEnter = () => emit('submit', selectResult())
   const handleResultClick = e => {
@@ -167,7 +170,7 @@
     <input
       ref="input"
       class="block pr-10 w-full form-input focus:border-vxvue"
-      :value="modelValue"
+      :value="model"
       v-bind="inputProps"
       @input="handleInput($event.target.value)"
       @keydown.enter="handleEnter"

@@ -1,12 +1,13 @@
 <script setup>
-  const emit = defineEmits(['update:modelValue', 'form-data'])
+  const emit = defineEmits(['form-data'])
   const props = defineProps({
-    modelValue: { type: Array, default: () => [] },
     accept: { type: String, default: "*" },
     multiple: { type: Boolean, default: false },
     name: { type: String, default: "file" },
     id: { type: String, default: 'form-file-button-' + Math.ceil(Math.random() * 1000) }
   })
+
+  const model = defineModel({ type: Array, default: () => [] })
 
   const getFormData = files => {
     const data = new FormData()
@@ -20,8 +21,9 @@
     if (files) {
 
       // convert FileList to Array
-      const f = [...files]
-      emit('update:modelValue', f)
+
+      const f = Array.from(files)
+      model.value = f
       emit('form-data', getFormData(f))
     }
   }
