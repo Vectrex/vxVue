@@ -3,9 +3,8 @@
   import { useAttrs, ref, computed } from 'vue'
 
   defineOptions({ inheritAttrs: false })
+  const model = defineModel()
 
-  const props = defineProps({ modelValue: { type: String, default: '' }})
-  const emit = defineEmits(['update:modelValue'])
   const show = ref(false)
   const inputAttrs = computed(() => {
     let dest = Object.assign({}, useAttrs())
@@ -16,11 +15,10 @@
 <template>
   <div :class="'inline-block relative ' + useAttrs()['class']">
     <input
-      :value="modelValue"
+      v-model="model"
       :type="show ? 'text': 'password'"
       v-bind="inputAttrs"
       class="block pr-12 w-full form-input peer"
-      @input="emit('update:modelValue', $event.target.value)"
     >
     <button
       class="flex absolute inset-y-0 right-0 items-center px-3 text-brand-700 hover:text-brand"
