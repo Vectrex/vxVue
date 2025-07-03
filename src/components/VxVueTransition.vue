@@ -1,5 +1,5 @@
 <script setup>
-  const props = defineProps({ name: { type: String, required: true, validator: val => ['appear', 'vert-fade'].includes(val) } })
+  const props = defineProps({ name: { type: String, required: true, validator: val => ['appear', 'vert-fade', 'fade'].includes(val) } })
 </script>
 
 <template>
