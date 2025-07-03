@@ -35,7 +35,6 @@
   const calendar = ref(null)
   const toggleButton = ref(null)
   const allowToggle = computed(() => props.hasInput && props.maxNumberOfValues === 1)
-  const calendarProps = computed(() => allowToggle.value ? { class: ['absolute', expanded.value ? 'block' : 'hidden'] } : {})
   const days = computed(() => {
     const
       dates = [],
@@ -104,10 +103,8 @@
 
       const inputDim = input.value.$el.getBoundingClientRect()
       const calDim = calendar.value.getBoundingClientRect()
-      align.value = {
-        horiz: inputDim.right - calDim.width < 0 ? 'left-0' : 'right-0',
-        vert: inputDim.bottom + calDim.height > window.innerHeight ? 'bottom-0 -translate-y-12' : 'top-0 translate-y-12'
-      }
+      align.value.horiz =inputDim.right - calDim.width < 0 ? 'left-0' : 'right-0';
+      align.value.vert = inputDim.bottom + calDim.height > window.innerHeight ? 'bottom-0 -translate-y-12' : 'top-0 translate-y-12'
     }
   })
   onMounted(() => toggleButton.value = input.value?.$refs.toggleButton)
@@ -152,7 +149,17 @@
     >
       <slot />
     </date-input>
-    <div v-bind="calendarProps" ref="calendar" class="overflow-hidden z-[var(--zIndex-dropdown)] bg-white rounded-sm shadow-md min-w-72 sm:min-w-80" :class="[align.horiz, align.vert]">
+    <div
+      v-show="expanded"
+      ref="calendar"
+      :class="[
+          'overflow-hidden z-[var(--zIndex-dropdown)] bg-white rounded-sm shadow-md min-w-72 sm:min-w-80',
+          align.horiz, align.vert,
+          {
+            absolute: allowToggle
+          },
+      ]"
+    >
       <template v-if="panelShown === 'days'">
         <div class="flex items-center py-2 px-3 text-white bg-vxvue-700">
           <div class="flex justify-between w-1/2">
