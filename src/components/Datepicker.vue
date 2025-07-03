@@ -1,8 +1,9 @@
 <script setup>
   import DateInput from './DateInput.vue'
+  import VxVueTransition from './VxVueTransition.vue'
   import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
   import { onClickOutside } from '@vueuse/core'
-  import { computed, ref, onMounted, onUpdated, watch } from 'vue'
+  import { computed, ref, onMounted, watch, nextTick } from 'vue'
 
   defineOptions({ inheritAttrs: false })
 
@@ -98,16 +99,17 @@
   }
 
   onClickOutside(calendar, () => { expanded.value = false; panelShown.value = 'days' }, { ignore: [toggleButton] })
-  onUpdated(() => {
-    if(expanded.value && allowToggle.value) {
-
-      const inputDim = input.value.$el.getBoundingClientRect()
-      const calDim = calendar.value.getBoundingClientRect()
-      align.value.horiz =inputDim.right - calDim.width < 0 ? 'left-0' : 'right-0';
-      align.value.vert = inputDim.bottom + calDim.height > window.innerHeight ? 'bottom-0 -translate-y-12' : 'top-0 translate-y-12'
+  onMounted(() => toggleButton.value = input.value?.$refs.toggleButton)
+  watch(expanded, v => {
+    if (v && allowToggle.value) {
+      nextTick(() => {
+        const inputDim = input.value.$el.getBoundingClientRect()
+        const calDim = calendar.value.getBoundingClientRect()
+        align.value.horiz =inputDim.right - calDim.width < 0 ? 'left-0' : 'right-0';
+        align.value.vert = inputDim.bottom + calDim.height > window.innerHeight ? 'bottom-0 -translate-y-12' : 'top-0 translate-y-12'
+      })
     }
   })
-  onMounted(() => toggleButton.value = input.value?.$refs.toggleButton)
   watch(model, v => {
     if (v) {
       if (Array.isArray(v)) {
@@ -149,80 +151,82 @@
     >
       <slot />
     </date-input>
-    <div
-      v-show="expanded"
-      ref="calendar"
-      :class="[
-          'overflow-hidden z-[var(--zIndex-dropdown)] bg-white rounded-sm shadow-md min-w-72 sm:min-w-80',
-          align.horiz, align.vert,
-          {
-            absolute: allowToggle
-          },
-      ]"
-    >
-      <template v-if="panelShown === 'days'">
-        <div class="flex items-center py-2 px-3 text-white bg-vxvue-700">
-          <div class="flex justify-between w-1/2">
-            <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setMonth(sheetDate.getMonth() - 1)">
+    <vx-vue-transition name="fade">
+      <div
+        v-show="expanded"
+        ref="calendar"
+        :class="[
+            'overflow-hidden z-[var(--zIndex-dropdown)] bg-white rounded-sm shadow-md min-w-72 sm:min-w-80',
+            align.horiz, align.vert,
+            {
+              absolute: allowToggle
+            },
+        ]"
+      >
+        <template v-if="panelShown === 'days'">
+          <div class="flex items-center py-2 px-3 text-white bg-vxvue-700">
+            <div class="flex justify-between w-1/2">
+              <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setMonth(sheetDate.getMonth() - 1)">
+                <chevron-left-icon class="size-6" />
+              </button>
+              <span>{{ sheetDate.toLocaleString(locale, { month: 'long' }) }}</span>
+              <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setMonth(sheetDate.getMonth() + 1)">
+                <chevron-right-icon class="size-6" />
+              </button>
+            </div>
+            <div class="flex justify-between w-1/2">
+              <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setYear(sheetDate.getFullYear() - 1)">
+                <chevron-left-icon class="size-6" />
+              </button>
+              <button class="text-vxvue-100 hover:text-vxvue-50" @click="panelShown = 'years'; panelYear = sheetDate.getFullYear()">
+                {{ sheetDate.getFullYear() }}
+              </button>
+              <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setYear(sheetDate.getFullYear() + 1)">
+                <chevron-right-icon class="size-6" />
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-7 gap-0.5 p-0.5">
+            <div v-for="(weekday, ndx) in localizedDayNames" :key="ndx" class="py-2 text-center bg-gray-200">
+              {{ weekday }}
+            </div>
+
+            <button
+              v-for="day in days"
+              :key="day"
+              :class="['py-2 rounded-xs block text-center', daysButtonClass(day)]"
+              :disabled="(validFrom && validFrom > day) || (validUntil && validUntil < day) || maxNumberOfValues > 1 && selectedDate.length === maxNumberOfValues && !isSelected(day)"
+              @click.stop="selectDate(day)"
+            >
+              {{ day.getDate() }}
+            </button>
+          </div>
+        </template>
+        <template v-if="panelShown === 'years'">
+          <div class="flex justify-between items-center py-2 px-3 text-white bg-vxvue-700">
+            <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="panelYear -= 10">
               <chevron-left-icon class="size-6" />
             </button>
-            <span>{{ sheetDate.toLocaleString(locale, { month: 'long' }) }}</span>
-            <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setMonth(sheetDate.getMonth() + 1)">
+            <span>{{ panelYear }} - {{ panelYear + 9 }}</span>
+            <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="panelYear += 10">
               <chevron-right-icon class="size-6" />
             </button>
           </div>
-          <div class="flex justify-between w-1/2">
-            <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setYear(sheetDate.getFullYear() - 1)">
-              <chevron-left-icon class="size-6" />
-            </button>
-            <button class="text-vxvue-100 hover:text-vxvue-50" @click="panelShown = 'years'; panelYear = sheetDate.getFullYear()">
-              {{ sheetDate.getFullYear() }}
-            </button>
-            <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setYear(sheetDate.getFullYear() + 1)">
-              <chevron-right-icon class="size-6" />
-            </button>
-          </div>
-        </div>
 
-        <div class="grid grid-cols-7 gap-0.5 p-0.5">
-          <div v-for="(weekday, ndx) in localizedDayNames" :key="ndx" class="py-2 text-center bg-gray-200">
-            {{ weekday }}
+          <div class="grid grid-cols-2 gap-0.5 p-0.5">
+            <div
+              v-for="n in 10"
+              :key="n"
+              class="text-center hover:ring-2 text-vxvue-700 hover:ring-vxvue"
+            >
+              <button class="py-2 px-3" @click.stop="setYear(panelYear + n - 1); panelShown = 'days'">
+                {{ panelYear + n - 1 }}
+              </button>
+            </div>
           </div>
-
-          <button
-            v-for="day in days"
-            :key="day"
-            :class="['py-2 rounded-xs block text-center', daysButtonClass(day)]"
-            :disabled="(validFrom && validFrom > day) || (validUntil && validUntil < day) || maxNumberOfValues > 1 && selectedDate.length === maxNumberOfValues && !isSelected(day)"
-            @click.stop="selectDate(day)"
-          >
-            {{ day.getDate() }}
-          </button>
-        </div>
-      </template>
-      <template v-if="panelShown === 'years'">
-        <div class="flex justify-between items-center py-2 px-3 text-white bg-vxvue-700">
-          <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="panelYear -= 10">
-            <chevron-left-icon class="size-6" />
-          </button>
-          <span>{{ panelYear }} - {{ panelYear + 9 }}</span>
-          <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="panelYear += 10">
-            <chevron-right-icon class="size-6" />
-          </button>
-        </div>
-
-        <div class="grid grid-cols-2 gap-0.5 p-0.5">
-          <div
-            v-for="n in 10"
-            :key="n"
-            class="text-center hover:ring-2 text-vxvue-700 hover:ring-vxvue"
-          >
-            <button class="py-2 px-3" @click.stop="setYear(panelYear + n - 1); panelShown = 'days'">
-              {{ panelYear + n - 1 }}
-            </button>
-          </div>
-        </div>
-      </template>
-    </div>
+        </template>
+      </div>
+    </vx-vue-transition>
   </div>
 </template>
