@@ -35,5 +35,17 @@
 .vert-fade-enter-active, .vert-fade-leave-active {
   @apply transition-all duration-300;
 }
-
+.fade-enter-from,
+.fade-leave-to
+{
+  @apply opacity-0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  @apply opacity-100;
+}
+.fade-enter-active,
+.fade-leave-active {
+  @apply transition-opacity duration-200;
+}
 </style>

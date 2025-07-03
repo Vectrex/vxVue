@@ -1,5 +1,6 @@
 <script setup>
   import Spinner from './Spinner.vue'
+  import VxVueTransition from './VxVueTransition.vue'
   import { onClickOutside } from '@vueuse/core'
   import { computed, onUpdated, ref, useAttrs } from 'vue'
 
@@ -184,23 +185,25 @@
     <span class="flex absolute inset-y-0 right-0 items-center pr-3 text-vxvue-700">
       <spinner v-if="loading" class="size-5" />
     </span>
-    <div
-      v-if="results.length"
-      ref="resultList"
-      v-bind="listProps"
-      @click="handleResultClick"
-      @mousedown.prevent
-    >
-      <template v-for="(result, ndx) in results">
-        <!-- eslint-disable-next-line vue/require-v-for-key -->
-        <div :data-result-index="ndx">
-          <slot name="result" :result="result" :props="itemProps[ndx]">
-            <div :key="itemProps[ndx].id" v-bind="itemProps[ndx]">
-              {{ getResultValue(result) }}
-            </div>
-          </slot>
-        </div>
-      </template>
-    </div>
+    <vx-vue-transition name="fade">
+      <div
+        v-if="results.length"
+        ref="resultList"
+        v-bind="listProps"
+        @click="handleResultClick"
+        @mousedown.prevent
+      >
+        <template v-for="(result, ndx) in results">
+          <!-- eslint-disable-next-line vue/require-v-for-key -->
+          <div :data-result-index="ndx">
+            <slot name="result" :result="result" :props="itemProps[ndx]">
+              <div :key="itemProps[ndx].id" v-bind="itemProps[ndx]">
+                {{ getResultValue(result) }}
+              </div>
+            </slot>
+          </div>
+        </template>
+      </div>
+    </vx-vue-transition>
   </div>
 </template>
