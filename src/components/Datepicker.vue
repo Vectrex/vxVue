@@ -2,7 +2,7 @@
   import DateInput from "./DateInput.vue"
   import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/solid"
   import { onClickOutside } from "@vueuse/core"
-  import { ref, computed, watch, nextTick, onMounted } from "vue"
+  import { computed, ref, onMounted, onUpdated, watch } from "vue"
 
   defineOptions({ inheritAttrs: false })
 
@@ -50,44 +50,7 @@
     return dates
   })
   const localizedDayNames = computed(() => !props.startOfWeekIndex ? props.dayNames : props.dayNames.slice(1).concat(props.dayNames[0]))
-  watch(model, v => {
-    if (v) {
-      if (Array.isArray(v)) {
-        const f = [], s = selectedDate.value
-        v.forEach(item => { if(item) f.push(new Date(item.getFullYear(), item.getMonth(), item.getDate())) })
-        if (f.length !== s.length || ![...new Set([...f, ...s])].every(i => f.filter(j => j.getTime() === i.getTime()).length === s.filter(j => j.getTime() === i.getTime()).length)) {
-          selectedDate.value = f
-          sheetDate.value = new Date((f[0] || today).getTime())
-          sheetDate.value.setDate(1)
-        }
-      }
-      else {
-        selectedDate.value = [new Date(v.getFullYear(), v.getMonth(), v.getDate())]
-        sheetDate.value = new Date(v.getFullYear(), v.getMonth(), 1)
-      }
-    }
-    else {
-      selectedDate.value = []
-      sheetDate.value = new Date(today.getFullYear(), today.getMonth(), 1)
-    }
-  }, { immediate: true })
-  watch (() => props.shownMonth, v => {
-    sheetDate.value = new Date((v || today).getTime())
-    sheetDate.value.setDate(1)
-  }, { immediate: true })
-  watch(expanded, v => {
-    if (v && allowToggle.value) {
-      nextTick(() => {
-        const inputDim = input.value.$el.getBoundingClientRect()
-        const calDim = calendar.value.getBoundingClientRect()
-        align.value = {
-          horiz: inputDim.right - calDim.width < 0 ? 'left-0' : 'right-0',
-          vert: inputDim.bottom + calDim.height > window.innerHeight ? 'bottom-0 -translate-y-12' : 'top-0 translate-y-12'
-        }
-      })
-    }
-  })
-  onClickOutside(calendar, () => { expanded.value = false; panelShown.value = 'days' }, { ignore: [toggleButton] })
+
   const setMonth = month => { sheetDate.value = new Date(sheetDate.value.getFullYear(), month, 1); emit("month-change", sheetDate.value) }
   const setYear = year => { sheetDate.value = new Date(year, sheetDate.value.getMonth(), 1); emit("year-change", sheetDate.value) }
   const handleInput = date => model.value = date
@@ -134,7 +97,45 @@
         'bg-vxvue-100/50': highlight && !now && !selected,
       }
   }
+
+  onClickOutside(calendar, () => { expanded.value = false; panelShown.value = 'days' }, { ignore: [toggleButton] })
+  onUpdated(() => {
+    if(expanded.value && allowToggle.value) {
+
+      const inputDim = input.value.$el.getBoundingClientRect()
+      const calDim = calendar.value.getBoundingClientRect()
+      align.value = {
+        horiz: inputDim.right - calDim.width < 0 ? 'left-0' : 'right-0',
+        vert: inputDim.bottom + calDim.height > window.innerHeight ? 'bottom-0 -translate-y-12' : 'top-0 translate-y-12'
+      }
+    }
+  })
   onMounted(() => toggleButton.value = input.value?.$refs.toggleButton)
+  watch(model, v => {
+    if (v) {
+      if (Array.isArray(v)) {
+        const f = [], s = selectedDate.value
+        v.forEach(item => { if(item) f.push(new Date(item.getFullYear(), item.getMonth(), item.getDate())) })
+        if (f.length !== s.length || ![...new Set([...f, ...s])].every(i => f.filter(j => j.getTime() === i.getTime()).length === s.filter(j => j.getTime() === i.getTime()).length)) {
+          selectedDate.value = f
+          sheetDate.value = new Date((f[0] || today).getTime())
+          sheetDate.value.setDate(1)
+        }
+      }
+      else {
+        selectedDate.value = [new Date(v.getFullYear(), v.getMonth(), v.getDate())]
+        sheetDate.value = new Date(v.getFullYear(), v.getMonth(), 1)
+      }
+    }
+    else {
+      selectedDate.value = []
+      sheetDate.value = new Date(today.getFullYear(), today.getMonth(), 1)
+    }
+  }, { immediate: true })
+  watch (() => props.shownMonth, v => {
+    sheetDate.value = new Date((v || today).getTime())
+    sheetDate.value.setDate(1)
+  }, { immediate: true })
 </script>
 
 <template>
