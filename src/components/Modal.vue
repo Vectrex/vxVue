@@ -1,7 +1,7 @@
 <script setup>
-import VxVueTransition from "./VxVueTransition.vue";
-import { onClickOutside } from "@vueuse/core";
-import { ref } from "vue";
+import VxVueTransition from './VxVueTransition.vue'
+import { onClickOutside } from '@vueuse/core'
+import { ref } from 'vue'
 
 const emit = defineEmits(["clicked-outside"]);
 const props = defineProps({

@@ -1,8 +1,8 @@
 <script setup>
-  import DateInput from "./DateInput.vue"
-  import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/solid"
-  import { onClickOutside } from "@vueuse/core"
-  import { computed, ref, onMounted, onUpdated, watch } from "vue"
+  import DateInput from './DateInput.vue'
+  import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
+  import { onClickOutside } from '@vueuse/core'
+  import { computed, ref, onMounted, onUpdated, watch } from 'vue'
 
   defineOptions({ inheritAttrs: false })
 
@@ -11,7 +11,7 @@
     maxNumberOfValues: { type: Number, default: 1 },
     validFrom: Date,
     validUntil: Date,
-    dayNames: { type: Array, default: (() => "S M T W T F S".split(" ")) },
+    dayNames: { type: Array, default: (() => 'S M T W T F S'.split(' ')) },
     highlightRange: Boolean,
     locale: { type: String, default: 'default' },
     startOfWeekIndex: { type: Number, default: 0, validator: value => value === 0 || value === 1 },
@@ -51,8 +51,8 @@
   })
   const localizedDayNames = computed(() => !props.startOfWeekIndex ? props.dayNames : props.dayNames.slice(1).concat(props.dayNames[0]))
 
-  const setMonth = month => { sheetDate.value = new Date(sheetDate.value.getFullYear(), month, 1); emit("month-change", sheetDate.value) }
-  const setYear = year => { sheetDate.value = new Date(year, sheetDate.value.getMonth(), 1); emit("year-change", sheetDate.value) }
+  const setMonth = month => { sheetDate.value = new Date(sheetDate.value.getFullYear(), month, 1); emit('month-change', sheetDate.value) }
+  const setYear = year => { sheetDate.value = new Date(year, sheetDate.value.getMonth(), 1); emit('year-change', sheetDate.value) }
   const handleInput = date => model.value = date
   const selectDate = day => {
     expanded.value = false
@@ -152,7 +152,6 @@
     >
       <slot />
     </date-input>
-
     <div v-bind="calendarProps" ref="calendar" class="overflow-hidden z-[var(--zIndex-dropdown)] bg-white rounded-sm shadow-md min-w-72 sm:min-w-80" :class="[align.horiz, align.vert]">
       <template v-if="panelShown === 'days'">
         <div class="flex items-center py-2 px-3 text-white bg-vxvue-700">
