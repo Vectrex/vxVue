@@ -1,3 +1,8 @@
+## [v1.3.9]
+- datepicker repositioning improved 
+- added simple transitions to datepicker and autocomplete
+- bug fixes
+
 ## [v1.3.8]
 - bug fixes with `simple-tree` component
 - Refactored components to use `defineModel()` instead of `modelValue` prop/event
