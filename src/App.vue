@@ -695,15 +695,15 @@ const clearFormData = () =>
           v-model="form.switch"
           aria-label="sample-switch"
         />
-        <span class="flex space-x-2"
-          ><form-switch
+        <span class="flex space-x-2">
+          <form-switch
             id="form-switch-disabled"
             aria-label="sample-switch-disabled"
             disabled
             :model-value="true"
             ><span>a disabled switch</span></form-switch
-          ></span
-        >
+          >
+        </span>
       </div>
       <div>
         <label for="form-select">Form Select</label>
