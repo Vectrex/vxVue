@@ -1,5 +1,6 @@
 ## [v1.4.0]
 - `form-select` component renamed the `disabled-label` prop to `placeholder`
+- rendering of `form-switch` fixed
 
 ## [v1.3.9]
 - datepicker repositioning improved 
