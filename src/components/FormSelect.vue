@@ -1,7 +1,7 @@
 <script setup>
   const props = defineProps({
     options: { type: Array, default: () => [] },
-    disabledLabel: { type: String, default: '' }
+    placeholder: { type: String, default: null }
   })
   const model = defineModel()
 </script>
@@ -12,8 +12,8 @@
     v-model="model"
     class="form-select"
   >
-    <option v-if="disabledLabel" disabled value="">
-      {{ disabledLabel }}
+    <option v-if="placeholder" :value="null" disabled hidden>
+      {{ placeholder }}
     </option>
     <option
       v-for="option in options"

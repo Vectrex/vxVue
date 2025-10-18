@@ -712,7 +712,7 @@ const clearFormData = () =>
           v-model="form.formSelect"
           class="w-full"
           :options="['Please', 'Select', 'Me']"
-          disabled-label="(Pick an option)"
+          placeholder="(Pick an option)"
         />
       </div>
       <div>
