@@ -36,19 +36,18 @@ const floatingLabel = {
     },
     updated: (el, binding) => {
         const label = el.parentNode.querySelector('label')
+        if (!label) return
         const placeholder = el.getAttribute('placeholder')?.trim()
         label.innerHTML = binding.value?.label || placeholder || label.innerHTML
         if (placeholder) el.setAttribute('placeholder', ' ')
         if (binding.value?.invalid) {
             label.classList.add('text-error', 'peer-focus:text-error')
             label.classList.remove('peer-focus:text-blue-600')
-        }
-        else {
+        } else {
             label.classList.remove('text-error', 'peer-focus:text-error')
             label.classList.add('peer-focus:text-blue-600')
         }
         label.classList[el.getAttribute('required') !== null ? 'add' : 'remove']('required')
-    },
-    beforeUnmount: el => el.parentNode.parentNode.removeChild(el.parentNode)
+    }
 }
 export default floatingLabel

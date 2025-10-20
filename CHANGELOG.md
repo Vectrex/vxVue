@@ -1,3 +1,6 @@
+## [v1.4.1]
+- bug fixed when trying to attach the `v-floating-label` directive to a elements or components which cannot handle a wrapped label element
+
 ## [v1.4.0]
 - `form-select` component renamed the `disabled-label` prop to `placeholder`
 - rendering of `form-switch` fixed
