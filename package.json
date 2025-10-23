@@ -26,6 +26,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
+    "test:ui": "vitest --ui",
     "format": "prettier --write src/",
     "tailwind-cleanup": "rustywind --write src/**/*.{vue,css,js}",
     "docs:dev": "vitepress dev docs",
@@ -51,7 +52,8 @@
     "@vitejs/plugin-vue": "^6.0.1",
     "vite-plugin-vue-devtools": "^8.0.3",
     "vitepress": "^1.6.4",
-    "vitest": "^3.2.4",
+    "vitest": "^4.0.1",
+    "@vitest/ui": "^4.0.1",
     "prettier": "^3.6.2",
     "rustywind": "^0.24.3"
   }
