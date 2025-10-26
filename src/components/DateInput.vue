@@ -25,7 +25,7 @@
         <span class="text-vxvue-700">{{ dateString }}</span>
         <button
           v-if="!inputAttrs.disabled"
-          class="inline-flex shrink-0 justify-center items-center ml-2 rounded-full focus:text-white focus:outline-hidden size-4 text-vxvue hover:bg-vxvue-100 hover:text-vue-700 focus:bg-vxvue-700"
+          class="inline-flex justify-center items-center ml-2 rounded-full focus:text-white shrink-0 size-4 text-vxvue hover:bg-vxvue-100 hover:text-vue-700 focus:outline-hidden focus:bg-vxvue-700"
           @click="model = null"
         >
           <x-mark-icon class="size-4" />

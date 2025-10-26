@@ -155,8 +155,7 @@
       <div
         v-show="expanded"
         ref="calendar"
-        :class="[
-            'overflow-hidden z-[var(--zIndex-dropdown)] bg-white rounded-sm shadow-md min-w-72 sm:min-w-80',
+        :class="['overflow-hidden z-[var(--zIndex-dropdown)] bg-white rounded-sm shadow-md min-w-72 sm:min-w-80',
             align.horiz, align.vert,
             {
               absolute: allowToggle

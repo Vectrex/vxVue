@@ -36,8 +36,7 @@
           v-for="item in items"
           :key="item.name"
           href="#"
-          :class="[
-            'group inline-flex items-center py-4 px-1 border-b-4 font-medium no-underline! border-transparent',
+          :class="['group inline-flex items-center py-4 px-1 border-b-4 font-medium no-underline! border-transparent',
             {
               'border-vxvue text-vxvue' : activeTab === item ,
               'cursor-not-allowed text-gray-400': item.disabled,
@@ -58,8 +57,7 @@
           <slot name="badge" :tab="item">
             <span
               v-if="item.badge"
-              :class="[
-                'hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block text-current',
+              :class="['hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block text-current',
                 {
                   'bg-gray-100': item.disabled,
                   'bg-vxvue-50': activeTab === item,

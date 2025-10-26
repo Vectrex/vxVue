@@ -58,7 +58,7 @@
           <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
 
           <div class="inline-block text-left align-bottom bg-white rounded-sm shadow-xl transition-all transform sm:my-8 sm:w-full sm:max-w-sm sm:align-middle lg:max-w-lg">
-            <h3 v-if="title || $slots.title" class="py-4 pt-4 rounded-t-sm text-lg font-medium text-center sm:py-6" :class="headerClass">
+            <h3 v-if="title || $slots.title" class="py-4 pt-4 text-lg font-medium text-center rounded-t-sm sm:py-6" :class="headerClass">
               <slot name="title" :title="title">
                 {{ title }}
               </slot>
@@ -68,7 +68,7 @@
                 <div class="shrink-0">
                   <slot name="icon" />
                 </div>
-                <p class="grow text-center">
+                <p class="text-center grow">
                   <slot :message="message">
                     {{ message }}
                   </slot>

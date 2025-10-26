@@ -34,10 +34,10 @@
 </script>
 
 <template>
-  <div aria-live="assertive" class="flex fixed inset-0 z-[var(--zIndex-toast)] items-start py-6 px-4 pointer-events-none sm:p-6">
+  <div aria-live="assertive" class="flex fixed inset-0 items-start py-6 px-4 pointer-events-none sm:p-6 z-[var(--zIndex-toast)]">
     <div class="flex flex-col items-center space-y-4 w-full">
       <vx-vue-transition name="vert-fade">
-        <div v-if="active" class="overflow-hidden w-full max-w-sm rounded-md ring-1 ring-black/5 shadow-lg pointer-events-auto" :class="$attrs['class']">
+        <div v-if="active" class="overflow-hidden w-full max-w-sm rounded-md ring-1 shadow-lg pointer-events-auto ring-black/5" :class="$attrs['class']">
           <div class="p-4">
             <div class="flex items-start">
               <div class="shrink-0">
@@ -56,8 +56,8 @@
                   </p>
                 </slot>
               </div>
-              <div class="flex shrink-0 ml-4">
-                <button class="inline-flex text-white bg-black/20 rounded-xs focus:ring-2 focus:outline-hidden hover:text-stone-200 focus:ring-stone-200" @click="emit('close')">
+              <div class="flex ml-4 shrink-0">
+                <button class="inline-flex text-white focus:ring-2 bg-black/20 rounded-xs hover:text-stone-200 focus:outline-hidden focus:ring-stone-200" @click="emit('close')">
                   <span class="sr-only">Close</span>
                   <x-mark-icon class="size-5" />
                 </button>

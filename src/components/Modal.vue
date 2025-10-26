@@ -29,8 +29,7 @@ onClickOutside(container, () => emit("clicked-outside"));
       <div class="flex justify-center items-center h-screen">
         <div
           ref="container"
-          :class="[
-            'flex flex-col overflow-hidden max-w-full bg-white rounded-sm ring-1 ring-black/10 shadow-xl transition-all transform xl:max-w-(--breakpoint-xl)',
+          :class="['flex flex-col overflow-hidden max-w-full bg-white rounded-sm ring-1 ring-black/10 shadow-xl transition-all transform xl:max-w-(--breakpoint-xl)',
             containerClass,
           ]"
         >

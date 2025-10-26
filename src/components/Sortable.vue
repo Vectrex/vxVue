@@ -74,8 +74,7 @@
           :key="column.prop"
           scope="col"
           :data-active="sortBy === column.prop ? 'active' : null"
-          :class="[
-            'py-3 px-6 text-left',
+          :class="['py-3 px-6 text-left',
             { 'cursor-pointer': column.sortable },
             column.cssClass
           ]"
