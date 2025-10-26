@@ -3,28 +3,28 @@ import {
   XMarkIcon,
   UserIcon,
   ShieldExclamationIcon,
-} from "@heroicons/vue/24/solid";
-import Accordion from "./components/Accordion.vue";
-import AccordionPanel from "./components/AccordionPanel.vue";
-import SubmitButton from "./components/SubmitButton.vue";
-import Sizable from "./components/Sizable.vue";
-import PasswordInput from "./components/PasswordInput.vue";
-import FormSelect from "./components/FormSelect.vue";
-import Autocomplete from "./components/Autocomplete.vue";
-import FormSwitch from "./components/FormSwitch.vue";
-import Tabs from "./components/Tabs.vue";
-import Sortable from "./components/Sortable.vue";
-import FormFileButton from "./components/FormFileButton.vue";
-import MessageToast from "./components/MessageToast.vue";
-import Confirm from "./components/Confirm.vue";
-import Pagination from "./components/Pagination.vue";
-import Modal from "./components/Modal.vue";
-import SimpleTree from "./components/SimpleTree.vue";
-import DateInput from "./components/DateInput.vue";
-import Datepicker from "./components/Datepicker.vue";
-import Slider from "./components/Slider.vue";
-import vFloatingLabel from "./directives/floatingLabel";
-import { computed, ref } from "vue";
+} from '@heroicons/vue/24/solid'
+import Accordion from './components/Accordion.vue'
+import AccordionPanel from './components/AccordionPanel.vue'
+import SubmitButton from './components/SubmitButton.vue'
+import Sizable from './components/Sizable.vue'
+import PasswordInput from './components/PasswordInput.vue'
+import FormSelect from './components/FormSelect.vue'
+import Autocomplete from './components/Autocomplete.vue'
+import FormSwitch from './components/FormSwitch.vue'
+import Tabs from './components/Tabs.vue'
+import Sortable from './components/Sortable.vue'
+import FormFileButton from './components/FormFileButton.vue'
+import MessageToast from './components/MessageToast.vue'
+import Confirm from './components/Confirm.vue'
+import Pagination from './components/Pagination.vue'
+import Modal from './components/Modal.vue'
+import SimpleTree from './components/SimpleTree.vue'
+import DateInput from './components/DateInput.vue'
+import Datepicker from './components/Datepicker.vue'
+import Slider from './components/Slider.vue'
+import vFloatingLabel from './directives/floatingLabel'
+import { computed, ref } from 'vue'
 
 const form = ref({
   pw: "",
@@ -37,6 +37,7 @@ const form = ref({
   datepicker: null,
   slider: 0,
   sliderPair: [10, 30],
+  sliderPairAlt: [20, 80],
   sliderVertical: [10, 15],
   input: "",
 });
@@ -627,7 +628,7 @@ const clearFormData = () =>
         <div class="col-span-3 space-y-2">
           <div>
             <label for="slider-1"
-              >Slider with a single numeric value as model</label
+              >Slider with a single numeric value as model, the tooltip is only shown when the handle is focused</label
             >
             <div class="flex items-center space-x-2">
               <slider
@@ -635,6 +636,7 @@ const clearFormData = () =>
                 v-model="form.slider"
                 :min="-20"
                 :max="20"
+                :show-tooltip="'focus'"
               /><input v-model.number="form.slider" class="w-12 form-input" />
             </div>
           </div>
@@ -657,15 +659,32 @@ const clearFormData = () =>
               />
             </div>
           </div>
+          <div>
+            <label for="slider-3"
+            >Slider with an array of two numeric values using slots</label
+            >
+            <div class="py-4">
+              <slider
+                  id="slider-3"
+                  v-model="form.sliderPairAlt"
+                  :min="0"
+                  :max="100"
+                  :show-tooltip="'always'"
+              >
+                <template #tooltip="{ value, ndx }">{{ ndx + 1 }} - {{ value }}</template>
+              </slider>
+            </div>
+          </div>
         </div>
         <div class="flex justify-center items-start space-x-2">
           <label class="hidden sm:block" for="slider-v">Vertical Slider</label>
           <slider
-            id="slider-v"
-            v-model="form.sliderVertical"
-            :min="0"
-            :max="30"
-            vertical
+              id="slider-v"
+              v-model="form.sliderVertical"
+              :show-tooltip="'always'"
+              :min="0"
+              :max="30"
+              vertical
           />
         </div>
       </div>
@@ -750,7 +769,7 @@ const clearFormData = () =>
       </div>
       <div class="flex justify-between space-x-2">
         <submit-button
-          class="py-2 px-4 font-medium text-white rounded-sm focus:ring-2 focus:ring-offset-2 focus:outline-hidden bg-vxvue hover:bg-vxvue-700 focus:ring-vxvue"
+          class="py-2 px-4 font-medium text-white rounded-sm focus:ring-2 focus:ring-offset-2 bg-vxvue hover:bg-vxvue-700 focus:outline-hidden focus:ring-vxvue"
           :busy="submitBusy"
           @submit="doSubmit"
         >
@@ -883,7 +902,7 @@ const clearFormData = () =>
     <div class="p-4 shadow-md">
       <h2 class="mb-4 text-xl font-bold">Sizable vertical</h2>
       <div class="flex flex-col w-full h-[500px]">
-        <sizable :vertical="true" class="shrink-0 mb-3.5 h-1/2">
+        <sizable :vertical="true" class="mb-3.5 h-1/2 shrink-0">
           <div class="h-full bg-emerald-500" />
         </sizable>
         <div class="w-full h-full bg-amber-500 flex-shrink-1" />

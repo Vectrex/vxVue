@@ -1,3 +1,6 @@
+## [v1.4.2]
+- the `slider` component received configurable tooltips which will "attach" to the handles
+
 ## [v1.4.1]
 - bug fixed when trying to attach the `v-floating-label` directive to a elements or components which cannot handle a wrapped label element
 
