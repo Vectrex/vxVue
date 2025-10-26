@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeUpdate, ref, useSlots } from "vue"
+import { computed, onBeforeUpdate, ref, useSlots } from 'vue'
 
   const props = defineProps({ activeIndex: { type: [Number, Array], default: null }})
   const emit = defineEmits(['update:activeIndex'])

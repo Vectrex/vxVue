@@ -1,5 +1,5 @@
 <script setup>
-  import Spinner from "./Spinner.vue"
+  import Spinner from './Spinner.vue'
   defineOptions({ inheritAttrs: false })
   const props = defineProps({
     busy: Boolean,

@@ -1,6 +1,6 @@
 <script setup>
-  import { computed, watch, ref } from "vue"
-  import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/24/solid"
+  import { computed, watch, ref } from 'vue'
+  import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
 
   const emit = defineEmits(['update:page'])
   const props = defineProps({

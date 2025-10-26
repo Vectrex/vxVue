@@ -1,5 +1,5 @@
 <script setup>
-  import { computed } from "vue"
+  import { computed } from 'vue'
   const props = defineProps({ radius: { type: Number, default: 10 }, strokeWidth: { type: Number, default: 4 }})
   const center = computed(() => props.radius + props.strokeWidth / 2)
   const viewBox = computed(() => props.radius * 2 + props.strokeWidth)

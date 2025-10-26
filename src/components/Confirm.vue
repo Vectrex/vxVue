@@ -1,6 +1,6 @@
 <script setup>
   import VxVueTransition from './VxVueTransition.vue'
-  import { ref, computed, nextTick } from "vue"
+  import { ref, computed, nextTick } from 'vue'
 
   const props = defineProps({
     buttons: {

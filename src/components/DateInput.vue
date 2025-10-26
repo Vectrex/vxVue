@@ -1,8 +1,8 @@
 <script setup>
-  import { CalendarIcon, XMarkIcon } from "@heroicons/vue/24/solid"
-  import { parseDate } from "../composables/parseDate"
-  import { formatDate } from "@vueuse/core"
-  import { computed, ref, useAttrs, watch } from "vue"
+  import { CalendarIcon, XMarkIcon } from '@heroicons/vue/24/solid'
+  import { parseDate } from '../composables/parseDate'
+  import { formatDate } from '@vueuse/core'
+  import { computed, ref, useAttrs, watch } from 'vue'
 
   defineOptions({ inheritAttrs: false })
   const emit = defineEmits(['toggle-datepicker'])

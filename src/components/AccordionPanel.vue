@@ -1,6 +1,6 @@
 <script setup>
-  import { ChevronRightIcon,XMarkIcon } from "@heroicons/vue/24/solid"
-  import { ref, useAttrs } from "vue"
+  import { ChevronRightIcon,XMarkIcon } from '@heroicons/vue/24/solid'
+  import { ref, useAttrs } from 'vue'
 
   defineOptions({ inheritAttrs: false })
   const emit = defineEmits(['select', 'keyup', 'keydown'])

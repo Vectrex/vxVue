@@ -1,5 +1,5 @@
 <script setup>
-  import { ref } from "vue"
+  import { ref } from 'vue'
 
   const props = defineProps({ vertical: Boolean })
   const emit = defineEmits(['dragStart', 'dragStop'])

@@ -1,6 +1,6 @@
 <script setup>
   import { ChevronDownIcon, ChevronUpIcon, ChevronUpDownIcon } from "@heroicons/vue/24/solid"
-  import { computed, nextTick, ref } from "vue"
+  import { computed, nextTick, ref } from 'vue'
 
   const props = defineProps({
     columns: {
