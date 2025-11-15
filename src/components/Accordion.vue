@@ -1,18 +1,24 @@
 <script setup>
-import { computed, onBeforeUpdate, ref, useSlots } from 'vue'
+  import AccordionPanel from './AccordionPanel.vue'
+  import { computed, onBeforeUpdate, useSlots, useTemplateRef } from 'vue'
 
   const props = defineProps({ activeIndex: { type: [Number, Array], default: null }})
   const emit = defineEmits(['update:activeIndex'])
   const slots = useSlots()
-  const refs = ref([])
-  const setRef = comp => refs.value.push(comp)
-  const tabs = computed(() => slots.default().reduce((t, child) => {
-        if ((child.type.__name || child.type.name) === 'AccordionPanel') {
-          t.push(child)
-        }
-        return t
-    }, [])
-  )
+  const refs = useTemplateRef('panels')
+  const tabs = computed(() => {
+    const t = []
+    slots.default().forEach(child => {
+      if (child.type === AccordionPanel) t.push(child)
+
+      // in case accordion panels are attached via v-for
+
+      else if (typeof child.type === 'symbol' && Array.isArray(child.children)) {
+        child.children.forEach(c => { if (c.type === AccordionPanel) t.push(c) })
+      }
+    })
+    return t
+  })
   const setIndex = ndx => {
     if(Array.isArray(props.activeIndex)) {
       let currentNdx = [].concat(props.activeIndex)
@@ -54,8 +60,7 @@ import { computed, onBeforeUpdate, ref, useSlots } from 'vue'
   <component
     :is="tab"
     v-for="(tab, ndx) in tabs"
-    :key="ndx"
-    :ref="setRef"
+    ref="panel"
     :show="Array.isArray(activeIndex) ? activeIndex?.includes(ndx) : activeIndex === ndx"
     @select="setIndex(ndx)"
     @keydown="focusNext(ndx)"
