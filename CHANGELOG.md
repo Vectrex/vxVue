@@ -1,3 +1,6 @@
+## [v1.4.4]
+- No change; the previous release was missing dist files
+
 ## [v1.4.3]
 - Fix: the `accordion` component would not work with `accordion-panel` children appended via `v-for`
 
