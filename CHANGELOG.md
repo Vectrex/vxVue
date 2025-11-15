@@ -1,3 +1,6 @@
+## [v1.4.3]
+- Fix: the `accordion` component would not work with `accordion-panel` children appended via `v-for`
+
 ## [v1.4.2]
 - the `slider` component received configurable tooltips which will "attach" to the handles
 
