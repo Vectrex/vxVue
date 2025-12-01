@@ -1,6 +1,10 @@
 import { defineConfig } from 'vitepress'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
+  vite: {
+    plugins: [tailwindcss()]
+  },
   title: "vxVue",
   base: '/vxVue/',
   lang: "en-US",

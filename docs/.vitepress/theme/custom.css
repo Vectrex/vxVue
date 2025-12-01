@@ -1,4 +1,5 @@
 @import '../../../src/index.css';
+@plugin "@tailwindcss/typography";
 
 :root {
     --vp-nav-logo-height: 3rem;
