@@ -1,3 +1,7 @@
+## [v1.4.5]
+- `accordion-panel` provides an `actions` slot to add icons or interactive elements to the panel header
+- `sortable` table headers display the sort direction indicator at the very end of the header
+
 ## [v1.4.4]
 - No change; the previous release was missing dist files
 

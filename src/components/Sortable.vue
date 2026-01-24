@@ -74,14 +74,11 @@
           :key="column.prop"
           scope="col"
           :data-active="sortBy === column.prop ? 'active' : null"
-          :class="['py-3 px-6 text-left',
-            { 'cursor-pointer': column.sortable },
-            column.cssClass
-          ]"
+          :class="['py-3 px-6', { 'cursor-pointer': column.sortable }, column.cssClass]"
           @click="column.sortable ? clickSort(column.prop) : null"
         >
           <slot :name="column.prop + '-header'" :column="column" :sort-dir="sortDir" :sort-prop="sortBy">
-            <div class="flex items-center space-x-1">
+            <div class="flex justify-between items-center space-x-2">
               <span>{{ column.label }}</span>
               <component
                 :is="sortBy !== column.prop ? ChevronUpDownIcon : (sortDir === 'asc' ? ChevronDownIcon : ChevronUpIcon)"

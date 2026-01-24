@@ -164,10 +164,11 @@ If activeIndex is an array multiple panels can be open at the same time. In this
 | `keydown` |           | Emitted when keyDown is pressed, won't fire on a disabled panel                 |
 
 ## Slots of AccordionPanel
-| Name      | Scoped | Description                               |
-|-----------|--------|-------------------------------------------|
-| `default` |        | Content of panel                          |
-| `header`  |        | Header text displayed along toggle button |
+| Name      | Scoped | Description                                                           |
+|-----------|--------|-----------------------------------------------------------------------|
+| `default` |        | Content of panel                                                      |
+| `header`  |        | Header text displayed along toggle button                             |
+| `actions` |        | Right section in the header for icons or further interactive elements |
 
 ## Keys
 

@@ -442,6 +442,9 @@ const clearFormData = () =>
             <template #header>
               <strong>Header 1</strong>
             </template>
+            <template #actions>
+              <shield-exclamation-icon class="size-5" />
+            </template>
             <div class="p-4 border-b-2 border-slate-300">
               <p>
                 Separated they live in Bookmarksgrove right at the coast of the
