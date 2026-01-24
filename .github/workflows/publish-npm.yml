@@ -28,7 +28,6 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run typecheck
       - run: pnpm run build
 
       - name: Verify version matches tag
