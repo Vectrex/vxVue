@@ -5,31 +5,30 @@ on:
     tags:
       - 'v*'
 
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      id-token: write
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          version: 9.0.0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18.20.0'
-          registry-url: 'https://registry.npmjs.org'
-          cache: pnpm
-
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run build
-
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm install --frozen-lockfile
+      - name: Build
+        run: npm run build
       - name: Verify version matches tag
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
@@ -39,8 +38,7 @@ jobs:
             echo "Version mismatch: tag=$VERSION, package.json=$FILE_VERSION"
             exit 1
           fi
-
       - name: Publish to NPM
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm publish --access public --provenance
+        run: npm publish --access public --provenance
