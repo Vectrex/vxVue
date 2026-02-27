@@ -1,3 +1,6 @@
+## [v1.4.6]
+- fix: replace templateRef() with ref() in `accordion` component
+
 ## [v1.4.5]
 - `accordion-panel` provides an `actions` slot to add icons or interactive elements to the panel header
 - `sortable` table headers display the sort direction indicator at the very end of the header
