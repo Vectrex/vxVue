@@ -1,11 +1,11 @@
 <script setup>
   import AccordionPanel from './AccordionPanel.vue'
-  import { computed, onBeforeUpdate, useSlots, useTemplateRef } from 'vue'
+  import { computed, onBeforeUpdate, ref, useSlots } from 'vue'
 
   const props = defineProps({ activeIndex: { type: [Number, Array], default: null }})
   const emit = defineEmits(['update:activeIndex'])
   const slots = useSlots()
-  const refs = useTemplateRef('panels')
+  const panels = ref([])
   const tabs = computed(() => {
     const t = []
     slots.default().forEach(child => {
@@ -37,30 +37,30 @@
   }
   const focusNext = ndx => {
     ndx = ++ndx % tabs.value.length
-    if (!refs.value[ndx].disabled) {
+    if (!panels.value[ndx].disabled) {
       setIndex(ndx)
-      refs.value[ndx].focus()
+      panels.value[ndx].focus()
       return
     }
     focusNext(ndx)
   }
   const focusPrevious = ndx => {
     ndx = (ndx ? ndx : tabs.value.length) - 1
-    if (!refs.value[ndx].disabled) {
+    if (!panels.value[ndx].disabled) {
       setIndex(ndx)
-      refs.value[ndx].focus()
+      panels.value[ndx].focus()
       return
     }
     focusPrevious(ndx)
   }
-  onBeforeUpdate(() => refs.value = [])
+  onBeforeUpdate(() => panels.value = [])
 </script>
 
 <template>
   <component
     :is="tab"
     v-for="(tab, ndx) in tabs"
-    ref="panel"
+    ref="panels"
     :show="Array.isArray(activeIndex) ? activeIndex?.includes(ndx) : activeIndex === ndx"
     @select="setIndex(ndx)"
     @keydown="focusNext(ndx)"
