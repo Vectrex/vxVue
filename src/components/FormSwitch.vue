@@ -1,32 +1,49 @@
 <script setup>
   import { computed, useAttrs } from 'vue'
 
-  const model = defineModel()
+  const model = defineModel({ type: Boolean, default: false })
+  const attrs = useAttrs()
+
+  const onPath = 'M12 18 V6'
+  const offPath = 'm18.5 12 c0 3.5 -3 6.5 -6.5 6.5 -3.5 0 -6.5 -3 -6.5 -6.5 0 -3.5 3 -6.5 6.5 -6.5 3.5 0 6.5 3 6.5 6.5z'
 
   const inputAttrs = computed(() => {
-    let attrs = Object.assign({}, useAttrs())
-    delete attrs['class']
-    return attrs
+    const { class: _, ...rest } = attrs
+    return rest
   })
-  const disabled = computed( () => useAttrs().disabled || useAttrs().disabled === '')
+  const disabled = computed( () => attrs.disabled !== undefined)
+  const switchClasses = computed(() =>  [
+    'inline-flex relative shrink-0 w-11 p-0.5 rounded-full transition-colors duration-200 ease-in-out cursor-pointer',
+    'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-vxvue/50',
+    disabled.value ? 'bg-slate-200' : model.value ? 'bg-vxvue' : 'bg-slate-300'
+  ])
+  const handleClasses = computed(() =>  [
+    'block relative size-5 rounded-full transition duration-200 ease-in-out transform pointer-events-none',
+    model.value ? 'translate-x-5' : 'translate-x-0',
+    disabled.value ? 'bg-slate-100' : 'bg-white'
+  ])
+  const slotClasses = computed(() => [
+    'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-3',
+    model.value && !disabled.value ? 'text-vxvue' : 'text-slate-300'
+  ])
 </script>
 
 <template>
-  <label :class="$attrs['class']" tabindex="0">
+  <label
+    :class="$attrs['class']"
+  >
     <span
       role="switch"
-      :class="['inline-flex relative shrink-0 w-11 p-[2px] rounded-full transition-colors duration-200 ease-in-out cursor-pointer focus:ring-2 focus:ring-offset-2 focus:outline-hidden focus:ring-vxvue',
-               disabled ? 'bg-slate-200' : (model ? 'bg-vxvue' : 'bg-slate-300')
-      ]"
+      :class="switchClasses"
       :aria-checked="model"
       :aria-label="$attrs['aria-label']"
+      tabindex="0"
+      @keydown.space.prevent="model = !model"
+      @keydown.enter.prevent="model = !model"
     >
       <span
         aria-hidden="true"
-        :class="['block relative size-5 rounded-full transition duration-200 ease-in-out transform pointer-events-none',
-                 model ? 'translate-x-5' : 'translate-x-0',
-                 disabled ? 'bg-slate-100' : 'bg-white'
-        ]"
+        :class="handleClasses"
       ><slot name="handle">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -34,16 +51,15 @@
           viewBox="0 0 24 24"
           stroke-width="6"
           stroke="currentColor"
-          :class="['absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-3', model && !disabled ? 'text-vxvue' : 'text-slate-300']"
+          :class="slotClasses"
         >
-          <path stroke-linecap="round" :d="model ? 'M12 18 V6' : 'm18.5 12 c0 3.5 -3 6.5 -6.5 6.5 -3.5 0 -6.5 -3 -6.5 -6.5 0 -3.5 3 -6.5 6.5 -6.5 3.5 0 6.5 3 6.5 6.5z'" />
+          <path stroke-linecap="round" :d="model ? onPath : offPath" />
         </svg>
       </slot></span>
       <input
         v-model="model"
         v-bind="inputAttrs"
         class="hidden"
-        value="1"
         type="checkbox"
       >
     </span>

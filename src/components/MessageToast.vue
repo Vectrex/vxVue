@@ -1,7 +1,7 @@
 <script setup>
   import { XMarkIcon } from '@heroicons/vue/24/solid'
   import VxVueTransition from './VxVueTransition.vue'
-  import { computed, onMounted, ref, watch } from 'vue'
+  import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
   defineOptions({
     inheritAttrs: false
@@ -14,7 +14,7 @@
     showTimeoutProgress: { type: Boolean, default: false }
   })
   const emit = defineEmits(['timeout', 'close'])
-  const lines = computed(() => typeof props.message === 'string' ? [props.message] : props.message)
+  const lines = computed(() => typeof props.message === 'string' ? [props.message] : (props.message ?? []))
   const progressWidth = ref(0)
   let activeTimeout = null
   const startTimeout = () => {
@@ -24,17 +24,17 @@
     // timeout 0 disables fadeout
 
     if (props.active && props.timeout) {
-      activeTimeout = window.setTimeout(() => { emit('timeout') }, props.timeout)
+      activeTimeout = window.setTimeout(() => emit('timeout'), props.timeout)
       window.setTimeout(() => progressWidth.value = 0, 0)
     }
   }
 
-  watch(() => props.active, startTimeout)
-  onMounted(startTimeout)
+  watch(() => [props.active, props.timeout], startTimeout, { immediate: true })
+  onBeforeUnmount(() => window.clearTimeout(activeTimeout))
 </script>
 
 <template>
-  <div aria-live="assertive" class="flex fixed inset-0 items-start py-6 px-4 pointer-events-none sm:p-6 z-[var(--zIndex-toast)]">
+  <div aria-live="polite" aria-atomic="true" class="flex fixed inset-0 items-start py-6 px-4 pointer-events-none sm:p-6 z-(--zIndex-toast)">
     <div class="flex flex-col items-center space-y-4 w-full">
       <vx-vue-transition name="vert-fade">
         <div v-if="active" class="overflow-hidden w-full max-w-sm rounded-md ring-1 shadow-lg pointer-events-auto ring-black/5" :class="$attrs['class']">
@@ -57,7 +57,7 @@
                 </slot>
               </div>
               <div class="flex ml-4 shrink-0">
-                <button class="inline-flex text-white focus:ring-2 bg-black/20 rounded-xs hover:text-stone-200 focus:outline-hidden focus:ring-stone-200" @click="emit('close')">
+                <button type="button" aria-label="Close message" class="inline-flex text-white focus:ring-2 bg-black/20 rounded-xs hover:text-stone-200 focus:outline-hidden focus:ring-stone-200" @click="emit('close')">
                   <span class="sr-only">Close</span>
                   <x-mark-icon class="size-5" />
                 </button>

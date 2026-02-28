@@ -17,7 +17,7 @@
 <template>
   <div :class="[!branch.branches || !branch.branches.length ? 'terminates' : '', $attrs['class']]">
     <div class="flex items-center pb-1">
-      <button v-if="branch.branches && branch.branches.length" class="mr-2" @click="expanded = !expanded">
+      <button v-if="branch.branches && branch.branches.length" type="button" class="mr-2 focus:outline-hidden focus:ring-4 focus:ring-vxvue/50" @click="expanded = !expanded">
         <slot name="toggle" :branch="branch" :expanded="expanded">
           <component :is="expanded ? MinusIcon : PlusIcon" class="p-0.5 text-white rounded size-5 bg-vxvue-700 hover:bg-vxvue" />
         </slot>
@@ -25,7 +25,7 @@
       <slot v-if="branch === model" name="label-selected" :branch="branch">
         <strong>{{ branch.label }}</strong>
       </slot>
-      <button v-else @click="model = branch">
+      <button v-else type="button" class="focus:outline-hidden focus:ring-4 focus:ring-vxvue/50" @click="model = branch">
         <slot name="label" :branch="branch">
           {{ branch.label }}
         </slot>

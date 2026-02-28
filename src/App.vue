@@ -129,7 +129,7 @@ const tree = ref({
   current: true,
   path: "files/",
 });
-const toast = ref({ message: "", active: false, title: "You got toasted!" });
+const toast = ref({ message: "", active: false, title: "You got toasted!", showTimeoutProgress: true });
 const submitBusy = ref(false);
 const items = [
   "Afghanistan",

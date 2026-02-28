@@ -27,7 +27,7 @@
       :id="'ap-control-' + rndStr"
       ref="btn"
       :class="[
-          'flex justify-between items-center w-full px-4 py-2',
+          'flex justify-between items-center w-full px-4 py-2 focus:outline-none focus-visible:ring-4 focus-visible:ring-vxvue/50',
            show ? 'rounded-t' : 'rounded-sm',
            disabled ? 'bg-slate-300 text-slate-700' : 'bg-vxvue hover:bg-vxvue-600 text-white',
            attrs.class

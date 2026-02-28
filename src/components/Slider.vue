@@ -13,9 +13,8 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
   const model = defineModel({
     type: [Number, Array],
     default: null,
-    validator(v) {
-      return typeof v === 'number' || v.every(item => typeof item === 'number')
-    }})
+    validator: v => typeof v === 'number' || v.every(item => typeof item === 'number')
+  })
   const emit = defineEmits(['dragStart', 'dragStop'])
   const attrs = useAttrs()
   const initPos = { x: null, y: null }
@@ -27,7 +26,7 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
     class:
         (props.vertical ? 'left-0 -translate-x-1.5 translate-y-2.5' : 'top-0 -translate-x-2.5 -translate-y-1.5') +
         ' group touch-none absolute size-5 rounded-full border-2 bg-white transition-colors duration-200 ' +
-        (!props.disabled ? ' focus:ring-4 focus:outline-hidden border-vxvue cursor-grab hover:bg-vxvue focus:ring-vxvue/50' : '')
+        (!props.disabled ? ' border-vxvue cursor-grab hover:bg-vxvue focus:outline-hidden focus:ring-4 focus:ring-vxvue/50' : '')
     ,
     tabindex: 0
   })
@@ -47,7 +46,7 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
     }
     return props.vertical ? { bottom: 0, height: thumbPos.value + '%' } : { width: thumbPos.value + '%' }
   })
-  const setTooltipPos = v => {
+  const setTooltipPos = () => {
     if (props.showTooltip !== 'never' && tooltip.value) {
       let min = (handle.value.length ? handle.value[0] : handle.value).getBoundingClientRect()[props.vertical ? 'left' : 'top']
       let size = 0
@@ -187,6 +186,7 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
     />
     <button
       v-if="!model.length"
+      type="button"
       :id="attrs['id']"
       :style="vertical ? { bottom: thumbPos + '%' } : { left: thumbPos + '%' }"
       aria-label="slider-thumb"
@@ -206,6 +206,7 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
     <!-- eslint-disable-next-line vue/require-v-for-key -->
     <button
       v-else
+      type="button"
       v-for="(v, ndx) in model"
       :id="!ndx ? attrs['id'] : null"
       :style="vertical ? { bottom: thumbPos[ndx] + '%' } : { left: thumbPos[ndx] + '%' }"
@@ -253,18 +254,18 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
     @apply -translate-y-1/2 top-1/2 before:top-1/2 before:-translate-y-1/2
   }
   .tooltip-left {
-    @apply right-7 before:right-[-10px] before:border-l-vxvue
+    @apply right-7 before:-right-2.5 before:border-l-vxvue
   }
   .tooltip-right {
-    @apply left-7 before:left-[-10px] before:border-r-vxvue
+    @apply left-7 before:-left-2.5 before:border-r-vxvue
   }
   .tooltip-top, .tooltip-bottom {
     @apply -translate-x-1/2 left-1/2 before:left-1/2 before:-translate-x-1/2
   }
   .tooltip-top {
-    @apply bottom-7 before:bottom-[-10px] before:border-t-vxvue
+    @apply bottom-7 before:-bottom-2.5 before:border-t-vxvue
   }
   .tooltip-bottom {
-    @apply top-7 before:top-[-10px] before:border-b-vxvue
+    @apply top-7 before:-top-2.5 before:border-b-vxvue
   }
 </style>

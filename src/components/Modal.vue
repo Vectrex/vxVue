@@ -25,7 +25,7 @@ onClickOutside(container, () => emit("clicked-outside"));
     aria-hidden="true"
   />
   <vx-vue-transition name="appear">
-    <div v-if="show" class="fixed inset-0 z-[var(--zIndex-modal)]">
+    <div v-if="show" class="fixed inset-0 z-(--zIndex-modal)">
       <div class="flex justify-center items-center h-screen">
         <div
           ref="container"
