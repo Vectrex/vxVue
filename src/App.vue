@@ -953,13 +953,14 @@ const clearFormData = () =>
     <template #title>
       <div class="flex justify-between items-center px-4 w-full h-16 bg-vxvue">
         <span class="text-xl font-bold text-white">A Modal</span>
-        <a href="#" @click.prevent="modal.show = false"
+        <a href="#" @click.prevent="modal.show = false" class="focus:bg-white/25"
           ><x-mark-icon class="text-white size-5"
         /></a>
       </div>
     </template>
     <template #default>
       <div class="p-4 text-xl text-center">
+        <input class="form-input"><br />
         Something of importance might be said here.<br />
         Something of importance might be said here.<br />
         Something of importance might be said here.<br />
