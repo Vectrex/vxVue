@@ -15,7 +15,7 @@
   })
   const maxPage = ref(Math.ceil(props.total / props.perPage))
   const currentPage = ref(null)
-  const markerPositionClass = computed(() => (props.markerPosition === 'above' ? 'border-t-4 -mt-[4px]' : 'border-b-4 -mb-[4px]') + ' py-4')
+  const markerPositionClass = computed(() => (props.markerPosition === 'above' ? 'border-t-4 -mt-1' : 'border-b-4 -mb-1') + ' py-4')
   const pagesToShow = computed(() => {
     let pages = [1]
     if (props.showAllPages || maxPage.value <= 7) {
@@ -50,6 +50,7 @@
     }
     return pages
   })
+  const navButtonsClasses = 'inline-flex items-center text-sm py-4 border-transparent hover:text-vxvue focus:outline-none focus-visible:ring-4 focus-visible:ring-vxvue/50'
   const prevPage = () => {
     if(currentPage.value > 1) {
       emit('update:page', currentPage.value - 1)
@@ -78,10 +79,12 @@
     <div class="flex flex-1 -mt-px w-0">
       <button
         v-if="showNavButtons"
+        type="button"
         :disabled="currentPage <= 1"
         :class="[
           currentPage <= 1 ? 'pointer-events-none text-gray-500' : 'text-vxvue-700',
-          'inline-flex items-center pr-1 text-sm border-transparent hover:text-vxvue'
+          navButtonsClasses,
+          'pr-1'
         ]"
         @click="prevPage"
       >
@@ -91,11 +94,14 @@
     </div>
     <div class="hidden md:flex md:-mt-px">
       <component
-        :is="page !== 'dots' ? 'button' : 'span'"
-        v-for="(p, ndx) in pagesToShow"
-        :key="ndx"
+        v-for="p in pagesToShow"
+        :is="p !== 'dots' ? 'button' : 'span'"
+        :type="p === 'dots' ? 'button' : null"
         :class="[
-          { 'pointer-events-none': p === 'dots' },
+          {
+            'pointer-events-none': p === 'dots',
+            'focus:outline-none focus-visible:ring-4 focus-visible:ring-vxvue/50': p !== 'dots'
+          },
           p === currentPage ? 'border-vxvue text-vxvue font-bold' : 'border-transparent text-gray-500 hover:border-gray-300',
           markerPositionClass,
           'inline-flex items-center px-4 text-sm'
@@ -108,10 +114,12 @@
     <div class="flex flex-1 justify-end -mt-px w-0">
       <button
         v-if="showNavButtons"
+        type="button"
         :disabled="currentPage >= maxPage"
         :class="[
           currentPage >= maxPage ? 'pointer-events-none text-gray-500' : 'text-vxvue-700',
-          'inline-flex items-center pr-1 text-sm border-transparent hover:text-vxvue'
+          navButtonsClasses,
+          'pl-1'
         ]"
         @click="nextPage"
       >

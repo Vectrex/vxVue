@@ -32,19 +32,20 @@
   <div class="hidden sm:block">
     <div class="border-b border-gray-200">
       <nav class="flex -mb-px space-x-8" aria-label="Tabs">
-        <a
+        <button
           v-for="item in items"
           :key="item.name"
-          href="#"
-          :class="['group inline-flex items-center py-4 px-1 border-b-4 font-medium no-underline! border-transparent',
+          type="button"
+          :class="[
+            'group inline-flex items-center py-4 px-1 border-b-4 font-medium border-transparent focus:outline-none focus-visible:ring-4 focus-visible:ring-vxvue/50',
             {
-              'border-vxvue text-vxvue' : activeTab === item ,
+              'border-vxvue text-vxvue' : activeTab === item,
               'cursor-not-allowed text-gray-400': item.disabled,
               'text-gray-900 hover:text-vxvue-600 hover:border-vxvue-600': activeTab !== item && !item.disabled
             },
           ]"
           :aria-current="activeTab === item ? 'page' : undefined"
-          @click.prevent="itemOnClick(item)"
+          @click="itemOnClick(item)"
         >
           <!-- icon  -->
 
@@ -66,7 +67,7 @@
               ]"
             >{{ item.badge }}</span>
           </slot>
-        </a>
+        </button>
       </nav>
     </div>
   </div>
