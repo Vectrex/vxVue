@@ -136,9 +136,7 @@
     const current = toTimestamps(selectedDate.value)
     if (incoming.length !== current.length || !incoming.every((i, n) => i === current[n])) {
       selectedDate.value = incoming.map(i => new Date(i))
-      console.log(incoming[0].getTime())
-      console.log(today.getTime())
-      sheetDate.value = new Date((incoming[0] || today).getTime())
+      sheetDate.value = new Date(incoming[0] || today.getTime())
       sheetDate.value.setDate(1)
     }
   }, { immediate: true })
