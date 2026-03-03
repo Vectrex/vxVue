@@ -50,6 +50,25 @@
     return dates
   })
   const localizedDayNames = computed(() => !props.startOfWeekIndex ? props.dayNames : props.dayNames.slice(1).concat(props.dayNames[0]))
+  const selectedTimestamps = computed(() => selectedDate.value.map(d => d.getTime()))
+  const selectedMinMax = computed(() => ({
+    min: selectedTimestamps.value.length ? Math.min(...selectedTimestamps.value) : null,
+    max: selectedTimestamps.value.length ? Math.max(...selectedTimestamps.value) : null
+  }))
+  const daysMeta = computed(() => {
+    const result = new Map()
+    for (const date of days.value) {
+      const time = date.getTime()
+      result.set(time, {
+        padded: date.getMonth() !== sheetDate.value.getMonth(),
+        selected: selectedTimestamps.value.includes(time),
+        now: time === today.getTime(),
+        invalid: (props.validFrom && props.validFrom > date) || (props.validUntil && props.validUntil < date),
+        highlighted: props.highlightRange && selectedMinMax.value.min !== null && selectedMinMax.value.max !== null && time >= selectedMinMax.value.min && time <= selectedMinMax.value.max,
+      })
+    }
+    return result
+  })
 
   const setMonth = month => { sheetDate.value = new Date(sheetDate.value.getFullYear(), month, 1); emit('month-change', sheetDate.value) }
   const setYear = year => { sheetDate.value = new Date(year, sheetDate.value.getMonth(), 1); emit('year-change', sheetDate.value) }
@@ -80,21 +99,16 @@
   }
   const isSelected = date => selectedDate.value.find(item => item?.getTime() === date.getTime())
   const daysButtonClass = date => {
-    const padded = date.getMonth() !== sheetDate.value.getMonth()
-    const selected = isSelected(date)
-    const now = date.getTime() === today.getTime()
-    const invalid = (props.validFrom && props.validFrom > date) || (props.validUntil && props.validUntil < date)
-    const disabled = !selected && props.maxNumberOfValues > 1 && selectedDate.value.length === props.maxNumberOfValues
-    const highlight = props.highlightRange && date > Math.min(...selectedDate.value) && date < Math.max(...selectedDate.value)
+    const meta = daysMeta.value.get(date.getTime())
     return {
-        'cursor-not-allowed': invalid || disabled,
-        'text-vxvue-700': !invalid && !padded && !now && !selected,
-        'text-error': invalid && !padded,
-        'text-gray-400': padded && !now && !selected,
-        'bg-vxvue-alt-300 font-bold': now && !selected,
-        'bg-vxvue-700 text-white': selected,
-        'hover:ring-2 hover:ring-vxvue': !invalid,
-        'bg-vxvue-100/50': highlight && !now && !selected,
+        'cursor-not-allowed': meta.invalid || meta.disabled,
+        'text-vxvue-700': !meta.invalid && !meta.padded && !meta.now && !meta.selected,
+        'text-error': meta.invalid && !meta.padded,
+        'text-gray-400': meta.padded && !meta.now && !meta.selected,
+        'bg-vxvue-alt-300 font-bold': meta.now && !meta.selected,
+        'bg-vxvue-700 text-white': meta.selected,
+        'hover:ring-2 hover:ring-vxvue': !meta.invalid,
+        'bg-vxvue-100/50': meta.highlighted && !meta.now && !meta.selected,
       }
   }
 
@@ -110,27 +124,25 @@
       })
     }
   })
+  const toTimestamps = dates => dates.map(d => d.getTime()).sort()
+
   watch(model, v => {
-    if (v) {
-      if (Array.isArray(v)) {
-        const f = [], s = selectedDate.value
-        v.forEach(item => { if(item) f.push(new Date(item.getFullYear(), item.getMonth(), item.getDate())) })
-        if (f.length !== s.length || ![...new Set([...f, ...s])].every(i => f.filter(j => j.getTime() === i.getTime()).length === s.filter(j => j.getTime() === i.getTime()).length)) {
-          selectedDate.value = f
-          sheetDate.value = new Date((f[0] || today).getTime())
-          sheetDate.value.setDate(1)
-        }
-      }
-      else {
-        selectedDate.value = [new Date(v.getFullYear(), v.getMonth(), v.getDate())]
-        sheetDate.value = new Date(v.getFullYear(), v.getMonth(), 1)
-      }
-    }
-    else {
+    if (!v) {
       selectedDate.value = []
       sheetDate.value = new Date(today.getFullYear(), today.getMonth(), 1)
+      return
+    }
+    const incoming = Array.isArray(v) ? toTimestamps(v.filter(Boolean)) : [v.getTime()]
+    const current = toTimestamps(selectedDate.value)
+    if (incoming.length !== current.length || !incoming.every((i, n) => i === current[n])) {
+      selectedDate.value = incoming.map(i => new Date(i))
+      console.log(incoming[0].getTime())
+      console.log(today.getTime())
+      sheetDate.value = new Date((incoming[0] || today).getTime())
+      sheetDate.value.setDate(1)
     }
   }, { immediate: true })
+
   watch (() => props.shownMonth, v => {
     sheetDate.value = new Date((v || today).getTime())
     sheetDate.value.setDate(1)
@@ -155,7 +167,7 @@
       <div
         v-show="expanded"
         ref="calendar"
-        :class="['overflow-hidden z-[var(--zIndex-dropdown)] bg-white rounded-sm shadow-md min-w-72 sm:min-w-80',
+        :class="['overflow-hidden z-(--zIndex-dropdown) bg-white rounded-sm shadow-md min-w-72 sm:min-w-80',
             align.horiz, align.vert,
             {
               absolute: allowToggle
@@ -187,13 +199,13 @@
           </div>
 
           <div class="grid grid-cols-7 gap-0.5 p-0.5">
-            <div v-for="(weekday, ndx) in localizedDayNames" :key="ndx" class="py-2 text-center bg-gray-200">
+            <div v-for="weekday in localizedDayNames" class="py-2 text-center bg-gray-200">
               {{ weekday }}
             </div>
 
             <button
               v-for="day in days"
-              :key="day"
+              :key="day.getTime()"
               :class="['py-2 rounded-xs block text-center', daysButtonClass(day)]"
               :disabled="(validFrom && validFrom > day) || (validUntil && validUntil < day) || maxNumberOfValues > 1 && selectedDate.length === maxNumberOfValues && !isSelected(day)"
               @click.stop="selectDate(day)"
