@@ -390,7 +390,7 @@ const paginatedItems = computed(() =>
     paginationData.value.currentPage * paginationData.value.entriesPerPage,
   ),
 );
-const findItem = async (query) => {
+const findItem = async query => {
   await new Promise((resolve) => setTimeout(resolve, 500));
   return items.filter((item) =>
     item.toLowerCase().includes(query.toLowerCase()),
@@ -923,7 +923,6 @@ const clearFormData = () =>
   <message-toast
     v-bind="toast"
     class="bg-success-700! text-white"
-    @timeout="toast.active = false"
     @close="toast.active = false"
   >
     <template #title>
