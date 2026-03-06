@@ -1,6 +1,6 @@
 <script setup>
   import { ChevronDownIcon, ChevronUpIcon, ChevronUpDownIcon } from "@heroicons/vue/24/solid"
-  import { computed, nextTick, ref } from 'vue'
+  import { computed, ref, watch } from 'vue'
 
   const props = defineProps({
     columns: {
@@ -26,32 +26,30 @@
   })
   const emit = defineEmits(['before-sort', 'after-sort'])
 
-  const sortBy = ref(props.sortProp)
-  const sortDir = ref(props.sortDirection)
-  const sortedRows = computed(() => {
+  const sortBy = ref('')
+  const sortDir = ref('')
+  const colMap = computed(() => Object.fromEntries(props.columns.map(c => [c.prop, c])))
+  const sorted = computed(() => {
     let rows = props.rows.slice()
-    const col = props.columns.find(({ prop }) => prop === sortBy.value)
-    if(col) {
-      if (sortDir.value === 'asc' && col.sortAscFunction) {
-        rows.sort (col.sortAscFunction)
-      }
-      else if (sortDir.value === 'desc' && col.sortDescFunction) {
-        rows.sort (col.sortDescFunction)
-      }
-      else {
-        rows.sort((a, b) => {
-          if (a[sortBy.value] < b[sortBy.value]) {
-            return sortDir.value === "asc" ? -1 : 1
-          }
-          if (a[sortBy.value] > b[sortBy.value]) {
-            return sortDir.value === "asc" ? 1 : -1
-          }
-          return 0
-        })
-      }
+    const col = colMap.value[sortBy.value]
+    if (sortDir.value === 'asc' && col?.sortAscFunction) {
+      rows.sort (col.sortAscFunction)
+    } else if (sortDir.value === 'desc' && col?.sortDescFunction) {
+      rows.sort (col.sortDescFunction)
+    } else {
+      rows.sort((a, b) => {
+        if (a[sortBy.value] < b[sortBy.value]) {
+          return sortDir.value === "asc" ? -1 : 1
+        }
+        if (a[sortBy.value] > b[sortBy.value]) {
+          return sortDir.value === "asc" ? 1 : -1
+        }
+        return 0
+      })
     }
-    return rows.slice(props.offset || 0, (props.offset || 0) + (props.count || rows.length))
+    return rows
   })
+  const paginated = computed(() => sorted.value?.slice(props.offset || 0, (props.offset || 0) + (props.count || sorted.value.length)) || [])
   const clickSort = prop => {
     emit('before-sort', { prop: sortBy.value, dir: sortDir.value })
     if(sortBy.value === prop) {
@@ -61,8 +59,10 @@
       sortBy.value = prop
       sortDir.value = sortDir.value || 'asc'
     }
-    nextTick( () => emit('after-sort', { prop: sortBy.value, dir: sortDir.value }))
+    emit('after-sort', { prop: sortBy.value, dir: sortDir.value })
   }
+  watch(() => props.sortProp, v => sortBy.value = v, { immediate: true })
+  watch(() => props.sortDirection, v => sortDir.value = v, { immediate: true })
 </script>
 
 <template>
@@ -75,7 +75,7 @@
           scope="col"
           :data-active="sortBy === column.prop ? 'active' : null"
           :class="['py-3 px-6', { 'cursor-pointer': column.sortable }, column.cssClass]"
-          @click="column.sortable ? clickSort(column.prop) : null"
+          @click="column.sortable && clickSort(column.prop)"
         >
           <slot :name="column.prop + '-header'" :column="column" :sort-dir="sortDir" :sort-prop="sortBy">
             <div class="flex justify-between items-center space-x-2">
@@ -92,7 +92,7 @@
     </thead>
     <tbody :class="bodyClass">
       <tr
-        v-for="row in sortedRows"
+        v-for="row in paginated"
         :key="row[keyProperty]"
         :class="row.cssClass"
       >
