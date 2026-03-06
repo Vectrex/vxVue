@@ -47,7 +47,7 @@
     "eslint": "^10.0.2",
     "eslint-plugin-vue": "^10.8.0",
     "@eslint/js": "^10.0.1",
-    "@stylistic/eslint-plugin": "^5.9.0",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "@vitest/eslint-plugin": "^1.6.9",
     "@vitejs/plugin-vue": "^6.0.4",
     "vite-plugin-vue-devtools": "^8.0.7",

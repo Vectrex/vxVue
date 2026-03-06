@@ -27,7 +27,7 @@
 </template>
 
 <style scoped>
-  @import '../index.css' reference;
+  @reference '../index.css';
 
   button.success {
     @apply bg-success text-white hover:bg-success-700 focus:ring-success

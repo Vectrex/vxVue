@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
+  import {computed, ref, useAttrs, watch } from 'vue'
   defineOptions({ inheritAttrs: false })
 
   const props = defineProps({
@@ -22,61 +22,62 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
   let dragging = false
   const track = ref(null)
   const thumbNdx = ref(0)
-  const thumbAttrs = ref({
-    class:
-        (props.vertical ? 'left-0 -translate-x-1.5 translate-y-2.5' : 'top-0 -translate-x-2.5 -translate-y-1.5') +
-        ' group touch-none absolute size-5 rounded-full border-2 bg-white transition-colors duration-200 ' +
-        (!props.disabled ? ' border-vxvue cursor-grab hover:bg-vxvue focus:outline-hidden focus:ring-4 focus:ring-vxvue/50' : '')
-    ,
-    tabindex: 0
-  })
   const tooltip = ref(null)
   const handle = ref(null)
+  const range = computed(() => props.max - props.min)
+  const thumbClass = computed(() =>
+      (props.vertical ? 'left-0 -translate-x-1.5 translate-y-2.5' : 'top-0 -translate-x-2.5 -translate-y-1.5') +
+      ' group touch-none absolute size-5 rounded-full border-2 bg-white transition-colors duration-200 ' +
+      (!props.disabled ? ' border-vxvue cursor-grab hover:bg-vxvue focus:outline-hidden focus:ring-4 focus:ring-vxvue/50' : '')
+  )
   const thumbPos = computed(() => {
     const max = props.max, min = props.min
-      return model.value instanceof Array ?
+      return Array.isArray(model.value) ?
           model.value.map(v => (Math.max(Math.min(v, max), min) - min) * 100 / (max - min)) :
           (Math.max(Math.min(model.value, max), min) - min) * 100 / (max - min)
   })
   const selectedTrackStyle = computed(() => {
-    if (model.value instanceof Array) {
-      const offset = Math.min(...thumbPos.value) + '%'
-      const length = Math.max(...thumbPos.value) - Math.min(...thumbPos.value) + '%'
+    if (Array.isArray(model.value)) {
+      const min = Math.min(...thumbPos.value)
+      const offset = min + '%'
+      const length = Math.max(...thumbPos.value) - min + '%'
       return props.vertical ? { bottom:  offset, height:  length } : { left: offset, width: length }
     }
     return props.vertical ? { bottom: 0, height: thumbPos.value + '%' } : { width: thumbPos.value + '%' }
   })
   const setTooltipPos = () => {
     if (props.showTooltip !== 'never' && tooltip.value) {
-      let min = (handle.value.length ? handle.value[0] : handle.value).getBoundingClientRect()[props.vertical ? 'left' : 'top']
+      const handles = Array.isArray(handle.value) ? handle.value : [handle.value]
+      const tooltips = Array.isArray(tooltip.value) ? tooltip.value : [tooltip.value]
+
+      const rect = handles[0].getBoundingClientRect()
+      const min = rect[props.vertical ? 'left' : 'top']
+
       let size = 0
-      if (tooltip.value.length) {
-        tooltip.value.forEach(el => size = Math.max(el.getBoundingClientRect()[props.vertical ? 'width' : 'height'], size))
+      for (const el of tooltips) {
+        const r = el.getBoundingClientRect()
+        size = Math.max(size, r[props.vertical ? 'width' : 'height'])
       }
-      else {
-        size = tooltip.value.getBoundingClientRect()[props.vertical ? 'height' : 'width']
-      }
+
       let style = 'tooltip ' + (props.showTooltip === 'focus' ? 'tooltip-focused ' : '')
-      if (props.vertical) {
 
-        // 10px is the approximate size of the tooltip 'arrow'
+      // 10px is the approximate size of the tooltip 'arrow'
 
+      if (props.vertical)
         style += min < size + 10 ? 'tooltip-right' : 'tooltip-left'
-      } else {
+      else
         style += min < size + 10 ? 'tooltip-bottom' : 'tooltip-top'
-      }
-      if (model.value.length) {
-        tooltip.value.forEach(el => el.className = style)
-      } else {
-        tooltip.value.className = style
-      }
+
+      for (const el of tooltips) el.className = style
     }
   }
   const updateModel = v => {
     let newValue = parseFloat(v.toFixed(10))
     newValue = Math.min(props.max, (Math.max(props.min, newValue)))
-    if(model.value instanceof Array) {
-      model.value[thumbNdx.value] = newValue
+    if(Array.isArray(model.value)) {
+      const arr = [...model.value]
+      arr[thumbNdx.value] = newValue
+      model.value = arr
     }
     else {
       model.value = newValue
@@ -85,7 +86,7 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
   const setValue = e => {
     const { pageX, pageY } = e.touches ? e.touches[0] : e
     const thumbValue = props.vertical ? (-pageY + initPos.y) / trackSize.h : (pageX - initPos.x) / trackSize.w
-    updateModel(Math.floor((props.max - props.min) * thumbValue + props.min))
+    updateModel(Math.floor(range.value * thumbValue + props.min))
   }
   const initBounds = () => {
     const { clientLeft, clientTop, scrollLeft, scrollTop } = document.documentElement
@@ -95,38 +96,30 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
     trackSize.w = track.value.offsetWidth
     trackSize.h = track.value.offsetHeight
   }
-  const drag = e => {
-    if(dragging) {
-      e.preventDefault()
-      setValue(e)
-    }
+  const startDrag = ndx => e => {
+    thumbNdx.value = ndx
+    dragStart(e)
   }
   const dragStart = e => {
     e.preventDefault()
     e.currentTarget.focus()
     initBounds()
     dragging = true
-    if (e.type === 'mousedown') {
-      document.addEventListener('mousemove', drag)
-      document.addEventListener('mouseup', dragStop)
-    }
-    else {
-      document.addEventListener('touchmove', drag)
-      document.addEventListener('touchend', dragStop)
-    }
+    document.addEventListener('pointermove', drag)
+    document.addEventListener('pointerup', dragStop)
     emit('dragStart')
+  }
+  const drag = e => {
+    if (dragging) {
+      e.preventDefault()
+      setValue(e)
+    }
   }
   const dragStop = e => {
     if (dragging) {
       dragging = false
-      if (e.type === 'mouseup') {
-        document.removeEventListener('mousemove', drag)
-        document.removeEventListener('mouseup', dragStop)
-      }
-      else {
-        document.removeEventListener('touchmove', drag)
-        document.removeEventListener('touchend', dragStop)
-      }
+      document.removeEventListener('pointermove', drag)
+      document.removeEventListener('pointerup', dragStop)
 
       // ensure that no mousemove and therefore modelValue update is triggered after a dragStop event
 
@@ -134,35 +127,33 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
     }
   }
   const handleKeydown = e => {
-    if(e.keyCode >= 33 && e.keyCode <= 40) {
+    if(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'].includes(e.key)) {
       e.preventDefault()
     }
     const v = model.value[thumbNdx.value] ?? model.value
 
-    switch (e.keyCode) {
-      case 37:
-      case 40:
+    switch (e.key) {
+      case 'ArrowLeft':
+      case 'ArrowDown':
         updateModel(v - 1); break
-      case 39:
-      case 38:
+      case 'ArrowRight':
+      case 'ArrowUp':
         updateModel(v + 1); break
-      case 33:
-        updateModel(v + (props.max - props.min) / 10); break
-      case 34:
-        updateModel(v - (props.max - props.min) / 10); break
-      case 36:
+      case 'PageUp':
+        updateModel(v + range.value / 10); break
+      case 'PageDown':
+        updateModel(v - range.value / 10); break
+      case 'Home':
         updateModel(props.min); break
-      case 35:
+      case 'End':
         updateModel(props.max)
     }
   }
-  const handleBarClick = e => {
+  const trackClick = e => {
     initBounds()
     setValue(e)
   }
-
-  onUpdated(setTooltipPos)
-  onMounted(setTooltipPos)
+  watch(thumbPos, () => setTooltipPos())
 </script>
 
 <template>
@@ -176,7 +167,7 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
     :aria-valuenow="model[0] ?? model"
     :aria-valuetext="model"
     v-on="!disabled ? {
-      click: handleBarClick
+      click: trackClick
     } : {}"
   >
     <div
@@ -185,19 +176,19 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
       :style="selectedTrackStyle"
     />
     <button
-      v-if="!model.length"
+      v-if="!Array.isArray(model)"
       type="button"
       :id="attrs['id']"
       :style="vertical ? { bottom: thumbPos + '%' } : { left: thumbPos + '%' }"
       aria-label="slider-thumb"
-      v-bind="thumbAttrs"
+      :class="thumbClass"
+      :tabindex="0"
       v-on="!disabled ? {
         focus: () => thumbNdx = 0,
         keydown: handleKeydown,
-        touchstart: e => { thumbNdx = 0; dragStart(e) },
-        mousedown: e => { thumbNdx = 0; dragStart(e) },
-        touchend: dragStop,
-        mouseup: dragStop
+        pointerdown: startDrag(0),
+        pointerup: dragStop,
+
       } : {}"
       ref="handle"
     >
@@ -211,14 +202,13 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
       :id="!ndx ? attrs['id'] : null"
       :style="vertical ? { bottom: thumbPos[ndx] + '%' } : { left: thumbPos[ndx] + '%' }"
       :aria-label="'slider-thumb-' + (ndx + 1)"
-      v-bind="thumbAttrs"
+      :class="thumbClass"
+      :tabindex="0"
       v-on="!disabled ? {
         focus: () => thumbNdx = ndx,
         keydown: handleKeydown,
-        touchstart: e => { thumbNdx = ndx; dragStart(e) },
-        mousedown: e => { thumbNdx = ndx; dragStart(e) },
-        touchend: dragStop,
-        mouseup: dragStop
+        pointerdown: startDrag(ndx),
+        pointerup: dragStop,
       } : {}"
       ref="handle"
     >
@@ -228,7 +218,7 @@ import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
 </template>
 
 <style scoped>
-  @import '../index.css' reference;
+  @reference '../index.css';
   .tooltip {
     @apply
       absolute
