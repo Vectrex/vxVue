@@ -3,9 +3,8 @@
   import VxVueTransition from './VxVueTransition.vue'
   import { computed, onBeforeUnmount, watch } from 'vue'
 
-  defineOptions({
-    inheritAttrs: false
-  })
+  defineOptions({ inheritAttrs: false })
+
   const props = defineProps({
     title: { type: String, default: '' },
     message: { type: [String, Array], default: null },

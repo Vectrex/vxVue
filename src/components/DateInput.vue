@@ -1,6 +1,6 @@
 <script setup>
   import { CalendarIcon, XMarkIcon } from '@heroicons/vue/24/solid'
-  import { parseDate } from '../composables/parseDate'
+  import { useParseDate } from '../composables/useParseDate'
   import { formatDate } from '@vueuse/core'
   import { computed, ref, useAttrs, watch } from 'vue'
 
@@ -44,7 +44,7 @@
         class="block w-full form-input peer focus:border-vxvue"
         :class="{ 'pr-10': showToggle }"
         v-bind="inputAttrs"
-        @blur="model = parseDate(inputString, props.inputFormat).date?.value || null"
+        @blur="model = useParseDate(inputString, props.inputFormat).date?.value || null"
         @input.prevent
       >
     </div>
