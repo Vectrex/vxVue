@@ -36,8 +36,7 @@
           v-for="item in items"
           :key="item.name"
           type="button"
-          :class="[
-            'group inline-flex items-center py-4 px-1 border-b-4 font-medium border-transparent focus:outline-none focus-visible:ring-4 focus-visible:ring-vxvue/50',
+          :class="['group inline-flex items-center py-4 px-1 border-b-4 font-medium border-transparent focus:outline-none focus-visible:ring-4 focus-visible:ring-vxvue/50',
             {
               'border-vxvue text-vxvue' : activeTab === item,
               'cursor-not-allowed text-gray-400': item.disabled,

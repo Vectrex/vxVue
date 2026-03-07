@@ -54,7 +54,7 @@
       ref="toggleButton"
       :disabled="inputAttrs.disabled"
       aria-label="Toggle datepicker"
-      class="flex absolute inset-y-0 right-0 items-center px-2 text-vxvue-700 focus-visible:outline-none focus-visible:bg-vxvue/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      class="flex absolute inset-y-0 right-0 items-center px-2 transition-colors focus-visible:outline-none disabled:opacity-50 disabled:cursor-not-allowed text-vxvue-700 focus-visible:bg-vxvue/50"
       @click.stop="emit('toggle-datepicker')"
     >
       <calendar-icon class="size-5" />

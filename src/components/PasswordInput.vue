@@ -22,7 +22,7 @@
     >
     <button
       type="button"
-      class="flex absolute inset-y-0 right-0 items-center px-3 text-brand-700 hover:text-brand focus-visible:outline-none focus-visible:bg-vxvue/50 transition-colors peer-disabled:opacity-50 peer-disabled:cursor-not-allowed"
+      class="flex absolute inset-y-0 right-0 items-center px-3 transition-colors focus-visible:outline-none text-brand-700 peer-disabled:opacity-50 peer-disabled:cursor-not-allowed hover:text-brand focus-visible:bg-vxvue/50"
       :aria-label="(show ? 'Hide' : 'Show') + ' password'"
       :disabled="attrs.disabled !== undefined"
       @click.stop="show = !show"

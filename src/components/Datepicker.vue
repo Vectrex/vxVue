@@ -199,7 +199,7 @@
             <button
               v-for="day in days"
               :key="day.getTime()"
-              class="py-2 rounded-xs block text-center"
+              class="block py-2 text-center rounded-xs"
               v-bind="daysMeta.get(day.getTime())"
               @click.stop="selectDate(day)"
             >
