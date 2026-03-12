@@ -1,53 +1,86 @@
+const FLOATING_LABEL_REF = Symbol('floatingLabelRef')
+
+function resolveTarget (el) {
+    if (el.nodeName === 'INPUT' || el.nodeName === 'TEXTAREA') return el
+    return el.querySelector([
+        'input:not([type])',
+        'input[type="text"]',
+        'input[type="search"]',
+        'input[type="email"]',
+        'input[type="password"]',
+        'input[type="url"]',
+        'input[type="tel"]',
+    ].join(',')) || el.querySelector('textarea')
+}
+function updateInvalidState(label, invalid) {
+    label.classList.toggle('text-error', !!invalid)
+    label.classList.toggle('peer-focus:text-error', !!invalid)
+    label.classList.toggle('peer-focus:text-blue-600', !invalid)
+}
+function updateRequiredState(el, label) {
+    label.classList.toggle('required', el.hasAttribute('required'))
+}
 const floatingLabel = {
     mounted: (el, binding) => {
-        if (!['INPUT', 'TEXTAREA'].includes(el.nodeName)) {
-            let child = el.querySelector('input:not([type]),input[type="text"],input[type="search"],input[type="email"],input[type="password"],input[type="url"],input[type="tel"]')
-            if (!child) child = el.querySelector('textarea')
-            el = child
+        const target = resolveTarget(el)
+        if (!target) return
+
+        if(el.labels?.length) {
+            return
         }
-        if (el) {
-            if (el.querySelector('label')) throw new Error('VFloatingLabel directive: LABEL element found.')
 
-            const id = Math.random().toString(36).substring(2)
-            const div = document.createElement('div')
-            div.classList.add('relative', 'isolate')
+        const id = crypto.randomUUID()
+        const elementId = target.getAttribute('id') || (id + '-element')
+        const wrapper = document.createElement('div')
+        wrapper.classList.add('relative', 'isolate')
+        const label = document.createElement('label')
+        label.classList.add(
+            'absolute',
+            'px-2',
+            'left-1',
+            'top-2',
+            'scale-90',
+            'text-sm',
+            'z-(--zIndex-label)',
+            'origin-left',
+            'bg-white',
+            '-translate-y-4',
+            'transform-gpu',
+            'duration-200',
+            'peer-focus:top-3',
+            'peer-focus:scale-90',
+            'peer-focus:-translate-y-full',
+            'peer-placeholder-shown:scale-100',
+            'peer-placeholder-shown:-translate-y-1/2',
+            target.nodeName === 'TEXTAREA' ? 'peer-placeholder-shown:top-4' : 'peer-placeholder-shown:top-1/2',
+        )
+        updateInvalidState(label, binding.value?.invalid)
+        updateRequiredState(target, label)
+        label.setAttribute('for', elementId)
+        label.textContent = binding.value?.label || target.getAttribute('placeholder')?.trim() || ''
 
-            const label = document.createElement('label')
-            label.classList.add(
-                ...'absolute px-2 left-1 top-2 scale-90 text-sm z-(--zIndex-label) origin-left bg-white -translate-y-4 transform-gpu duration-200'.split(' '),
-                ...'peer-focus:top-3 peer-focus:scale-90 peer-focus:-translate-y-full'.split(' '),
-                ...'peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2'.split(' '),
-                el.nodeName === 'TEXTAREA' ? 'peer-placeholder-shown:top-4' : 'peer-placeholder-shown:top-1/2'
-            )
-            binding.value?.invalid ? label.classList.add('text-error', 'peer-focus:text-error') : label.classList.add('peer-focus:text-blue-600')
-            if (el.getAttribute('required') !== null) label.classList.add('required')
+        target.classList.add('peer')
+        target.setAttribute('placeholder', ' ')
+        target.setAttribute('id', elementId)
 
-            label.setAttribute('for', el.getAttribute('id') || (id + '-element'))
-            label.innerHTML = binding.value?.label || el.getAttribute('placeholder') || (id + '-label')
-
-            el.classList.add('peer')
-            el.setAttribute('placeholder', ' ')
-            el.setAttribute('id', el.getAttribute('id') || (id + '-element'))
-
-            el.parentElement.replaceChild(div, el)
-            div.appendChild(el)
-            div.appendChild(label)
-        }
+        target.parentElement.replaceChild(wrapper, target)
+        wrapper.appendChild(target)
+        wrapper.appendChild(label)
+        target[FLOATING_LABEL_REF] = label
     },
     updated: (el, binding) => {
-        const label = el.parentNode.querySelector('label')
-        if (!label) return
-        const placeholder = el.getAttribute('placeholder')?.trim()
-        label.innerHTML = binding.value?.label || placeholder || label.innerHTML
-        if (placeholder) el.setAttribute('placeholder', ' ')
-        if (binding.value?.invalid) {
-            label.classList.add('text-error', 'peer-focus:text-error')
-            label.classList.remove('peer-focus:text-blue-600')
-        } else {
-            label.classList.remove('text-error', 'peer-focus:text-error')
-            label.classList.add('peer-focus:text-blue-600')
-        }
-        label.classList[el.getAttribute('required') !== null ? 'add' : 'remove']('required')
+        const target = resolveTarget(el)
+        const label = target[FLOATING_LABEL_REF]
+        if (!label || !target) return
+        const placeholder = target.getAttribute('placeholder')?.trim()
+        label.textContent = binding.value?.label || placeholder || ''
+        if (placeholder) target.setAttribute('placeholder', ' ')
+        updateInvalidState(label, binding.value?.invalid)
+        updateRequiredState(target, label)
+    },
+    beforeUnmount: el => {
+        const target = resolveTarget(el)
+        if (target?.[FLOATING_LABEL_REF]) delete target[FLOATING_LABEL_REF]
     }
 }
 export default floatingLabel
