@@ -52,7 +52,7 @@
 <template>
   <div v-if="show" class="fixed inset-0 z-[calc(var(--zIndex-confirm)-1)] bg-black/50 backdrop-blur-xs" aria-hidden="true" />
   <vx-vue-transition name="appear">
-    <div v-if="show" class="overflow-y-auto fixed inset-0 z-[var(--zIndex-confirm)]">
+    <div v-if="show" class="overflow-y-auto fixed inset-0 z-(--zIndex-confirm)">
       <div class="flex justify-center items-center min-h-screen text-center sm:block sm:p-0">
         <div v-if="show">
           <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>

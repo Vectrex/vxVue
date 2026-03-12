@@ -8,10 +8,10 @@
   const offPath = 'm18.5 12 c0 3.5 -3 6.5 -6.5 6.5 -3.5 0 -6.5 -3 -6.5 -6.5 0 -3.5 3 -6.5 6.5 -6.5 3.5 0 6.5 3 6.5 6.5z'
 
   const inputAttrs = computed(() => {
-    const { class: _, ...rest } = attrs
+    const { class: _, 'aria-label': __, ...rest } = attrs
     return rest
   })
-  const disabled = computed( () => attrs.disabled !== undefined)
+  const disabled = computed(() => [true, '', 'disabled'].includes(attrs.disabled))
   const switchClasses = computed(() =>  [
     'inline-flex relative shrink-0 w-11 p-0.5 rounded-full transition-colors duration-200 ease-in-out cursor-pointer',
     'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-vxvue/50',
@@ -26,6 +26,7 @@
     'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-3',
     model.value && !disabled.value ? 'text-vxvue' : 'text-slate-300'
   ])
+  const toggle = () => { if(!disabled.value) model.value = !model.value }
 </script>
 
 <template>
@@ -37,9 +38,10 @@
       :class="switchClasses"
       :aria-checked="model"
       :aria-label="$attrs['aria-label']"
-      tabindex="0"
-      @keydown.space.prevent="model = !model"
-      @keydown.enter.prevent="model = !model"
+      :aria-disabled="disabled"
+      :tabindex="disabled ? -1 : 0"
+      @keydown.space.prevent="toggle"
+      @keydown.enter.prevent="toggle"
     >
       <span
         aria-hidden="true"
