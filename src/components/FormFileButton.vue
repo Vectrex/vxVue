@@ -1,44 +1,43 @@
 <script setup>
   const emit = defineEmits(['form-data'])
   const props = defineProps({
-    accept: { type: String, default: "*" },
+    accept: { type: String, default: '' },
     multiple: { type: Boolean, default: false },
-    name: { type: String, default: "file" },
-    id: { type: String, default: 'form-file-button-' + Math.ceil(Math.random() * 1000) }
+    name: { type: String, default: 'file' }
   })
 
   const model = defineModel({ type: Array, default: () => [] })
 
-  const getFormData = files => {
+  const createFormData = files => {
     const data = new FormData()
-    for (let file of files) {
+    for (const file of files) {
       data.append(props.name, file, file.name)
     }
     return data
   }
-  const fileChanged = e  => {
-    const files = e.target.files || e.dataTransfer.files
-    if (files) {
+  const handleChange = e  => {
+    const files = e.target.files
 
-      // convert FileList to Array
+    if (!files?.length) return
 
-      const f = Array.from(files)
-      model.value = f
-      emit('form-data', getFormData(f))
-    }
+    // convert FileList to Array
+
+    const selectedFiles = Array.from(files)
+    model.value = selectedFiles
+    emit('form-data', createFormData(selectedFiles))
+    e.target.value = ''
   }
 </script>
 
 <template>
-  <label :for="id">
+  <label>
     <slot>Upload</slot>
     <input
-      :id="id"
       type="file"
       :multiple="multiple"
       :accept="accept"
       class="hidden"
-      @change="fileChanged"
+      @change="handleChange"
     >
   </label>
 </template>
