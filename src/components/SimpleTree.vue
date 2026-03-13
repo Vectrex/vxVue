@@ -17,7 +17,7 @@
 </script>
 
 <template>
-  <div :class="[!hasChildren ? 'terminates' : '', $attrs['class']]">
+  <div :class="[!hasChildren ? 'terminates' : '', $attrs.class]">
     <div class="flex items-center pb-1">
       <button v-if="hasChildren" type="button" class="mr-2 focus:ring-4 focus:outline-hidden focus:ring-vxvue/50" @click="expanded = !expanded">
         <slot name="toggle" :branch="branch" :expanded="expanded">
