@@ -4,6 +4,7 @@
     placeholder: { type: String, default: null }
   })
   const model = defineModel()
+  const getOptionValue = option => option?.key !== undefined ? option.key : (option?.label ?? option)
 </script>
 
 <template>
@@ -17,11 +18,10 @@
     </option>
     <option
       v-for="option in options"
-      :key="option.key !== undefined ? option.key : (option.label || option)"
-      :selected="(option.key !== undefined ? option.key : (option.label || option)) === model"
-      :value="option.key !== undefined ? option.key : (option.label || option)"
+      :key="getOptionValue(option)"
+      :value="getOptionValue(option)"
     >
-      {{ option.label || option }}
+      {{ option.label ?? option }}
     </option>
   </select>
 </template>
