@@ -1,67 +1,63 @@
 <script setup>
-  import { ref } from 'vue'
+  import { onBeforeUnmount, ref } from 'vue'
 
-  const props = defineProps({ vertical: Boolean })
-  const emit = defineEmits(['dragStart', 'dragStop'])
+  const props = defineProps({
+    vertical: Boolean,
+    min: { type: Number, default: 0 },
+    max: { type: Number, default: Infinity },
+  })
+  const emit = defineEmits(['dragStart', 'dragStop', 'resize'])
 
   const box = ref(null)
   const handle = ref(null)
 
   let dragging = false
-  let startPos = {}
-  let boxSize = null
-  let containerSize = null
-  let handleSize = null
+  let activePointerId = null
+  let startPointer = 0
+  let startSize = 0
+  let maxSize = Infinity
 
-  const drag = e => {
-    if(dragging) {
-      e.preventDefault()
-      const { pageX, pageY } = e.touches?.[0] ?? e
-
-      // limit dimensions to container
-
-      if (!props.vertical) {
-        box.value.style.width = Math.min(containerSize.width - handleSize.width - (boxSize.x - containerSize.x), Math.max(0, boxSize.width + pageX - startPos.x)) + "px"
-      }
-      else {
-        box.value.style.height = Math.min (containerSize.height - handleSize.height - (boxSize.y - containerSize.y), Math.max(0, boxSize.height + pageY - startPos.y)) + "px"
-      }
-    }
-  }
   const dragStart = e => {
     e.preventDefault()
-    e.currentTarget.focus()
+    activePointerId = e.pointerId
     dragging = true
-    const { pageX, pageY } = e.touches?.[0] ?? e
-    startPos = { x: pageX, y: pageY }
-    handleSize = handle.value.getBoundingClientRect()
-    boxSize = box.value.getBoundingClientRect()
-    containerSize = box.value.parentElement.getBoundingClientRect()
+    startPointer = e[props.vertical ? 'clientY' : 'clientX']
+    startSize = box.value.getBoundingClientRect()[props.vertical ? 'height' : 'width']
 
-    if (e.type === 'mousedown') {
-      document.addEventListener('mousemove', drag)
-      document.addEventListener('mouseup', dragStop)
+    const boxRect = box.value.getBoundingClientRect()
+    const parentRect = box.value.parentElement.getBoundingClientRect()
+    const handleRect = handle.value.getBoundingClientRect()
+
+    // update constraints
+
+    if (props.vertical) {
+      maxSize = parentRect.bottom - boxRect.top - handleRect.height
     }
     else {
-      document.addEventListener('touchmove', drag)
-      document.addEventListener('touchend', dragStop)
+      maxSize = parentRect.right - boxRect.left - handleRect.width
     }
+
+    handle.value?.setPointerCapture?.(activePointerId)
     emit('dragStart')
   }
-  const dragStop = e => {
-    if (dragging) {
-      dragging = false
-      if (e.type === 'mouseup') {
-        document.removeEventListener('mousemove', drag)
-        document.removeEventListener('mouseup', dragStop)
-      }
-      else {
-        document.removeEventListener('touchmove', drag)
-        document.removeEventListener('touchend', dragStop)
-      }
-      setTimeout(() => emit('dragStop'), 0)
-    }
+  const drag = e => {
+    if (!dragging) return
+
+    e.preventDefault()
+    const currentPointer = e[props.vertical ? 'clientY' : 'clientX']
+    const newSize = startSize + currentPointer - startPointer
+    box.value.style[props.vertical ? 'height' : 'width'] = Math.min(props.max, Math.max(props.min, Math.min(maxSize, newSize))) + 'px'
+    emit('resize', newSize)
   }
+  const dragStop = () => {
+    if (!dragging) return
+    dragging = false
+    handle.value?.releasePointerCapture?.(activePointerId)
+    activePointerId = null
+    emit('dragStop')
+  }
+
+  onBeforeUnmount(dragStop)
 </script>
 
 <template>
@@ -69,13 +65,13 @@
     <slot />
     <div
       ref="handle"
-      :class="['absolute flex', props.vertical ? 'inset-x-0 top-full justify-center py-1 cursor-ns-resize' : 'inset-y-0 left-full items-center px-1 cursor-ew-resize']"
-      v-on=" {
-        touchstart: dragStart,
-        mousedown: dragStart,
-        touchend: dragStop,
-        mouseup: dragStop
-      }"
+      :class="['absolute flex touch-none outline-none', props.vertical ? 'inset-x-0 top-full justify-center py-1 cursor-ns-resize' : 'inset-y-0 left-full items-center px-1 cursor-ew-resize']"
+      :aria-orientation="props.vertical ? 'vertical' : 'horizontal'"
+      role="separator"
+      @pointerdown="dragStart"
+      @pointermove="drag"
+      @pointerup="dragStop"
+      @pointercancel="dragStop"
     >
       <slot name="handle">
         <div :class="['rounded-full bg-vxvue', props.vertical ? 'h-1.5 w-8' : 'h-8 w-1.5']" />
