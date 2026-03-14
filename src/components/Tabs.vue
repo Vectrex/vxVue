@@ -1,6 +1,6 @@
 <script setup>
-  import FormSelect from "./FormSelect.vue"
-  import { computed, ref, watch } from 'vue'
+  import FormSelect from './FormSelect.vue'
+  import { computed } from 'vue'
 
   const props = defineProps({
     items: { type: Array, default: () => [] },
@@ -8,21 +8,17 @@
   })
   const emit = defineEmits(['update:activeIndex'])
 
-  const activeTab = ref(props.items[props.activeIndex] || {})
-  const selectOptions = computed(() => {
-    let options = []
-    props.items.forEach((item, ndx) => { if(!item.disabled) {options.push( { label: item.name, key: ndx })}})
-    return options
+  const activeTab = computed(() => props.items[props.activeIndex] || null)
+  const selectOptions = computed(() =>
+    props.items
+      .map((item, ndx) => ({ ...item, ndx }))
+      .filter(item => !item.disabled)
+      .map(item => ({ label: item.name, key: item.ndx }))
+    )
+  const itemOnClick = ((item, ndx) => {
+    if (item.disabled) return
+    emit('update:activeIndex', ndx)
   })
-  watch(() => props.activeIndex, newVal => {
-    activeTab.value = props.items[newVal] || {}
-  })
-  const itemOnClick = item => {
-    if (!item.disabled) {
-      activeTab.value = item
-      emit('update:activeIndex', props.items.indexOf(item))
-    }
-  }
 </script>
 
 <template>
@@ -33,8 +29,8 @@
     <div class="border-b border-gray-200">
       <nav class="flex -mb-px space-x-8" aria-label="Tabs">
         <button
-          v-for="item in items"
-          :key="item.name"
+          v-for="(item, ndx) in items"
+          :key="item.name + '-' + ndx"
           type="button"
           :class="['group inline-flex items-center py-4 px-1 border-b-4 font-medium border-transparent focus:outline-none focus-visible:ring-4 focus-visible:ring-vxvue/50',
             {
@@ -44,7 +40,9 @@
             },
           ]"
           :aria-current="activeTab === item ? 'page' : undefined"
-          @click="itemOnClick(item)"
+          :aria-disabled="item.disabled || undefined"
+          :disabled="item.disabled"
+          @click="itemOnClick(item, ndx)"
         >
           <!-- icon  -->
 
@@ -60,7 +58,7 @@
               :class="['hidden ml-3 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block text-current',
                 {
                   'bg-gray-100': item.disabled,
-                  'bg-vxvue-50': activeTab === item,
+                  'bg-vxvue-50': activeIndex === ndx,
                   'bg-gray-200': activeTab !== item && !item.disabled
                 }
               ]"

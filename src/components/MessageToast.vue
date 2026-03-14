@@ -58,7 +58,7 @@
           </div>
           <div
             v-if="showTimeoutProgress && timeout"
-            class="toast-progress"
+            class="toast-progress h-1 bg-vxvue-alt origin-left motion-safe:animate-none"
             :style="{ animationDuration: timeout + 'ms' }"
             role="progressbar"
             aria-hidden="false"
@@ -73,7 +73,6 @@
   @reference '../index.css';
 
   .toast-progress {
-    @apply h-1 bg-vxvue-alt origin-left motion-safe:animate-none;
     animation-name: toast-progress;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
