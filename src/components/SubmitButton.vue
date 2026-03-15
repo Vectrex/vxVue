@@ -12,8 +12,10 @@
 <template>
   <div class="flex items-center space-x-2">
     <button
+      v-bind="$attrs"
       :class="[$attrs.class, theme]"
       :disabled="$attrs.disabled || busy"
+      :aria-busy="busy || undefined"
       type="button"
       @click="emit('submit')"
     >
@@ -22,6 +24,7 @@
     <spinner
       v-if="busy"
       :class="spinnerClass || ['size-5', { error: 'text-error', success: 'text-success', default: 'text-vxvue' }[theme || 'default']]"
+      aria-hidden="true"
     />
   </div>
 </template>
