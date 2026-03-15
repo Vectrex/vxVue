@@ -1,5 +1,5 @@
 <script setup>
-  import {computed, ref, useAttrs, watch } from 'vue'
+  import {computed, onBeforeUnmount, ref, useAttrs, watch } from 'vue'
   defineOptions({ inheritAttrs: false })
 
   const props = defineProps({
@@ -17,9 +17,9 @@
   })
   const emit = defineEmits(['dragStart', 'dragStop'])
   const attrs = useAttrs()
-  const initPos = { x: null, y: null }
-  const trackSize = { w: null, h: null }
   let dragging = false
+  let activePointerId = null
+  let activeHandle = null
   const track = ref(null)
   const thumbNdx = ref(0)
   const tooltip = ref(null)
@@ -84,47 +84,36 @@
     }
   }
   const setValue = e => {
-    const { pageX, pageY } = e.touches ? e.touches[0] : e
-    const thumbValue = props.vertical ? (-pageY + initPos.y) / trackSize.h : (pageX - initPos.x) / trackSize.w
-    updateModel(Math.floor(range.value * thumbValue + props.min))
+    const rect = track.value.getBoundingClientRect()
+    const ratio = props.vertical ? (rect.bottom - e.clientY) / rect.height : (e.clientX - rect.left) / rect.width
+    updateModel(Math.floor(range.value * ratio + props.min))
   }
-  const initBounds = () => {
-    const { clientLeft, clientTop, scrollLeft, scrollTop } = document.documentElement
-    const box = track.value.getBoundingClientRect()
-    initPos.x =  box.left + scrollLeft - clientLeft
-    initPos.y = box.bottom + scrollTop - clientTop
-    trackSize.w = track.value.offsetWidth
-    trackSize.h = track.value.offsetHeight
-  }
-  const startDrag = ndx => e => {
-    thumbNdx.value = ndx
-    dragStart(e)
-  }
-  const dragStart = e => {
+  const dragStart = ndx => e => {
     e.preventDefault()
-    e.currentTarget.focus()
-    initBounds()
+    thumbNdx.value = ndx
     dragging = true
-    document.addEventListener('pointermove', drag)
-    document.addEventListener('pointerup', dragStop)
+    activePointerId = e.pointerId
+    activeHandle = e.currentTarget
+    activeHandle.focus()
+    activeHandle?.setPointerCapture?.(activePointerId)
+    setValue(e)
     emit('dragStart')
   }
   const drag = e => {
-    if (dragging) {
-      e.preventDefault()
-      setValue(e)
-    }
+    if (!dragging || e.pointerId !== activePointerId) return
+    e.preventDefault()
+    setValue(e)
   }
-  const dragStop = e => {
-    if (dragging) {
-      dragging = false
-      document.removeEventListener('pointermove', drag)
-      document.removeEventListener('pointerup', dragStop)
+  const dragStop = () => {
+    if (!dragging) return
 
-      // ensure that no mousemove and therefore modelValue update is triggered after a dragStop event
-
-      setTimeout(() => emit('dragStop'), 0)
+    dragging = false
+    if (activePointerId !== null && activeHandle?.hasPointerCapture?.(activePointerId)) {
+      activeHandle.releasePointerCapture(activePointerId)
     }
+    activePointerId = null
+    activeHandle = null
+    emit('dragStop')
   }
   const handleKeydown = e => {
     if(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'].includes(e.key)) {
@@ -149,11 +138,9 @@
         updateModel(props.max)
     }
   }
-  const trackClick = e => {
-    initBounds()
-    setValue(e)
-  }
+  const trackClick = e => setValue(e)
   watch(thumbPos, () => setTooltipPos())
+  onBeforeUnmount(dragStop)
 </script>
 
 <template>
@@ -166,9 +153,7 @@
     :aria-valuemax="max"
     :aria-valuenow="model[0] ?? model"
     :aria-valuetext="model"
-    v-on="!disabled ? {
-      click: trackClick
-    } : {}"
+    v-on="!disabled ? { click: trackClick } : {}"
   >
     <div
       v-if="!disabled"
@@ -186,9 +171,10 @@
       v-on="!disabled ? {
         focus: () => thumbNdx = 0,
         keydown: handleKeydown,
-        pointerdown: startDrag(0),
+        pointerdown: dragStart(0),
+        pointermove: drag,
         pointerup: dragStop,
-
+        pointercancel: dragStop,
       } : {}"
       ref="handle"
     >
@@ -207,8 +193,10 @@
       v-on="!disabled ? {
         focus: () => thumbNdx = ndx,
         keydown: handleKeydown,
-        pointerdown: startDrag(ndx),
+        pointerdown: dragStart(ndx),
+        pointermove: drag,
         pointerup: dragStop,
+        pointercancel: dragStop,
       } : {}"
       ref="handle"
     >
