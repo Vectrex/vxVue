@@ -1,8 +1,8 @@
 <script setup>
   import Spinner from './Spinner.vue'
   import VxVueTransition from './VxVueTransition.vue'
-  import { onClickOutside } from '@vueuse/core'
-  import { computed, onUpdated, ref, useAttrs } from 'vue'
+  import { onClickOutside, useEventListener } from '@vueuse/core'
+  import { computed, ref, useAttrs, watch } from 'vue'
 
   defineOptions({ inheritAttrs: false })
   const emit = defineEmits(['blur-sm', 'submit'])
@@ -15,19 +15,13 @@
   })
   const model = defineModel({ type: String, default: '' })
   const attrs = useAttrs()
-  const uniqueId = (() => {
-    let counter = 0
-    return prefix  => (prefix || "") + ++counter
-  })()
-
-  const resultListId = uniqueId((attrs.id || 'autocomplete') + "-")
+  const resultListId = crypto.randomUUID()
   const results = ref([])
   const selectedIndex = ref(-1)
   const searchCounter = ref(0)
   const expanded = ref(false)
   const loading = ref(false)
   const position = ref('top-0 translate-y-12')
-  const resetPosition = ref(true)
   const resultList = ref(null)
   const input = ref(null)
   const container = ref(null)
@@ -39,19 +33,22 @@
       ...(selectedIndex.value === ndx ? { 'aria-selected': 'true' } : {})
     }))
   )
-  const inputProps = computed(() => ({
-      role: 'combobox',
-      autocomplete: 'off',
-      autocapitalize: 'off',
-      autocorrect: 'off',
-      spellcheck: 'false',
-      'aria-autocomplete': 'list',
-      'aria-haspopup': 'listbox',
-      'aria-owns': resultListId,
-      'aria-expanded': expanded.value ? 'true' : 'false',
-      'aria-activedescendant': selectedIndex.value > -1 ? itemProps.value[selectedIndex.value].id : '',
-      ...attrs
-  }))
+  const inputProps = computed(() => {
+      const { class: _, style: __, ...inputAttrs } = attrs
+      return {
+        role: 'combobox',
+            autocomplete: 'off',
+          autocapitalize: 'off',
+          autocorrect: 'off',
+          spellcheck: 'false',
+          'aria-autocomplete': 'list',
+          'aria-haspopup': 'listbox',
+          'aria-controls': resultListId,
+          'aria-expanded': expanded.value ? 'true' : 'false',
+          'aria-activedescendant': selectedIndex.value > -1 ? itemProps.value[selectedIndex.value].id : '',
+          ...inputAttrs
+      }
+  })
   const listProps = computed(() => ({
       id: resultListId,
       class: ['absolute min-w-full transform z-[var(--zIndex-dropdown)]', props.resultListClass, position.value],
@@ -62,33 +59,30 @@
     selectedIndex.value = -1
     results.value = []
     expanded.value = false
-    resetPosition.value = true
   }
-  const updateResults = v => {
-    const search = props.search(v)
-    if (search instanceof Promise) {
-      const currentSearch = ++searchCounter.value
-      loading.value = true
+  const updateResults = async v => {
 
-      search.then(res => {
-        if (currentSearch === searchCounter.value) {
-          results.value = res
-          loading.value = false
-          if (!results.value.length) {
-            hideResults()
-          } else {
-            selectedIndex.value = props.autoSelect ? 0 : -1
-            expanded.value = true
-          }
-        }
-      })
-    } else {
-      results.value = search
+    const currentSearch = ++searchCounter.value
+    loading.value = true
+
+    try {
+      const r = await Promise.resolve(props.search(v))
+      if (currentSearch !== searchCounter.value) return
+
+      results.value = Array.isArray(r) ? r : []
       if (results.value.length === 0) {
         hideResults()
       } else {
         selectedIndex.value = props.autoSelect ? 0 : -1
         expanded.value = true
+      }
+    } catch {
+      if (currentSearch !== searchCounter.value) return
+      hideResults()
+    }
+    finally {
+      if (currentSearch === searchCounter.value) {
+        loading.value = false
       }
     }
   }
@@ -111,18 +105,13 @@
   }
   const handleUp = () => {
     const listLen = results.value.length
-    selectedIndex.value = (((selectedIndex.value - 1) % listLen) + listLen) % listLen
+    selectedIndex.value = listLen ? (((selectedIndex.value - 1) % listLen) + listLen) % listLen : null
   }
   const handleDown = e => {
-    if(!expanded.value) {
-      handleFocus(e)
-    }
+    if(!expanded.value) handleFocus(e)
+
     const listLen = results.value.length
-    selectedIndex.value = (((selectedIndex.value + 1) % listLen) + listLen) % listLen
-  }
-  const handleEsc = () => {
-    hideResults()
-    model.value = ''
+    selectedIndex.value = listLen ? (((selectedIndex.value + 1) % listLen) + listLen) % listLen : null
   }
   const handleEnter = () => emit('submit', selectResult())
   const handleResultClick = e => {
@@ -132,50 +121,68 @@
       emit('submit', selectResult())
     }
   }
-  onClickOutside(container, hideResults)
-  onUpdated(() => {
-    if (resultList.value) {
-      const inputPos = input.value.getBoundingClientRect()
-      const listPos = resultList.value.getBoundingClientRect()
+  const setListPosition = () => {
+    if (!resultList.value || !input.value || !results.value.length) return
 
-      if (resetPosition.value && results.value.length) {
+    // show list above or below
 
-        resetPosition.value = false
+    const inputPos = input.value.getBoundingClientRect()
+    const listPos = resultList.value.getBoundingClientRect()
+    position.value =
+        (inputPos.bottom + listPos.height > window.innerHeight) &&
+        (window.innerHeight - inputPos.bottom < inputPos.top) &&
+        (window.pageYOffset + inputPos.top - listPos.height > 0) ?
+            "bottom-0  -translate-y-12" :
+            "top-0 translate-y-12"
+  }
+  const ensureSelectedItemVisible = () => {
+    if (!resultList.value || selectedIndex.value < 0) return
 
-        // show list above or below
+    const selectedElem = resultList.value.querySelector('[data-result-index="' + selectedIndex.value + '"]')
+    if (!selectedElem) return
 
-        position.value = (inputPos.bottom + listPos.height > window.innerHeight) && (window.innerHeight - inputPos.bottom < inputPos.top) && (window.pageYOffset + inputPos.top - listPos.height > 0) ? "bottom-0  -translate-y-12" : "top-0 translate-y-12"
-      }
+    const selectedPos = selectedElem.getBoundingClientRect()
+    const listPos = resultList.value.getBoundingClientRect()
 
-      // Make sure selected result isn't scrolled out of view
-
-      const selectedElem = resultList.value.querySelector('[data-result-index="' + selectedIndex.value + '"]')
-
-      if (selectedElem) {
-        let selectedPos = selectedElem.getBoundingClientRect()
-
-        if (selectedPos.top < listPos.top) {
-          // Element is above viewable area
-          resultList.value.scrollTop -= listPos.top - selectedPos.top
-        } else if (selectedPos.bottom > listPos.bottom) {
-          // Element is below viewable area
-          resultList.value.scrollTop += selectedPos.bottom - listPos.bottom
-        }
-      }
+    if (selectedPos.top < listPos.top) {
+      // Element is above viewable area
+      resultList.value.scrollTop -= listPos.top - selectedPos.top
+    } else if (selectedPos.bottom > listPos.bottom) {
+      // Element is below viewable area
+      resultList.value.scrollTop += selectedPos.bottom - listPos.bottom
     }
+  }
+
+  watch([() => results.value.length, expanded], ([newLen, newExpanded]) => {
+    if (!newLen || !newExpanded) return
+    setListPosition()
+    ensureSelectedItemVisible()
+  }, { flush: 'post' })
+
+  watch(selectedIndex, ndx => {
+    if (ndx < 0 || !expanded.value) return
+    ensureSelectedItemVisible()
+  }, { flush: 'post' })
+
+  useEventListener(window,'resize', () => {
+    if(!expanded.value || !results.value.length) return
+    setListPosition()
+    ensureSelectedItemVisible()
   })
+
+  onClickOutside(container, hideResults)
 </script>
 
 <template>
-  <div ref="container" class="inline-block relative" :class="$attrs['class']">
+  <div ref="container" class="inline-block relative" :class="$attrs.class" :style="$attrs.style">
     <input
       ref="input"
       class="block pr-10 w-full form-input focus:border-vxvue"
       :value="model"
       v-bind="inputProps"
       @input="handleInput($event.target.value)"
-      @keydown.enter="handleEnter"
-      @keydown.esc="handleEsc"
+      @keydown.enter.prevent="handleEnter"
+      @keydown.esc="hideResults"
       @keydown.tab="selectResult"
       @keydown.up.prevent="handleUp"
       @keydown.down.prevent="handleDown"
@@ -193,16 +200,13 @@
         @click="handleResultClick"
         @mousedown.prevent
       >
-        <template v-for="(result, ndx) in results">
-          <!-- eslint-disable-next-line vue/require-v-for-key -->
-          <div :data-result-index="ndx">
-            <slot name="result" :result="result" :props="itemProps[ndx]">
-              <div :key="itemProps[ndx].id" v-bind="itemProps[ndx]">
-                {{ getResultValue(result) }}
-              </div>
-            </slot>
-          </div>
-        </template>
+        <div v-for="(result, ndx) in results" :data-result-index="ndx" :key="result.id">
+          <slot name="result" :result="result" :props="itemProps[ndx]">
+            <div v-bind="itemProps[ndx]">
+              {{ getResultValue(result) }}
+            </div>
+          </slot>
+        </div>
       </div>
     </vx-vue-transition>
   </div>
