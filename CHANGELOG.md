@@ -1,3 +1,9 @@
+## [v1.5.0]
+- Refactored all components improving performance and accessibility and fix edge cases
+- `sizable` component now emits a `resize` event
+- `cofirm` component employs a dialog element instead of a plain div
+- add a `useSimpleFocusTrap` composable to contain focus within a container
+
 ## [v1.4.6]
 - fix: replace templateRef() with ref() in `accordion` component
 
