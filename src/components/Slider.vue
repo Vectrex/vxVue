@@ -25,11 +25,6 @@
   const tooltip = ref(null)
   const handle = ref(null)
   const range = computed(() => props.max - props.min)
-  const thumbClass = computed(() =>
-      (props.vertical ? 'left-0 -translate-x-1.5 translate-y-2.5' : 'top-0 -translate-x-2.5 -translate-y-1.5') +
-      ' group touch-none absolute size-5 rounded-full border-2 bg-white transition-colors duration-200 ' +
-      (!props.disabled ? ' border-vxvue cursor-grab hover:bg-vxvue focus:outline-hidden focus:ring-4 focus:ring-vxvue/50' : '')
-  )
   const thumbPos = computed(() => {
     const max = props.max, min = props.min
       return Array.isArray(model.value) ?
@@ -164,9 +159,10 @@
       v-if="!Array.isArray(model)"
       type="button"
       :id="attrs['id']"
-      :style="vertical ? { bottom: thumbPos + '%' } : { left: thumbPos + '%' }"
       aria-label="slider-thumb"
-      :class="thumbClass"
+      :class="['group handle', vertical ? 'vertical' : 'horizontal']"
+      :style="vertical ? { bottom: thumbPos + '%' } : { left: thumbPos + '%' }"
+      :disabled="disabled"
       :tabindex="0"
       v-on="!disabled ? {
         focus: () => thumbNdx = 0,
@@ -178,7 +174,13 @@
       } : {}"
       ref="handle"
     >
-      <span v-if="showTooltip !== 'never'" :class="['tooltip', { 'tooltip-focused': showTooltip === 'focus' }, vertical ? 'tooltip-left' : 'tooltip-top']" ref="tooltip"><slot name="tooltip" :value="model">{{ formatTooltip(model) }}</slot></span>
+      <span
+        v-if="showTooltip !== 'never'"
+        :class="['tooltip', { 'tooltip-focused': showTooltip === 'focus' }, vertical ? 'tooltip-left' : 'tooltip-top']"
+        ref="tooltip"
+      >
+        <slot name="tooltip" :value="model">{{ formatTooltip(model) }}</slot>
+      </span>
     </button>
     <!-- eslint-disable-next-line vue/require-v-for-key -->
     <button
@@ -186,9 +188,9 @@
       type="button"
       v-for="(v, ndx) in model"
       :id="!ndx ? attrs['id'] : null"
-      :style="vertical ? { bottom: thumbPos[ndx] + '%' } : { left: thumbPos[ndx] + '%' }"
       :aria-label="'slider-thumb-' + (ndx + 1)"
-      :class="thumbClass"
+      :class="['group handle', vertical ? 'vertical' : 'horizontal']"
+      :style="vertical ? { bottom: thumbPos[ndx] + '%' } : { left: thumbPos[ndx] + '%' }"
       :tabindex="0"
       v-on="!disabled ? {
         focus: () => thumbNdx = ndx,
@@ -207,6 +209,23 @@
 
 <style scoped>
   @reference '../index.css';
+
+  .handle {
+    @apply touch-none absolute size-5 rounded-full border-2 bg-white transition-colors duration-200
+  }
+  .handle:not(:disabled) {
+    @apply border-vxvue cursor-grab hover:bg-vxvue focus:outline-hidden focus:ring-4 focus:ring-vxvue/50
+  }
+  .handle:disabled {
+    @apply border-slate-400
+  }
+  .handle.vertical {
+    @apply left-0 -translate-x-1.5 translate-y-2.5
+  }
+  .handle.horizontal {
+    @apply top-0 -translate-x-2.5 -translate-y-1.5
+  }
+
   .tooltip {
     @apply
       absolute

@@ -644,6 +644,21 @@ const clearFormData = () =>
             </div>
           </div>
           <div>
+            <label for="slider-disabled"
+            >A disabled slider</label
+            >
+            <div class="flex items-center space-x-2">
+              <slider
+                  id="slider-disabled"
+                  v-model="form.slider"
+                  :min="-20"
+                  :max="20"
+                  :disabled="true"
+                  :show-tooltip="'focus'"
+              /><input v-model.number="form.slider" class="w-12 form-input" />
+            </div>
+          </div>
+          <div>
             <label for="slider-2"
               >Slider with an array of two numeric values as model</label
             >
