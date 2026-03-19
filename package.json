@@ -14,7 +14,7 @@
     "./vx-vue.css": "./dist/style.css",
     "./dist/*": "./dist/*"
   },
-  "version": "1.5.0",
+  "version": "1.5.1",
   "license": "MIT",
   "homepage": "https://vectrex.github.io/vxVue",
   "repository": {
@@ -36,15 +36,15 @@
   },
   "devDependencies": {
     "@heroicons/vue": "^2.2.0",
-    "tailwindcss": "^4.2.1",
+    "tailwindcss": "^4.2.2",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.2.1",
+    "@tailwindcss/vite": "^4.2.2",
     "vue": "^3.5.30",
     "@vue/test-utils": "^2.4.6",
     "@vueuse/core": "^14.2.1",
-    "jsdom": "^28.1.0",
-    "vite": "^8.0.0",
+    "jsdom": "^29.0.0",
+    "vite": "^8.0.1",
     "eslint": "^10.0.3",
     "eslint-plugin-vue": "^10.8.0",
     "@eslint/js": "^10.0.1",
