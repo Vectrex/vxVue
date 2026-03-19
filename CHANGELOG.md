@@ -1,5 +1,8 @@
+## [v1.5.1]
+- fix: the floating label directive lost placeholder text with the first update
+
 ## [v1.5.0]
-- Refactored all components improving performance and accessibility and fix edge cases
+- refactored all components improving performance and accessibility and fix edge cases
 - `sizable` component now emits a `resize` event
 - `cofirm` component employs a dialog element instead of a plain div
 - add a `useSimpleFocusTrap` composable to contain focus within a container
