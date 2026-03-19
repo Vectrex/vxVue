@@ -54,11 +54,15 @@ const floatingLabel = {
             'peer-placeholder-shown:-translate-y-1/2',
             target.nodeName === 'TEXTAREA' ? 'peer-placeholder-shown:top-4' : 'peer-placeholder-shown:top-1/2',
         )
+
         updateInvalidState(label, binding.value?.invalid)
         updateRequiredState(target, label)
-        label.setAttribute('for', elementId)
-        label.textContent = binding.value?.label || target.getAttribute('placeholder')?.trim() || ''
 
+        const originalPlaceholder = target.getAttribute('placeholder') || ''
+        label.setAttribute('for', elementId)
+        label.textContent = binding.value?.label || originalPlaceholder || ''
+
+        target.dataset.floatingOriginalLabel = originalPlaceholder
         target.classList.add('peer')
         target.setAttribute('placeholder', ' ')
         target.setAttribute('id', elementId)
@@ -72,9 +76,12 @@ const floatingLabel = {
         const target = resolveTarget(el)
         const label = target[FLOATING_LABEL_REF]
         if (!label || !target) return
-        const placeholder = target.getAttribute('placeholder')?.trim()
-        label.textContent = binding.value?.label || placeholder || ''
-        if (placeholder) target.setAttribute('placeholder', ' ')
+        label.textContent = binding.value?.label || target.dataset.floatingOriginalLabel || ''
+
+        // ensure a semi-empty placeholder is set so that the label is not hidden when the input is empty
+
+        target.setAttribute('placeholder', ' ')
+
         updateInvalidState(label, binding.value?.invalid)
         updateRequiredState(target, label)
     },

@@ -603,13 +603,7 @@ const clearFormData = () =>
           v-floating-label="{ label: 'A floating label' }"
           class="w-full"
         />
-      </div>
-      <div>
-        <datepicker
-          v-model="form.datepicker"
-          placeholder="A floating label with a datepicker"
-          v-floating-label
-        />
+
       </div>
       <div>
         <input
@@ -627,6 +621,14 @@ const clearFormData = () =>
           class="w-full"
         />
       </div>
+      <div>
+        <datepicker
+            v-model="form.datepicker"
+            placeholder="A floating label with a datepicker"
+            v-floating-label
+        />
+      </div>
+
       <div class="grid grid-cols-4 gap-4">
         <div class="col-span-3 space-y-2">
           <div>
