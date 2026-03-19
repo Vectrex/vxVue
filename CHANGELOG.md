@@ -1,3 +1,6 @@
+## [v1.5.2]
+- fix: when the floating label directive is assigned to a component without input or textarea elements the update hook fails
+
 ## [v1.5.1]
 - fix: the floating label directive lost placeholder text with the first update
 

@@ -23,11 +23,7 @@ function updateRequiredState(el, label) {
 const floatingLabel = {
     mounted: (el, binding) => {
         const target = resolveTarget(el)
-        if (!target) return
-
-        if(el.labels?.length) {
-            return
-        }
+        if (!target || el.labels?.length) return
 
         const id = crypto.randomUUID()
         const elementId = target.getAttribute('id') || (id + '-element')
@@ -74,7 +70,7 @@ const floatingLabel = {
     },
     updated: (el, binding) => {
         const target = resolveTarget(el)
-        const label = target[FLOATING_LABEL_REF]
+        const label = target?.[FLOATING_LABEL_REF]
         if (!label || !target) return
         label.textContent = binding.value?.label || target.dataset.floatingOriginalLabel || ''
 
