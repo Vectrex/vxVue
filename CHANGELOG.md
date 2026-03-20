@@ -1,3 +1,8 @@
+## [v1.5.3]
+- the `useParseDate` composable which is used by the `dateInput` component is now exported
+- the `useSimpleFocusTrap` composable used by the `modal` component is now exported
+- the simple `vxVueTransition` component used with several components is now exported, it supports an `appear`, `fade` and `vert-fade` transition
+
 ## [v1.5.2]
 - fix: when the floating label directive is assigned to a component without input or textarea elements the update hook fails
 

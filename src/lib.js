@@ -18,8 +18,11 @@ import Sortable from './components/Sortable.vue'
 import Spinner from './components/Spinner.vue'
 import SubmitButton from './components/SubmitButton.vue'
 import Tabs from './components/Tabs.vue'
+import VxVueTransition from './components/VxVueTransition.vue'
 import VFocus from './directives/focus'
 import VFloatingLabel from './directives/floatingLabel'
+import { useSimpleFocusTrap } from './composables/useSimpleFocusTrap'
+import { useParseDate } from './composables/useParseDate'
 
 export {
     Accordion,
@@ -42,6 +45,9 @@ export {
     Spinner,
     SubmitButton,
     Tabs,
+    VxVueTransition,
     VFocus,
-    VFloatingLabel
+    VFloatingLabel,
+    useParseDate,
+    useSimpleFocusTrap,
 }
