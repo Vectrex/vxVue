@@ -11,11 +11,24 @@
     resultListClass: { type: String, default: 'result-list' },
     resultItemClass: { type: String, default: 'result-list-item' },
     getResultValue: { type: Function, default: result => result },
+    getResultKey: { type: Function, default: result => result.id ?? result.key ?? null },
     autoSelect: Boolean
   })
   const model = defineModel({ type: String, default: '' })
   const attrs = useAttrs()
   const resultListId = crypto.randomUUID()
+  const objectKeys = new WeakMap()
+  let objectKeyCounter = 0
+  const getStableResultKey = (result, ndx) => {
+    const key = props.getResultKey(result, ndx)
+    if (key !== null && key !== undefined && key !== '') return key
+
+    if (typeof result === 'object') {
+      if (!objectKeys.has(result)) objectKeys.set(result, `autocomplete-${++objectKeyCounter}`)
+      return objectKeys.get(result)
+    }
+    return `autocomplete-${ndx}-${String(result)}`
+  }
   const results = ref([])
   const selectedIndex = ref(-1)
   const searchCounter = ref(0)
@@ -26,35 +39,35 @@
   const input = ref(null)
   const container = ref(null)
   const itemProps = computed(() =>
-    results.value.map((_, ndx) => ({
+    results.value.map((r, ndx) => ({
       id: (attrs.id || 'autocomplete') + '-item-' + ndx,
+      key: getStableResultKey(r, ndx),
       class: [props.resultItemClass, { 'bg-vxvue-700 text-white': selectedIndex.value === ndx }],
       role: 'option',
       ...(selectedIndex.value === ndx ? { 'aria-selected': 'true' } : {})
     }))
   )
   const inputProps = computed(() => {
-      const { class: _, style: __, ...inputAttrs } = attrs
-      return {
-        role: 'combobox',
-            autocomplete: 'off',
-          autocapitalize: 'off',
-          autocorrect: 'off',
-          spellcheck: 'false',
-          'aria-autocomplete': 'list',
-          'aria-haspopup': 'listbox',
-          'aria-controls': resultListId,
-          'aria-expanded': expanded.value ? 'true' : 'false',
-          'aria-activedescendant': selectedIndex.value > -1 ? itemProps.value[selectedIndex.value].id : '',
-          ...inputAttrs
-      }
+    const { class: _, style: __, ...inputAttrs } = attrs
+    return {
+      role: 'combobox',
+      autocomplete: 'off',
+      autocapitalize: 'off',
+      autocorrect: 'off',
+      spellcheck: 'false',
+      'aria-autocomplete': 'list',
+      'aria-haspopup': 'listbox',
+      'aria-controls': resultListId,
+      'aria-expanded': expanded.value ? 'true' : 'false',
+      'aria-activedescendant': selectedIndex.value > -1 ? itemProps.value[selectedIndex.value]?.id : '',
+      ...inputAttrs
+    }
   })
   const listProps = computed(() => ({
-      id: resultListId,
-      class: ['absolute min-w-full transform z-[var(--zIndex-dropdown)]', props.resultListClass, position.value],
-      role: 'listbox'
+    id: resultListId,
+    class: ['absolute min-w-full transform z-[var(--zIndex-dropdown)]', props.resultListClass, position.value],
+    role: 'listbox'
   }))
-
   const hideResults = () => {
     selectedIndex.value = -1
     results.value = []
@@ -200,7 +213,7 @@
         @click="handleResultClick"
         @mousedown.prevent
       >
-        <div v-for="(result, ndx) in results" :data-result-index="ndx" :key="result.id">
+        <div v-for="(result, ndx) in results" :data-result-index="ndx" :key="itemProps[ndx].key">
           <slot name="result" :result="result" :props="itemProps[ndx]">
             <div v-bind="itemProps[ndx]">
               {{ getResultValue(result) }}

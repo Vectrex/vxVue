@@ -1,3 +1,7 @@
+## [v1.5.4]
+- fix: the `autocmplete` component relied on items exposing a unique `id` property used as a key when generating the list with matches
+- `autocomplete` gained also a `getResultKey` property which allows custom key generation for list items  
+
 ## [v1.5.3]
 - the `useParseDate` composable which is used by the `dateInput` component is now exported
 - the `useSimpleFocusTrap` composable used by the `modal` component is now exported
