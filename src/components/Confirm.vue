@@ -14,6 +14,10 @@
     buttonClass: {
       type: String,
       default: 'button'
+    },
+    autofocus: {
+      type: Boolean,
+      default: true
     }
   })
 
@@ -84,7 +88,7 @@
 
     await nextTick()
     dialogElement.value?.showModal()
-    nextTick(() => buttonsContainer.value?.firstElementChild?.focus?.())
+    if (props.autofocus) nextTick(() => buttonsContainer.value?.firstElementChild?.focus?.())
 
     return new Promise((resolve, reject) => {
       resolvePromise = resolve
