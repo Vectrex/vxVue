@@ -1,3 +1,6 @@
+## [v1.5.5]
+- the `confirm` component now accepts an `autofocus` property (defaults to `true`) to allow a custom focus control, e.g., when using form elements in the default slot
+
 ## [v1.5.4]
 - fix: the `autocmplete` component relied on items exposing a unique `id` property used as a key when generating the list with matches
 - `autocomplete` gained also a `getResultKey` property which allows custom key generation for list items  
