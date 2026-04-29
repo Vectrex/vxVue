@@ -35,6 +35,7 @@ const form = ref({
   branch: {},
   dateInput: null,
   datepicker: null,
+  datepickerMultiple: [],
   slider: 0,
   sliderPair: [10, 30],
   sliderPairAlt: [20, 80],
@@ -785,6 +786,19 @@ const clearFormData = () =>
           locale="en-US"
           output-format="M/D/YYYY"
           input-format="mm/dd/yyyy"
+        />
+      </div>
+      <div>
+        <label for="datepicker-multiple">Datepicker with multiple dates</label>
+        <datepicker
+            id="datepicker-multiple"
+            v-model="form.datepickerMultiple"
+            max-number-of-values="4"
+            class="w-full"
+            placeholder="mm/dd/yyyy"
+            locale="en-US"
+            output-format="M/D/YYYY"
+            input-format="mm/dd/yyyy"
         />
       </div>
       <div class="flex justify-between space-x-2">

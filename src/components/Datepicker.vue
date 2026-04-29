@@ -85,7 +85,7 @@
   const setYear = year => { panelDate.value = new Date(year, panelDate.value.getMonth(), 1); emit('year-change', panelDate.value) }
   const handleInput = date => model.value = date
   const selectDate = day => {
-    expanded.value = false
+    expanded.value = !allowToggle.value
 
     if(props.maxNumberOfValues === 1) {
       model.value = day
@@ -158,7 +158,7 @@
     </date-input>
     <vx-vue-transition name="fade">
       <div
-        v-show="expanded"
+        v-show="!allowToggle || expanded"
         ref="calendar"
         :class="['overflow-hidden z-(--zIndex-dropdown) bg-white rounded-sm shadow-md min-w-72 sm:min-w-80',
             align.horiz, align.vert,
