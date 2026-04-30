@@ -1,3 +1,6 @@
+## [v1.5.6]
+- fix: the `datepicker` component was not displayed with disabled toggle
+
 ## [v1.5.5]
 - the `confirm` component now accepts an `autofocus` property (defaults to `true`) to allow a custom focus control, e.g., when using form elements in the default slot
 
