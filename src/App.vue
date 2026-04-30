@@ -789,13 +789,13 @@ const clearFormData = () =>
         />
       </div>
       <div>
-        <label for="datepicker-multiple">Datepicker with multiple dates</label>
+        <label for="datepicker-multiple">Datepicker with multiple dates (10)</label>
         <datepicker
             id="datepicker-multiple"
             v-model="form.datepickerMultiple"
-            max-number-of-values="4"
+            :highlight-range="true"
+            :max-number-of-values="10"
             class="w-full"
-            placeholder="mm/dd/yyyy"
             locale="en-US"
             output-format="M/D/YYYY"
             input-format="mm/dd/yyyy"

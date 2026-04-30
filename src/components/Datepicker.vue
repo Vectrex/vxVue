@@ -21,7 +21,7 @@
   const model = defineModel({
     type: [Date, Array],
     default: null,
-    validator: ((v, props) => v instanceof Date && props.maxNumberOfValues === 1 || v.every(item => item instanceof Date || item === null) && v.length <= props.maxNumberOfValues)
+    validator: ((v, props) => v === null || v instanceof Date && props.maxNumberOfValues === 1 || v.every(item => item instanceof Date || item === null) && v.length <= props.maxNumberOfValues)
   })
   const emit = defineEmits(['month-change', 'year-change'])
   const today = (() => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate())})()
@@ -49,10 +49,10 @@
     return dates
   })
   const localizedDayNames = computed(() => !props.startOfWeekIndex ? props.dayNames : props.dayNames.slice(1).concat(props.dayNames[0]))
-  const selectedTimestamps = computed(() => selectedDate.value.map(d => d.getTime()))
+  const selectedTimestamps = computed(() => new Set(selectedDate.value.map(d => d.getTime())))
   const selectedMinMax = computed(() => ({
-    min: selectedTimestamps.value.length ? Math.min(...selectedTimestamps.value) : null,
-    max: selectedTimestamps.value.length ? Math.max(...selectedTimestamps.value) : null
+    min: selectedTimestamps.value.size ? Math.min(...selectedTimestamps.value) : null,
+    max: selectedTimestamps.value.size ? Math.max(...selectedTimestamps.value) : null
   }))
   const daysMeta = computed(() => {
     const result = new Map()
@@ -60,9 +60,9 @@
       const time = date.getTime()
       const invalid = (props.validFrom && props.validFrom > date) || (props.validUntil && props.validUntil < date)
       const padded = date.getMonth() !== panelDate.value.getMonth()
-      const selected = selectedTimestamps.value.includes(time)
+      const selected = selectedTimestamps.value.has(time)
       const now = time === today.getTime()
-      const disabled = invalid || props.maxNumberOfValues > 1 && selectedDate.value.length === props.maxNumberOfValues && !isSelected(date)
+      const disabled = invalid || props.maxNumberOfValues > 1 && selectedDate.value.length === props.maxNumberOfValues && !selected
       const highlighted = props.highlightRange && selectedMinMax.value.min !== null && selectedMinMax.value.max !== null && time >= selectedMinMax.value.min && time <= selectedMinMax.value.max
       result.set(time, {
         class: {
@@ -75,40 +75,38 @@
           'hover:ring-2 hover:ring-vxvue': !invalid,
           'bg-vxvue-100/50': highlighted && !now && !selected,
         },
-        disabled: disabled,
+        disabled,
       })
     }
     return result
   })
 
+  const normalizeDate = date => new Date(date.getFullYear(), date.getMonth(), date.getDate())
   const setMonth = month => { panelDate.value = new Date(panelDate.value.getFullYear(), month, 1); emit('month-change', panelDate.value) }
   const setYear = year => { panelDate.value = new Date(year, panelDate.value.getMonth(), 1); emit('year-change', panelDate.value) }
-  const handleInput = date => model.value = date
+  const handleInput = date => model.value = date ? normalizeDate(date) : null
   const selectDate = day => {
     expanded.value = !allowToggle.value
+    const normalizedDay = normalizeDate(day)
 
     if(props.maxNumberOfValues === 1) {
-      model.value = day
+      model.value = normalizedDay
     }
     else {
       const picked = [...selectedDate.value]
+      let ndx = picked.findIndex(item => item.getTime() === normalizedDay.getTime())
 
       // toggle
 
-      let ndx = picked.findIndex(item => item.getTime() === day.getTime())
-      if (ndx !== -1) {
-        picked.splice(ndx, 1)
-      }
+      if (ndx !== -1) picked.splice(ndx, 1)
 
       // append
 
-      else if (picked.length < props.maxNumberOfValues) {
-        picked.push(day)
-      }
+      else if (picked.length < props.maxNumberOfValues) picked.push(day)
+
       model.value = picked
     }
   }
-  const isSelected = date => selectedDate.value.find(item => item?.getTime() === date.getTime())
 
   onClickOutside(calendar, () => { expanded.value = false; panelShown.value = 'days' }, { ignore: [input.value?.$refs.toggleButton] })
   watch(expanded, v => {
@@ -121,14 +119,14 @@
       })
     }
   })
-  const toTimestamps = dates => dates.map(d => d.getTime()).sort()
+  const toTimestamps = dates => dates.map(d => normalizeDate(d).getTime()).sort()
   watch(model, v => {
     if (!v) {
       selectedDate.value = []
       panelDate.value = new Date(today.getFullYear(), today.getMonth(), 1)
       return
     }
-    const incoming = Array.isArray(v) ? toTimestamps(v.filter(Boolean)) : [v.getTime()]
+    const incoming = Array.isArray(v) ? toTimestamps(v.filter(Boolean)) : [normalizeDate(v).getTime()]
     const current = toTimestamps(selectedDate.value)
     if (incoming.length !== current.length || !incoming.every((i, n) => i === current[n])) {
       selectedDate.value = incoming.map(i => new Date(i))
@@ -170,30 +168,30 @@
         <template v-if="panelShown === 'days'">
           <div class="flex items-center py-2 px-3 text-white bg-vxvue-700">
             <div class="flex justify-between w-1/2">
-              <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setMonth(panelDate.getMonth() - 1)">
+              <button aria-label="Previous month" class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setMonth(panelDate.getMonth() - 1)">
                 <chevron-left-icon class="size-6" />
               </button>
               <span>{{ panelDate.toLocaleString(locale, { month: 'long' }) }}</span>
-              <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setMonth(panelDate.getMonth() + 1)">
+              <button aria-label="Next month" class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setMonth(panelDate.getMonth() + 1)">
                 <chevron-right-icon class="size-6" />
               </button>
             </div>
             <div class="flex justify-between w-1/2">
-              <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setYear(panelDate.getFullYear() - 1)">
+              <button aria-label="Previous year" class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setYear(panelDate.getFullYear() - 1)">
                 <chevron-left-icon class="size-6" />
               </button>
-              <button class="text-vxvue-100 hover:text-vxvue-50" @click="panelShown = 'years'; panelYear = panelDate.getFullYear()">
+              <button aria-label="Select year" class="text-vxvue-100 hover:text-vxvue-50" @click="panelShown = 'years'; panelYear = panelDate.getFullYear()">
                 {{ panelDate.getFullYear() }}
               </button>
-              <button class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setYear(panelDate.getFullYear() + 1)">
+              <button aria-label="Next year" class="shrink-0 text-vxvue-100 hover:text-vxvue-50" @click.stop="setYear(panelDate.getFullYear() + 1)">
                 <chevron-right-icon class="size-6" />
               </button>
             </div>
           </div>
 
           <div class="grid grid-cols-7 gap-0.5 p-0.5">
-            <div v-for="weekday in localizedDayNames" class="py-2 text-center bg-gray-200">
-              {{ weekday }}
+            <div v-for="(day, ndx) in localizedDayNames" :key="day + '-' + ndx" class="py-2 text-center bg-gray-200">
+              {{ day }}
             </div>
 
             <button
