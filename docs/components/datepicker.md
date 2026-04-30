@@ -138,22 +138,22 @@ v-model="dateRangeLarge"
 ## Properties
 Properties of the [dateInput](date-input.md) component and standard attributes (like `disabled`) component can be declared and are passed on.
 
-| Name                | Type      | Default                                  | Description                                                                                                                                                             |
-|---------------------|-----------|------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `modelValue`        | `Date`    |                                          | The selected date                                                                                                                                                       |
-| `shownMonth`        | `Date`    |                                          | The month displayed when opening the datepicker; defaults to the current month when not set                                                                             |
-| `maxNumberOfValues` | `Number`  | 1                                        | Determines how many dates you can pick; values greater than one `hasInput` will be ignored, no date input will be provided and picked dates can be "toggled" on and off |
-| `validFrom`         | `Date`    |                                          | When set dates before this date can not be selected                                                                                                                     |
-| `validUntil`        | `Date`    |                                          | When set dates after this date can not be selected                                                                                                                      |
-| `highlightRange`    | `Boolean` |                                          | With `maxNumberOfValues`greater than one this will highlight all date cells between the highest and lowest date value                                                   |
-| `dayNames`          | `Array`   | ['S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'] | An array with day names used for labelling the dates grid                                                                                                               |
-| `locale`            | `String`  | 'default'                                | The locale used for rendering month names                                                                                                                               |
-| `startOfWeekIndex`  | `Number`  | 0                                        | Accepts 0 for Sunday and 1 for Monday                                                                                                                                   |
-| `hasInput`          | `Boolean` | true                                     | When true a [date-input](date-input.md) component with a toggle is rendered; when false the datepicker is always visible                                                |
+| Name                | Type      | Default                             | Description                                                                                                                                                             |
+|---------------------|-----------|-------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `modelValue`        | `Date`    |                                     | The selected date                                                                                                                                                       |
+| `shownMonth`        | `Date`    |                                     | The month displayed when opening the datepicker; defaults to the current month when not set                                                                             |
+| `maxNumberOfValues` | `Number`  | 1                                   | Determines how many dates you can pick; values greater than one `hasInput` will be ignored, no date input will be provided and picked dates can be "toggled" on and off |
+| `validFrom`         | `Date`    |                                     | When set dates before this date can not be selected                                                                                                                     |
+| `validUntil`        | `Date`    |                                     | When set dates after this date can not be selected                                                                                                                      |
+| `highlightRange`    | `Boolean` |                                     | With `maxNumberOfValues`greater than one this will highlight all date cells between the highest and lowest date value                                                   |
+| `dayNames`          | `Array`   | ['S', 'M', 'T', 'W', 'T', 'F', 'S'] | An array with day names used for labelling the dates grid                                                                                                               |
+| `locale`            | `String`  | 'default'                           | The locale used for rendering month names                                                                                                                               |
+| `startOfWeekIndex`  | `Number`  | 0                                   | Accepts 0 for Sunday and 1 for Monday                                                                                                                                   |
+| `hasInput`          | `Boolean` | true                                | When true a [date-input](date-input.md) component with a toggle is rendered; when false the datepicker is always visible                                                |
 
 ## Events
 | Name                | Arguments           | Description                                                                                    |
 |---------------------|---------------------|------------------------------------------------------------------------------------------------|
 | `update:modelValue` | `pickedDate` - Date | Emitted when a date is clicked                                                                 |
-| `month-changed`     | `sheetDate` - Date  | Emitted when the month is changed, sheetDate is the first day of the currently displayed month |
-| `year-changed`      | `sheetDate` - Date  | Emitted when the year is changed, sheetDate is the first day of the currently displayed month  |
+| `month-change`      | `sheetDate` - Date  | Emitted when the month is changed, sheetDate is the first day of the currently displayed month |
+| `year-change`       | `sheetDate` - Date  | Emitted when the year is changed, sheetDate is the first day of the currently displayed month  |
