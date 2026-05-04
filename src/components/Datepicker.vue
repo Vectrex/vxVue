@@ -130,6 +130,9 @@
     const current = toTimestamps(selectedDate.value)
     if (incoming.length !== current.length || !incoming.every((i, n) => i === current[n])) {
       selectedDate.value = incoming.map(i => new Date(i))
+
+      if (props.maxNumberOfValues > 1 && incoming.length > 1) return
+
       panelDate.value = new Date(incoming[0] || today.getTime())
       panelDate.value.setDate(1)
     }
