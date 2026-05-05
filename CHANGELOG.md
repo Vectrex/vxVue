@@ -1,3 +1,6 @@
+## [v1.5.7]
+- fix: Avoid that the `datepicker` returns to month of the first picked date when another date is selected
+
 ## [v1.5.6]
 - fix: the `datepicker` component was not displayed with disabled toggle
 
